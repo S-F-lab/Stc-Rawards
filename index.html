@@ -1521,22 +1521,24 @@
     </footer>
 
     <script>
-        // Firebase Configuration - REPLACED WITH YOUR CONFIG
+        // Firebase Configuration - UPDATED WITH YOUR NEW CONFIG
         const firebaseConfig = {
-            apiKey: "AIzaSyBuln_Ersxi0jbc7erfLTs0TsCdrUBJmjs",
-            authDomain: "stc-rewards.firebaseapp.com",
-            projectId: "stc-rewards",
-            storageBucket: "stc-rewards.firebasestorage.app",
-            messagingSenderId: "514510059357",
-            appId: "1:514510059357:web:dfc862a2b26371ca099ab4",
-            measurementId: "G-ESH1C1F1ZJ"
+            apiKey: "AIzaSyDn4uLD3qNuEYpiXf_S8q_PVGzeaTlRthc",
+            authDomain: "stc-rewards-b541f.firebaseapp.com",
+            projectId: "stc-rewards-b541f",
+            storageBucket: "stc-rewards-b541f.firebasestorage.app",
+            messagingSenderId: "886121063816",
+            appId: "1:886121063816:web:bb2ad55b5e05db7163c63d"
         };
+
+        // Declare auth variable in global scope
+        let auth = null;
 
         // Initialize Firebase
         try {
             firebase.initializeApp(firebaseConfig);
-            const auth = firebase.auth();
-            console.log("Firebase initialized successfully with your configuration");
+            auth = firebase.auth();
+            console.log("Firebase initialized successfully with NEW configuration");
         } catch (error) {
             console.log("Firebase initialization error:", error);
         }
@@ -1583,8 +1585,8 @@
 
         // Initialize Firebase Authentication
         function initializeFirebaseAuth() {
-            if (!firebase.apps.length) {
-                console.log("Firebase not initialized");
+            if (!auth) {
+                console.log("Firebase auth not initialized");
                 return;
             }
 
@@ -1828,6 +1830,11 @@
 
         // Google authentication with Firebase
         async function googleAuth() {
+            if (!auth) {
+                showNotification('Authentication service is not available. Please refresh the page.', 'error');
+                return;
+            }
+            
             if (isProcessing) return;
             isProcessing = true;
             
@@ -1841,7 +1848,7 @@
                 provider.addScope('email');
                 
                 // Sign in with popup
-                const result = await auth.signInWithPopup(provider);
+                await auth.signInWithPopup(provider);
                 // User is automatically handled by onAuthStateChanged
             } catch (error) {
                 console.error("Google Auth Error:", error);
@@ -1854,6 +1861,11 @@
         // Email/Password login
         async function handleEmailLogin(event) {
             event.preventDefault();
+            if (!auth) {
+                showNotification('Authentication service is not available. Please refresh the page.', 'error');
+                return;
+            }
+            
             if (isProcessing) return;
             
             const email = document.getElementById('loginEmail').value;
@@ -1881,6 +1893,11 @@
         // Email/Password signup
         async function handleEmailSignup(event) {
             event.preventDefault();
+            if (!auth) {
+                showNotification('Authentication service is not available. Please refresh the page.', 'error');
+                return;
+            }
+            
             if (isProcessing) return;
             
             const name = document.getElementById('signupName').value;
@@ -2375,6 +2392,11 @@
 
         // Logout
         async function logout() {
+            if (!auth) {
+                showNotification('Authentication service is not available.', 'error');
+                return;
+            }
+            
             try {
                 // Stop mining if active
                 if (user.mining && user.miningInterval) {
