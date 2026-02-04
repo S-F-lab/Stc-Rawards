@@ -1506,10 +1506,10 @@
                 <div class="footer-links">
                     <h4>Legal</h4>
                     <ul>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
-                        <li><a href="#">Disclaimer</a></li>
+                        <li><a href="javascript:void(0)" onclick="showLegalPage('terms')">Terms of Service</a></li>
+                        <li><a href="javascript:void(0)" onclick="showLegalPage('privacy')">Privacy Policy</a></li>
+                        <li><a href="javascript:void(0)" onclick="showLegalPage('cookies')">Cookie Policy</a></li>
+                        <li><a href="javascript:void(0)" onclick="showLegalPage('disclaimer')">Disclaimer</a></li>
                     </ul>
                 </div>
             </div>
@@ -1543,7 +1543,7 @@
             console.log("Firebase initialization error:", error);
         }
 
-        // User data structure
+        // User data structure - UPDATED WITH MINING START TIME
         let user = {
             uid: null,
             loggedIn: false,
@@ -1557,6 +1557,7 @@
             totalMined: 0,
             mining: false,
             miningTime: 21600, // 6 hours in seconds
+            miningStartTime: null, // NEW: Track when mining started
             miningInterval: null,
             joinDate: "",
             referralCode: "",
@@ -1581,7 +1582,338 @@
             // Set current date as max for date input
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('signupDob').max = today;
+            
+            // NEW: Restore mining session if active
+            restoreMiningSession();
         });
+
+        // NEW: Function to restore mining session on page load
+        function restoreMiningSession() {
+            if (!user.loggedIn) return;
+            
+            if (user.mining && user.miningStartTime) {
+                const now = Date.now();
+                const elapsedSeconds = Math.floor((now - user.miningStartTime) / 1000);
+                const timeLeft = user.miningTime - elapsedSeconds;
+                
+                if (timeLeft > 0) {
+                    // Resume mining with remaining time
+                    startMiningTimer(timeLeft);
+                    console.log("Mining session restored with", timeLeft, "seconds remaining");
+                    
+                    // If on mining page, update UI
+                    if (activeNav === 'mining') {
+                        const miningBtn = document.getElementById('miningBtn');
+                        const miningStatus = document.getElementById('miningStatusText');
+                        miningBtn.textContent = 'Stop Mining';
+                        miningBtn.classList.remove('btn-mining');
+                        miningBtn.classList.add('mining-active');
+                        miningStatus.textContent = 'Mining in progress...';
+                        miningStatus.style.color = '#10b981';
+                    }
+                } else {
+                    // Mining completed while away
+                    const sessionsCompleted = Math.floor(elapsedSeconds / user.miningTime);
+                    user.stc += sessionsCompleted * 12;
+                    user.totalMined += sessionsCompleted * 12;
+                    user.mining = false;
+                    user.miningStartTime = null;
+                    
+                    saveUserData();
+                    updateUI();
+                    
+                    if (sessionsCompleted > 0) {
+                        showNotification(`Mining completed while you were away! You earned ${sessionsCompleted * 12} STC.`);
+                    }
+                    
+                    // Reset UI if on mining page
+                    if (activeNav === 'mining') {
+                        const miningBtn = document.getElementById('miningBtn');
+                        const miningStatus = document.getElementById('miningStatusText');
+                        miningBtn.textContent = 'Start Mining';
+                        miningBtn.classList.remove('mining-active');
+                        miningBtn.classList.add('btn-mining');
+                        miningStatus.textContent = 'Ready to Start';
+                        miningStatus.style.color = '';
+                        document.getElementById('miningTimer').textContent = '06:00:00';
+                        document.getElementById('miningProgress').style.width = '0%';
+                    }
+                }
+            }
+        }
+
+        // NEW: Start mining timer function (modified for persistence)
+        function startMiningTimer(timeLeft) {
+            // Clear any existing interval
+            if (user.miningInterval) {
+                clearInterval(user.miningInterval);
+            }
+            
+            user.mining = true;
+            if (!user.miningStartTime) {
+                user.miningStartTime = Date.now() - ((user.miningTime - timeLeft) * 1000);
+            }
+            
+            // Start the timer
+            user.miningInterval = setInterval(() => {
+                timeLeft--;
+                
+                // Update timer display
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+                
+                if (document.getElementById('miningTimer')) {
+                    document.getElementById('miningTimer').textContent = 
+                        `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+                
+                // Update progress bar
+                const progress = ((user.miningTime - timeLeft) / user.miningTime) * 100;
+                if (document.getElementById('miningProgress')) {
+                    document.getElementById('miningProgress').style.width = `${progress}%`;
+                }
+                
+                // Check if mining completed
+                if (timeLeft <= 0) {
+                    clearInterval(user.miningInterval);
+                    user.mining = false;
+                    user.miningStartTime = null;
+                    user.stc += 12;
+                    user.totalMined += 12;
+                    
+                    // Update UI if on mining page
+                    if (activeNav === 'mining') {
+                        const miningBtn = document.getElementById('miningBtn');
+                        const miningStatus = document.getElementById('miningStatusText');
+                        if (miningBtn) {
+                            miningBtn.textContent = 'Start Mining';
+                            miningBtn.classList.remove('mining-active');
+                            miningBtn.classList.add('btn-mining');
+                        }
+                        if (miningStatus) {
+                            miningStatus.textContent = 'Mining completed!';
+                            miningStatus.style.color = '';
+                        }
+                        if (document.getElementById('miningTimer')) {
+                            document.getElementById('miningTimer').textContent = '06:00:00';
+                        }
+                        if (document.getElementById('miningProgress')) {
+                            document.getElementById('miningProgress').style.width = '0%';
+                        }
+                    }
+                    
+                    saveUserData();
+                    updateUI();
+                    showNotification('Mining completed! You earned 12 STC tokens.');
+                }
+                
+                // Save progress every 10 seconds
+                if (timeLeft % 10 === 0) {
+                    saveUserData();
+                }
+            }, 1000);
+        }
+
+        // NEW: Legal page content
+        const legalContent = {
+            terms: `
+                <h3>STC-REWARDS Terms of Service</h3>
+                <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
+                
+                <h4>1. Acceptance of Terms</h4>
+                <p>Welcome to STC-REWARDS. By accessing or using our platform, you agree to be bound by these Terms of Service.</p>
+                
+                <h4>2. Platform Description</h4>
+                <p>STC-REWARDS is a demonstration platform that allows users to earn virtual STC tokens through various activities including watching ads, mining simulations, and referral programs.</p>
+                
+                <h4>3. Eligibility</h4>
+                <p>You must be at least 18 years old to use this platform. By registering, you confirm you meet this requirement.</p>
+                
+                <h4>4. Virtual Tokens</h4>
+                <p>STC tokens earned on this platform are virtual demonstration tokens with no real-world monetary value. They cannot be exchanged for real currency, goods, or services.</p>
+                
+                <h4>5. User Responsibilities</h4>
+                <p>You are responsible for maintaining the confidentiality of your account and password. You agree to notify us immediately of any unauthorized use of your account.</p>
+                
+                <h4>6. Platform Changes</h4>
+                <p>We reserve the right to modify, suspend, or discontinue any part of the platform at any time without prior notice.</p>
+                
+                <h4>7. Limitation of Liability</h4>
+                <p>STC-REWARDS is provided "as is" without warranties of any kind. We shall not be liable for any damages arising from the use of this platform.</p>
+                
+                <h4>8. Contact</h4>
+                <p>For questions about these Terms, contact us through the platform.</p>
+            `,
+            privacy: `
+                <h3>Privacy Policy</h3>
+                <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
+                
+                <h4>1. Information We Collect</h4>
+                <p>We collect information you provide directly, including your name, email address, and date of birth during registration.</p>
+                
+                <h4>2. How We Use Information</h4>
+                <p>We use your information to:</p>
+                <ul>
+                    <li>Provide and maintain the platform</li>
+                    <li>Process your activities (mining, watching ads, referrals)</li>
+                    <li>Communicate with you about your account</li>
+                    <li>Improve our platform and user experience</li>
+                </ul>
+                
+                <h4>3. Data Storage</h4>
+                <p>Your data is stored locally in your browser using localStorage and securely with Firebase Authentication for login purposes.</p>
+                
+                <h4>4. Cookies and Tracking</h4>
+                <p>We use browser localStorage to remember your session and preferences. We do not use third-party tracking cookies.</p>
+                
+                <h4>5. Data Security</h4>
+                <p>We implement reasonable security measures to protect your information. However, no method of transmission over the Internet is 100% secure.</p>
+                
+                <h4>6. Children's Privacy</h4>
+                <p>Our platform is not intended for users under 18 years of age. We do not knowingly collect information from children.</p>
+                
+                <h4>7. Changes to Privacy Policy</h4>
+                <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page.</p>
+            `,
+            cookies: `
+                <h3>Cookie Policy</h3>
+                <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
+                
+                <h4>1. What Are Cookies</h4>
+                <p>Cookies are small text files stored on your device when you visit websites. Our platform uses browser localStorage which functions similarly to cookies.</p>
+                
+                <h4>2. How We Use LocalStorage</h4>
+                <p>We use browser localStorage to:</p>
+                <ul>
+                    <li>Remember your login session</li>
+                    <li>Store your preferences and settings</li>
+                    <li>Save your mining progress and token balances</li>
+                    <li>Maintain your referral information</li>
+                </ul>
+                
+                <h4>3. Third-Party Services</h4>
+                <p>We use Firebase Authentication which may use its own cookies for authentication purposes. Please review Google's Privacy Policy for more information.</p>
+                
+                <h4>4. Managing Storage</h4>
+                <p>You can clear your browser's localStorage at any time through your browser settings. Note that this will log you out and reset your progress.</p>
+                
+                <h4>5. Consent</h4>
+                <p>By using our platform, you consent to the use of localStorage as described in this policy.</p>
+            `,
+            disclaimer: `
+                <h3>Disclaimer</h3>
+                <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
+                
+                <h4>1. Demonstration Platform</h4>
+                <p>STC-REWARDS is a demonstration and educational platform only. It simulates cryptocurrency mining and rewards for learning purposes.</p>
+                
+                <h4>2. No Financial Value</h4>
+                <p>STC tokens earned on this platform have no real-world financial value. They cannot be exchanged, sold, or converted into real currency or any other form of value.</p>
+                
+                <h4>3. Not Real Cryptocurrency</h4>
+                <p>This platform does not involve real cryptocurrency mining, blockchain technology, or financial transactions. All activities are simulations.</p>
+                
+                <h4>4. No Financial Advice</h4>
+                <p>Nothing on this platform constitutes financial advice. We do not recommend any real cryptocurrency investments based on this demonstration.</p>
+                
+                <h4>5. Risk Acknowledgement</h4>
+                <p>You acknowledge that this is a demonstration platform. Real cryptocurrency activities involve significant risks that are not represented here.</p>
+                
+                <h4>6. No Guarantees</h4>
+                <p>We make no guarantees about platform availability, token persistence, or feature continuity. The platform may be modified or discontinued at any time.</p>
+                
+                <h4>7. Educational Purpose</h4>
+                <p>This platform is intended for educational purposes only to help users understand basic concepts of rewards platforms.</p>
+            `
+        };
+
+        // NEW: Show legal page modal
+        function showLegalPage(type) {
+            let title = '';
+            let content = '';
+            
+            switch(type) {
+                case 'terms':
+                    title = 'Terms of Service';
+                    content = legalContent.terms;
+                    break;
+                case 'privacy':
+                    title = 'Privacy Policy';
+                    content = legalContent.privacy;
+                    break;
+                case 'cookies':
+                    title = 'Cookie Policy';
+                    content = legalContent.cookies;
+                    break;
+                case 'disclaimer':
+                    title = 'Disclaimer';
+                    content = legalContent.disclaimer;
+                    break;
+            }
+            
+            // Create modal if it doesn't exist
+            if (!document.getElementById('legalModal')) {
+                const modalHTML = `
+                    <div id="legalModal" class="modal">
+                        <div class="modal-content" style="max-width: 700px;">
+                            <button class="close-modal" onclick="closeModal('legalModal')">&times;</button>
+                            <div style="max-height: 70vh; overflow-y: auto; padding-right: 10px;">
+                                <h2 class="form-title">${title}</h2>
+                                <div id="legalModalContent" style="color: #cbd5e1; line-height: 1.6; font-size: 14px; margin-top: 15px;">
+                                    ${content}
+                                </div>
+                                <div style="text-align: center; margin-top: 20px;">
+                                    <button class="btn btn-primary" onclick="closeModal('legalModal')">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+            } else {
+                document.getElementById('legalModalContent').innerHTML = content;
+                document.querySelector('#legalModal .form-title').textContent = title;
+            }
+            
+            document.getElementById('legalModal').classList.add('active');
+            currentModal = 'legalModal';
+        }
+
+        // UPDATED: Toggle mining function
+        function toggleMining() {
+            if (!user.loggedIn) {
+                showAuthModal('login');
+                return;
+            }
+            
+            const miningBtn = document.getElementById('miningBtn');
+            const miningStatus = document.getElementById('miningStatusText');
+            
+            if (!user.mining) {
+                // Start mining
+                startMiningTimer(user.miningTime);
+                miningBtn.textContent = 'Stop Mining';
+                miningBtn.classList.remove('btn-mining');
+                miningBtn.classList.add('mining-active');
+                miningStatus.textContent = 'Mining in progress...';
+                miningStatus.style.color = '#10b981';
+                showNotification('Mining started! Session will complete in 6 hours.');
+            } else {
+                // Stop mining
+                clearInterval(user.miningInterval);
+                user.mining = false;
+                user.miningStartTime = null;
+                miningBtn.textContent = 'Start Mining';
+                miningBtn.classList.remove('mining-active');
+                miningBtn.classList.add('btn-mining');
+                miningStatus.textContent = 'Ready to Start';
+                miningStatus.style.color = '';
+                showNotification('Mining stopped');
+            }
+            
+            saveUserData();
+        }
 
         // Initialize Firebase Authentication
         function initializeFirebaseAuth() {
@@ -1640,7 +1972,7 @@
             showNotification('Welcome back, ' + user.name + '!');
         }
 
-        // Setup event listeners
+        // Setup event listeners - UPDATED FOR LEGAL PAGES
         function setupEventListeners() {
             // Watch ad buttons
             document.querySelectorAll('.watch-ad-btn').forEach(btn => {
@@ -1652,6 +1984,15 @@
             // Form submissions
             document.getElementById('loginForm')?.addEventListener('submit', handleEmailLogin);
             document.getElementById('signupForm')?.addEventListener('submit', handleEmailSignup);
+            
+            // Legal page links
+            document.querySelectorAll('[data-legal-page]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageType = this.getAttribute('data-legal-page');
+                    showLegalPage(pageType);
+                });
+            });
             
             // Close modals on ESC
             document.addEventListener('keydown', function(e) {
@@ -1957,74 +2298,6 @@
                     document.getElementById('miningBtn').click();
                 }
             }, 300);
-        }
-
-        // Mining functionality
-        function toggleMining() {
-            if (!user.loggedIn) {
-                showAuthModal('login');
-                return;
-            }
-            
-            const miningBtn = document.getElementById('miningBtn');
-            const miningStatus = document.getElementById('miningStatusText');
-            
-            if (!user.mining) {
-                user.mining = true;
-                miningBtn.textContent = 'Stop Mining';
-                miningBtn.classList.remove('btn-mining');
-                miningBtn.classList.add('mining-active');
-                miningStatus.textContent = 'Mining in progress...';
-                miningStatus.style.color = '#10b981';
-                
-                // Start mining timer
-                let timeLeft = user.miningTime;
-                user.miningInterval = setInterval(() => {
-                    timeLeft--;
-                    
-                    // Update timer display
-                    const hours = Math.floor(timeLeft / 3600);
-                    const minutes = Math.floor((timeLeft % 3600) / 60);
-                    const seconds = timeLeft % 60;
-                    
-                    document.getElementById('miningTimer').textContent = 
-                        `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    
-                    // Update progress bar
-                    const progress = ((user.miningTime - timeLeft) / user.miningTime) * 100;
-                    document.getElementById('miningProgress').style.width = `${progress}%`;
-                    
-                    // Check if mining completed
-                    if (timeLeft <= 0) {
-                        clearInterval(user.miningInterval);
-                        user.mining = false;
-                        user.stc += 12;
-                        user.totalMined += 12;
-                        miningBtn.textContent = 'Start Mining';
-                        miningBtn.classList.remove('mining-active');
-                        miningBtn.classList.add('btn-mining');
-                        miningStatus.textContent = 'Mining completed!';
-                        document.getElementById('miningTimer').textContent = '06:00:00';
-                        document.getElementById('miningProgress').style.width = '0%';
-                        saveUserData();
-                        updateUI();
-                        showNotification('Mining completed! You earned 12 STC tokens.');
-                    }
-                }, 1000);
-                
-                showNotification('Mining started! Session will complete in 6 hours.');
-            } else {
-                clearInterval(user.miningInterval);
-                user.mining = false;
-                miningBtn.textContent = 'Start Mining';
-                miningBtn.classList.remove('mining-active');
-                miningBtn.classList.add('btn-mining');
-                miningStatus.textContent = 'Ready to Start';
-                miningStatus.style.color = '';
-                showNotification('Mining stopped');
-            }
-            
-            saveUserData();
         }
 
         // Watch ad
@@ -2368,7 +2641,7 @@
             }
         }
 
-        // Save/Load user data
+        // Save/Load user data - UPDATED FOR MINING PERSISTENCE
         function saveUserData() {
             if (user.uid) {
                 localStorage.setItem(`stc_user_${user.uid}`, JSON.stringify(user));
@@ -2381,7 +2654,6 @@
                 if (saved) {
                     try {
                         const savedData = JSON.parse(saved);
-                        // Merge saved data with current user, keeping Firebase auth data
                         user = { ...user, ...savedData };
                     } catch (e) {
                         console.log('Error loading user data');
@@ -2402,6 +2674,7 @@
                 if (user.mining && user.miningInterval) {
                     clearInterval(user.miningInterval);
                     user.mining = false;
+                    user.miningStartTime = null;
                 }
                 
                 // Sign out from Firebase
@@ -2421,6 +2694,7 @@
                     totalMined: 0,
                     mining: false,
                     miningTime: 21600,
+                    miningStartTime: null,
                     miningInterval: null,
                     joinDate: "",
                     referralCode: "",
@@ -2442,6 +2716,7 @@
             if (user.mining && user.miningInterval) {
                 clearInterval(user.miningInterval);
                 user.mining = false;
+                user.miningStartTime = null;
             }
             
             // Reset user data
@@ -2458,6 +2733,7 @@
                 totalMined: 0,
                 mining: false,
                 miningTime: 21600,
+                miningStartTime: null,
                 miningInterval: null,
                 joinDate: "",
                 referralCode: "",
