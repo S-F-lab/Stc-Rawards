@@ -957,6 +957,120 @@
             background: rgba(99, 102, 241, 0.1);
             color: var(--primary);
         }
+
+        /* NEW STYLES FOR MINING PERSISTENCE */
+        .mining-persistence-notice {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-top: 15px;
+            font-size: 13px;
+            color: var(--warning);
+        }
+        
+        /* NEW STYLES FOR TOKEN PAGE TABS */
+        .token-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .token-tab {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            border-radius: 8px;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .token-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .token-tab:hover {
+            background: rgba(99, 102, 241, 0.2);
+        }
+        
+        .token-content {
+            display: none;
+        }
+        
+        .token-content.active {
+            display: block;
+        }
+        
+        .token-details {
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+        
+        .token-details h3 {
+            margin: 20px 0 10px;
+            color: var(--light);
+        }
+        
+        .token-details ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .token-details li {
+            margin-bottom: 8px;
+        }
+        
+        /* Roadmap timeline */
+        .roadmap-timeline {
+            position: relative;
+            padding-left: 30px;
+            border-left: 2px solid var(--primary);
+        }
+        
+        .roadmap-phase {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .roadmap-phase::before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .roadmap-phase.completed::before {
+            background: var(--success);
+            content: '✓';
+            color: white;
+            font-size: 12px;
+        }
+        
+        .roadmap-phase.current::before {
+            background: var(--primary);
+            content: '●';
+            color: white;
+            font-size: 20px;
+        }
+        
+        .roadmap-phase.future::before {
+            background: var(--accent);
+            content: '☆';
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -1311,51 +1425,225 @@
         </section>
     </div>
 
-    <!-- Token Page -->
+    <!-- Token Page - UPDATED WITH TABS -->
     <div id="token" class="page">
         <section class="mining-section">
             <div class="container">
                 <h2 class="section-title">STC Token Information</h2>
                 
-                <div class="card" style="margin-bottom: 25px;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
-                        <div>
-                            <h3 style="margin-bottom: 12px;">STC Token Price</h3>
-                            <p style="font-size: 42px; color: var(--success); font-weight: 700;">$1.00</p>
-                            <p style="color: #94a3b8; font-size: 13px;">Fixed price per token</p>
+                <div class="token-tabs">
+                    <button class="token-tab active" onclick="showTokenTab('overview')">Overview</button>
+                    <button class="token-tab" onclick="showTokenTab('whitepaper')">White Paper</button>
+                    <button class="token-tab" onclick="showTokenTab('roadmap')">Road Map</button>
+                    <button class="token-tab" onclick="showTokenTab('tokenomics')">Tokenomics</button>
+                </div>
+                
+                <!-- Overview Tab -->
+                <div id="overviewTab" class="token-content active">
+                    <div class="card" style="margin-bottom: 25px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+                            <div>
+                                <h3 style="margin-bottom: 12px;">STC Token Price</h3>
+                                <p style="font-size: 42px; color: var(--success); font-weight: 700;">$1.00</p>
+                                <p style="color: #94a3b8; font-size: 13px;">Fixed price per token</p>
+                            </div>
+                            <div>
+                                <h3 style="margin-bottom: 12px;">Market Cap</h3>
+                                <p style="font-size: 28px; color: var(--primary); font-weight: 700;">$12.45M</p>
+                                <p style="color: #94a3b8; font-size: 13px;">Total circulating supply</p>
+                            </div>
+                            <div>
+                                <h3 style="margin-bottom: 12px;">Total Supply</h3>
+                                <p style="font-size: 28px; color: var(--accent); font-weight: 700;">100M STC</p>
+                                <p style="color: #94a3b8; font-size: 13px;">Maximum token supply</p>
+                            </div>
                         </div>
-                        <div>
-                            <h3 style="margin-bottom: 12px;">Market Cap</h3>
-                            <p style="font-size: 28px; color: var(--primary); font-weight: 700;">$12.45M</p>
-                            <p style="color: #94a3b8; font-size: 13px;">Total circulating supply</p>
+                    </div>
+
+                    <div class="card">
+                        <h3 style="margin-bottom: 15px;">About STC Token</h3>
+                        <div class="token-details">
+                            <p>STC (Stable Token Coin) is a utility token designed specifically for the STC-REWARDS ecosystem. Each STC token is pegged to $1 USD, providing stable value for users.</p>
+                            
+                            <h3>Key Features:</h3>
+                            <ul>
+                                <li><strong>Stable Value:</strong> Each STC token maintains a fixed value of $1 USD</li>
+                                <li><strong>Utility:</strong> Used for platform rewards, mining, and referral bonuses</li>
+                                <li><strong>Earnable:</strong> Users can earn STC through various activities on the platform</li>
+                                <li><strong>Convertible:</strong> STC can be converted to USDT at 1:1 ratio</li>
+                                <li><strong>Limited Supply:</strong> Total supply capped at 100 million tokens</li>
+                            </ul>
+                            
+                            <h3>Use Cases:</h3>
+                            <ul>
+                                <li>Platform rewards for watching ads</li>
+                                <li>Mining rewards for participating in mining sessions</li>
+                                <li>Referral bonuses for inviting new users</li>
+                                <li>Future platform features and upgrades</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 30px;">
+                
+                <!-- White Paper Tab -->
+                <div id="whitepaperTab" class="token-content">
                     <div class="card">
-                        <h3 style="margin-bottom: 15px;">White Paper</h3>
-                        <p style="color: #94a3b8; margin-bottom: 15px; font-size: 13px;">STC Token is built on a sustainable mining model with limited supply and real utility.</p>
-                        <button class="btn btn-secondary">Download White Paper</button>
+                        <div class="token-details">
+                            <h2 style="margin-bottom: 20px;">STC Token White Paper</h2>
+                            
+                            <h3>1. Executive Summary</h3>
+                            <p>STC Token is a utility token designed to power the STC-REWARDS ecosystem. This white paper outlines the technical implementation, economic model, and future development roadmap of the STC token.</p>
+                            
+                            <h3>2. Introduction</h3>
+                            <p>STC-REWARDS platform enables users to earn cryptocurrency through various activities including watching ads, mining simulations, and referral programs. The STC token serves as the primary reward mechanism within this ecosystem.</p>
+                            
+                            <h3>3. Technical Architecture</h3>
+                            <ul>
+                                <li><strong>Token Standard:</strong> Utility Token (Non-blockchain based for demonstration)</li>
+                                <li><strong>Value Peg:</strong> 1 STC = $1 USD</li>
+                                <li><strong>Storage:</strong> Secure cloud storage with Firebase</li>
+                                <li><strong>Transactions:</strong> Real-time balance updates</li>
+                            </ul>
+                            
+                            <h3>4. Economic Model</h3>
+                            <ul>
+                                <li><strong>Total Supply:</strong> 100,000,000 STC</li>
+                                <li><strong>Circulating Supply:</strong> Algorithmically controlled based on user activity</li>
+                                <li><strong>Inflation Control:</strong> Fixed mining rates and daily limits</li>
+                                <li><strong>Value Stability:</strong> Pegged to USD through reserve mechanisms</li>
+                            </ul>
+                            
+                            <h3>5. Security Features</h3>
+                            <ul>
+                                <li>Google Firebase Authentication</li>
+                                <li>Secure data encryption</li>
+                                <li>Withdrawal verification system</li>
+                                <li>Anti-fraud monitoring</li>
+                            </ul>
+                            
+                            <h3>6. Future Development</h3>
+                            <p>The STC token ecosystem will evolve with platform enhancements, additional earning methods, and integration with external services.</p>
+                            
+                            <div style="text-align: center; margin-top: 30px;">
+                                <button class="btn btn-primary" onclick="downloadWhitepaper()">
+                                    <i class="fas fa-download"></i> Download White Paper (PDF)
+                                </button>
+                            </div>
+                        </div>
                     </div>
+                </div>
+                
+                <!-- Road Map Tab -->
+                <div id="roadmapTab" class="token-content">
                     <div class="card">
-                        <h3 style="margin-bottom: 15px;">Road Map</h3>
-                        <ul style="color: #94a3b8; padding-left: 18px; font-size: 13px;">
-                            <li style="margin-bottom: 8px;">Q4 2023: Platform Launch</li>
-                            <li style="margin-bottom: 8px;">Q1 2024: Mobile App Release</li>
-                            <li style="margin-bottom: 8px;">Q2 2024: Exchange Listing</li>
-                            <li>Q3 2024: STC Wallet Integration</li>
-                        </ul>
+                        <div class="token-details">
+                            <h2 style="margin-bottom: 20px;">STC Token Road Map</h2>
+                            
+                            <div class="roadmap-timeline">
+                                <!-- Phase 1 -->
+                                <div class="roadmap-phase completed">
+                                    <h3 style="color: var(--success);">Phase 1: Platform Launch (Q4 2023)</h3>
+                                    <ul>
+                                        <li>✓ Platform development and testing</li>
+                                        <li>✓ STC token implementation</li>
+                                        <li>✓ Basic mining functionality</li>
+                                        <li>✓ Ad watching rewards system</li>
+                                        <li>✓ Referral program setup</li>
+                                    </ul>
+                                </div>
+                                
+                                <!-- Phase 2 -->
+                                <div class="roadmap-phase current">
+                                    <h3>Phase 2: Mobile App & Features (Q1 2024)</h3>
+                                    <ul>
+                                        <li>iOS and Android mobile app release</li>
+                                        <li>Enhanced mining algorithms</li>
+                                        <li>Additional ad formats and partners</li>
+                                        <li>User profile customization</li>
+                                        <li>Advanced analytics dashboard</li>
+                                    </ul>
+                                </div>
+                                
+                                <!-- Phase 3 -->
+                                <div class="roadmap-phase future">
+                                    <h3>Phase 3: Exchange Integration (Q2 2024)</h3>
+                                    <ul>
+                                        <li>STC token exchange listing</li>
+                                        <li>Cross-platform transfer capabilities</li>
+                                        <li>Wallet integration</li>
+                                        <li>Multi-chain support</li>
+                                        <li>Partnership announcements</li>
+                                    </ul>
+                                </div>
+                                
+                                <!-- Phase 4 -->
+                                <div class="roadmap-phase future">
+                                    <h3>Phase 4: Ecosystem Expansion (Q3 2024)</h3>
+                                    <ul>
+                                        <li>STC wallet application</li>
+                                        <li>Merchant adoption program</li>
+                                        <li>Staking and governance features</li>
+                                        <li>Advanced DeFi integrations</li>
+                                        <li>Community governance implementation</li>
+                                    </ul>
+                                </div>
+                                
+                                <!-- Future -->
+                                <div class="roadmap-phase future">
+                                    <h3 style="color: var(--accent);">Future Vision (2025+)</h3>
+                                    <ul>
+                                        <li>Global expansion to new markets</li>
+                                        <li>NFT marketplace integration</li>
+                                        <li>Advanced AI-powered earning opportunities</li>
+                                        <li>Complete decentralized platform transition</li>
+                                        <li>Industry partnerships and collaborations</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+                
+                <!-- Tokenomics Tab -->
+                <div id="tokenomicsTab" class="token-content">
                     <div class="card">
-                        <h3 style="margin-bottom: 15px;">Tokenomics</h3>
-                        <ul style="color: #94a3b8; padding-left: 18px; font-size: 13px;">
-                            <li style="margin-bottom: 8px;">Total Supply: 100M STC</li>
-                            <li style="margin-bottom: 8px;">Mining Rewards: 40%</li>
-                            <li style="margin-bottom: 8px;">Platform Reserve: 30%</li>
-                            <li style="margin-bottom: 8px;">Team & Development: 15%</li>
-                            <li>Marketing: 15%</li>
-                        </ul>
+                        <div class="token-details">
+                            <h2 style="margin-bottom: 20px;">STC Token Tokenomics</h2>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 30px;">
+                                <div>
+                                    <h3>Distribution Breakdown</h3>
+                                    <ul>
+                                        <li><strong>Mining Rewards:</strong> 40,000,000 STC (40%)</li>
+                                        <li><strong>Platform Reserve:</strong> 30,000,000 STC (30%)</li>
+                                        <li><strong>Team & Development:</strong> 15,000,000 STC (15%)</li>
+                                        <li><strong>Marketing & Partnerships:</strong> 10,000,000 STC (10%)</li>
+                                        <li><strong>Community & Airdrops:</strong> 5,000,000 STC (5%)</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h3>Release Schedule</h3>
+                                    <ul>
+                                        <li><strong>Mining Rewards:</strong> Linear release over 4 years</li>
+                                        <li><strong>Platform Reserve:</strong> Locked for 1 year, then quarterly release</li>
+                                        <li><strong>Team Allocation:</strong> 2-year vesting with 6-month cliff</li>
+                                        <li><strong>Marketing Funds:</strong> As needed based on roadmap</li>
+                                        <li><strong>Community Funds:</strong> Immediate availability for programs</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div style="background: rgba(99, 102, 241, 0.1); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                                <h3 style="margin-bottom: 10px;">Key Economic Principles</h3>
+                                <ul>
+                                    <li><strong>Value Stability:</strong> Each STC token maintains $1 peg through reserve mechanisms</li>
+                                    <li><strong>Sustainable Growth:</strong> Controlled emission rates prevent inflation</li>
+                                    <li><strong>Utility-First:</strong> Token designed for platform utility rather than speculation</li>
+                                    <li><strong>Transparent Distribution:</strong> All allocations publicly documented</li>
+                                    <li><strong>Community Focus:</strong> Majority of tokens allocated to user rewards</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1497,8 +1785,8 @@
                 <div class="footer-links">
                     <h4>Resources</h4>
                     <ul>
-                        <li><a href="#" onclick="showPage('token')">White Paper</a></li>
-                        <li><a href="#" onclick="showPage('token')">Road Map</a></li>
+                        <li><a href="#" onclick="showPage('token'); setTimeout(() => showTokenTab('whitepaper'), 100);">White Paper</a></li>
+                        <li><a href="#" onclick="showPage('token'); setTimeout(() => showTokenTab('roadmap'), 100);">Road Map</a></li>
                         <li><a href="#" onclick="showAuthModal('login')">Login</a></li>
                         <li><a href="#" onclick="showAuthModal('signup')">Sign Up</a></li>
                     </ul>
@@ -1506,10 +1794,10 @@
                 <div class="footer-links">
                     <h4>Legal</h4>
                     <ul>
-                        <li><a href="javascript:void(0)" onclick="showLegalPage('terms')">Terms of Service</a></li>
-                        <li><a href="javascript:void(0)" onclick="showLegalPage('privacy')">Privacy Policy</a></li>
-                        <li><a href="javascript:void(0)" onclick="showLegalPage('cookies')">Cookie Policy</a></li>
-                        <li><a href="javascript:void(0)" onclick="showLegalPage('disclaimer')">Disclaimer</a></li>
+                        <li><a href="javascript:void(0)" onclick="showLegalModal('terms')">Terms of Service</a></li>
+                        <li><a href="javascript:void(0)" onclick="showLegalModal('privacy')">Privacy Policy</a></li>
+                        <li><a href="javascript:void(0)" onclick="showLegalModal('cookies')">Cookie Policy</a></li>
+                        <li><a href="javascript:void(0)" onclick="showLegalModal('disclaimer')">Disclaimer</a></li>
                     </ul>
                 </div>
             </div>
@@ -1521,7 +1809,7 @@
     </footer>
 
     <script>
-        // Firebase Configuration - UPDATED WITH YOUR NEW CONFIG
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDn4uLD3qNuEYpiXf_S8q_PVGzeaTlRthc",
             authDomain: "stc-rewards-b541f.firebaseapp.com",
@@ -1531,19 +1819,17 @@
             appId: "1:886121063816:web:bb2ad55b5e05db7163c63d"
         };
 
-        // Declare auth variable in global scope
-        let auth = null;
-
         // Initialize Firebase
+        let auth = null;
         try {
             firebase.initializeApp(firebaseConfig);
             auth = firebase.auth();
-            console.log("Firebase initialized successfully with NEW configuration");
+            console.log("Firebase initialized successfully");
         } catch (error) {
             console.log("Firebase initialization error:", error);
         }
 
-        // User data structure - UPDATED WITH MINING START TIME
+        // User data structure - UPDATED FOR PERSISTENT MINING
         let user = {
             uid: null,
             loggedIn: false,
@@ -1556,9 +1842,8 @@
             referrals: 0,
             totalMined: 0,
             mining: false,
-            miningTime: 21600, // 6 hours in seconds
-            miningStartTime: null, // NEW: Track when mining started
-            miningInterval: null,
+            miningStartTime: null,
+            miningEndTime: null,
             joinDate: "",
             referralCode: "",
             withdrawalHistory: []
@@ -1569,6 +1854,7 @@
         let isProcessing = false;
         let activeNav = 'home';
         let activeFilter = 'all';
+        let miningCheckInterval = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -1583,304 +1869,209 @@
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('signupDob').max = today;
             
-            // NEW: Restore mining session if active
-            restoreMiningSession();
+            // Check for active mining session on load
+            checkAndRestoreMining();
+            
+            // Start periodic mining check
+            startMiningChecker();
         });
 
-        // NEW: Function to restore mining session on page load
-        function restoreMiningSession() {
+        // Start periodic mining checker
+        function startMiningChecker() {
+            if (miningCheckInterval) {
+                clearInterval(miningCheckInterval);
+            }
+            
+            miningCheckInterval = setInterval(() => {
+                if (user.loggedIn && user.mining && user.miningEndTime) {
+                    const now = Date.now();
+                    if (now >= user.miningEndTime) {
+                        completeMiningSession();
+                    } else {
+                        updateMiningTimer();
+                    }
+                }
+            }, 1000); // Check every second
+        }
+
+        // Enhanced mining restoration
+        function checkAndRestoreMining() {
             if (!user.loggedIn) return;
             
-            if (user.mining && user.miningStartTime) {
+            // Check if there's an active mining session
+            if (user.mining && user.miningEndTime) {
                 const now = Date.now();
-                const elapsedSeconds = Math.floor((now - user.miningStartTime) / 1000);
-                const timeLeft = user.miningTime - elapsedSeconds;
                 
-                if (timeLeft > 0) {
-                    // Resume mining with remaining time
-                    startMiningTimer(timeLeft);
-                    console.log("Mining session restored with", timeLeft, "seconds remaining");
-                    
-                    // If on mining page, update UI
-                    if (activeNav === 'mining') {
-                        const miningBtn = document.getElementById('miningBtn');
-                        const miningStatus = document.getElementById('miningStatusText');
-                        miningBtn.textContent = 'Stop Mining';
-                        miningBtn.classList.remove('btn-mining');
-                        miningBtn.classList.add('mining-active');
-                        miningStatus.textContent = 'Mining in progress...';
-                        miningStatus.style.color = '#10b981';
-                    }
-                } else {
+                if (now >= user.miningEndTime) {
                     // Mining completed while away
-                    const sessionsCompleted = Math.floor(elapsedSeconds / user.miningTime);
-                    user.stc += sessionsCompleted * 12;
-                    user.totalMined += sessionsCompleted * 12;
-                    user.mining = false;
-                    user.miningStartTime = null;
-                    
-                    saveUserData();
-                    updateUI();
-                    
-                    if (sessionsCompleted > 0) {
-                        showNotification(`Mining completed while you were away! You earned ${sessionsCompleted * 12} STC.`);
-                    }
-                    
-                    // Reset UI if on mining page
-                    if (activeNav === 'mining') {
-                        const miningBtn = document.getElementById('miningBtn');
-                        const miningStatus = document.getElementById('miningStatusText');
-                        miningBtn.textContent = 'Start Mining';
-                        miningBtn.classList.remove('mining-active');
-                        miningBtn.classList.add('btn-mining');
-                        miningStatus.textContent = 'Ready to Start';
-                        miningStatus.style.color = '';
-                        document.getElementById('miningTimer').textContent = '06:00:00';
-                        document.getElementById('miningProgress').style.width = '0%';
-                    }
+                    completeMiningSession();
+                } else {
+                    // Resume mining
+                    resumeMiningSession();
                 }
             }
         }
 
-        // NEW: Start mining timer function (modified for persistence)
-        function startMiningTimer(timeLeft) {
-            // Clear any existing interval
-            if (user.miningInterval) {
-                clearInterval(user.miningInterval);
+        // Resume mining session
+        function resumeMiningSession() {
+            if (!user.mining || !user.miningEndTime) return;
+            
+            const now = Date.now();
+            const remainingTime = Math.max(0, user.miningEndTime - now);
+            
+            // Update UI if on mining page
+            if (activeNav === 'mining') {
+                updateMiningUI(remainingTime);
+                
+                const miningBtn = document.getElementById('miningBtn');
+                const miningStatus = document.getElementById('miningStatusText');
+                if (miningBtn && miningStatus) {
+                    miningBtn.textContent = 'Stop Mining';
+                    miningBtn.classList.remove('btn-mining');
+                    miningBtn.classList.add('mining-active');
+                    miningStatus.textContent = 'Mining in progress...';
+                    miningStatus.style.color = '#10b981';
+                }
             }
             
-            user.mining = true;
-            if (!user.miningStartTime) {
-                user.miningStartTime = Date.now() - ((user.miningTime - timeLeft) * 1000);
-            }
+            // Add persistence notice
+            showMiningPersistenceNotice();
             
-            // Start the timer
-            user.miningInterval = setInterval(() => {
-                timeLeft--;
-                
-                // Update timer display
-                const hours = Math.floor(timeLeft / 3600);
-                const minutes = Math.floor((timeLeft % 3600) / 60);
-                const seconds = timeLeft % 60;
-                
-                if (document.getElementById('miningTimer')) {
-                    document.getElementById('miningTimer').textContent = 
-                        `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                }
-                
-                // Update progress bar
-                const progress = ((user.miningTime - timeLeft) / user.miningTime) * 100;
-                if (document.getElementById('miningProgress')) {
-                    document.getElementById('miningProgress').style.width = `${progress}%`;
-                }
-                
-                // Check if mining completed
-                if (timeLeft <= 0) {
-                    clearInterval(user.miningInterval);
-                    user.mining = false;
-                    user.miningStartTime = null;
-                    user.stc += 12;
-                    user.totalMined += 12;
-                    
-                    // Update UI if on mining page
-                    if (activeNav === 'mining') {
-                        const miningBtn = document.getElementById('miningBtn');
-                        const miningStatus = document.getElementById('miningStatusText');
-                        if (miningBtn) {
-                            miningBtn.textContent = 'Start Mining';
-                            miningBtn.classList.remove('mining-active');
-                            miningBtn.classList.add('btn-mining');
-                        }
-                        if (miningStatus) {
-                            miningStatus.textContent = 'Mining completed!';
-                            miningStatus.style.color = '';
-                        }
-                        if (document.getElementById('miningTimer')) {
-                            document.getElementById('miningTimer').textContent = '06:00:00';
-                        }
-                        if (document.getElementById('miningProgress')) {
-                            document.getElementById('miningProgress').style.width = '0%';
-                        }
-                    }
-                    
-                    saveUserData();
-                    updateUI();
-                    showNotification('Mining completed! You earned 12 STC tokens.');
-                }
-                
-                // Save progress every 10 seconds
-                if (timeLeft % 10 === 0) {
-                    saveUserData();
-                }
-            }, 1000);
+            console.log("Mining session resumed with", Math.floor(remainingTime / 1000), "seconds remaining");
         }
 
-        // NEW: Legal page content
-        const legalContent = {
-            terms: `
-                <h3>STC-REWARDS Terms of Service</h3>
-                <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
-                
-                <h4>1. Acceptance of Terms</h4>
-                <p>Welcome to STC-REWARDS. By accessing or using our platform, you agree to be bound by these Terms of Service.</p>
-                
-                <h4>2. Platform Description</h4>
-                <p>STC-REWARDS is a demonstration platform that allows users to earn virtual STC tokens through various activities including watching ads, mining simulations, and referral programs.</p>
-                
-                <h4>3. Eligibility</h4>
-                <p>You must be at least 18 years old to use this platform. By registering, you confirm you meet this requirement.</p>
-                
-                <h4>4. Virtual Tokens</h4>
-                <p>STC tokens earned on this platform are virtual demonstration tokens with no real-world monetary value. They cannot be exchanged for real currency, goods, or services.</p>
-                
-                <h4>5. User Responsibilities</h4>
-                <p>You are responsible for maintaining the confidentiality of your account and password. You agree to notify us immediately of any unauthorized use of your account.</p>
-                
-                <h4>6. Platform Changes</h4>
-                <p>We reserve the right to modify, suspend, or discontinue any part of the platform at any time without prior notice.</p>
-                
-                <h4>7. Limitation of Liability</h4>
-                <p>STC-REWARDS is provided "as is" without warranties of any kind. We shall not be liable for any damages arising from the use of this platform.</p>
-                
-                <h4>8. Contact</h4>
-                <p>For questions about these Terms, contact us through the platform.</p>
-            `,
-            privacy: `
-                <h3>Privacy Policy</h3>
-                <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
-                
-                <h4>1. Information We Collect</h4>
-                <p>We collect information you provide directly, including your name, email address, and date of birth during registration.</p>
-                
-                <h4>2. How We Use Information</h4>
-                <p>We use your information to:</p>
-                <ul>
-                    <li>Provide and maintain the platform</li>
-                    <li>Process your activities (mining, watching ads, referrals)</li>
-                    <li>Communicate with you about your account</li>
-                    <li>Improve our platform and user experience</li>
-                </ul>
-                
-                <h4>3. Data Storage</h4>
-                <p>Your data is stored locally in your browser using localStorage and securely with Firebase Authentication for login purposes.</p>
-                
-                <h4>4. Cookies and Tracking</h4>
-                <p>We use browser localStorage to remember your session and preferences. We do not use third-party tracking cookies.</p>
-                
-                <h4>5. Data Security</h4>
-                <p>We implement reasonable security measures to protect your information. However, no method of transmission over the Internet is 100% secure.</p>
-                
-                <h4>6. Children's Privacy</h4>
-                <p>Our platform is not intended for users under 18 years of age. We do not knowingly collect information from children.</p>
-                
-                <h4>7. Changes to Privacy Policy</h4>
-                <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page.</p>
-            `,
-            cookies: `
-                <h3>Cookie Policy</h3>
-                <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
-                
-                <h4>1. What Are Cookies</h4>
-                <p>Cookies are small text files stored on your device when you visit websites. Our platform uses browser localStorage which functions similarly to cookies.</p>
-                
-                <h4>2. How We Use LocalStorage</h4>
-                <p>We use browser localStorage to:</p>
-                <ul>
-                    <li>Remember your login session</li>
-                    <li>Store your preferences and settings</li>
-                    <li>Save your mining progress and token balances</li>
-                    <li>Maintain your referral information</li>
-                </ul>
-                
-                <h4>3. Third-Party Services</h4>
-                <p>We use Firebase Authentication which may use its own cookies for authentication purposes. Please review Google's Privacy Policy for more information.</p>
-                
-                <h4>4. Managing Storage</h4>
-                <p>You can clear your browser's localStorage at any time through your browser settings. Note that this will log you out and reset your progress.</p>
-                
-                <h4>5. Consent</h4>
-                <p>By using our platform, you consent to the use of localStorage as described in this policy.</p>
-            `,
-            disclaimer: `
-                <h3>Disclaimer</h3>
-                <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
-                
-                <h4>1. Demonstration Platform</h4>
-                <p>STC-REWARDS is a demonstration and educational platform only. It simulates cryptocurrency mining and rewards for learning purposes.</p>
-                
-                <h4>2. No Financial Value</h4>
-                <p>STC tokens earned on this platform have no real-world financial value. They cannot be exchanged, sold, or converted into real currency or any other form of value.</p>
-                
-                <h4>3. Not Real Cryptocurrency</h4>
-                <p>This platform does not involve real cryptocurrency mining, blockchain technology, or financial transactions. All activities are simulations.</p>
-                
-                <h4>4. No Financial Advice</h4>
-                <p>Nothing on this platform constitutes financial advice. We do not recommend any real cryptocurrency investments based on this demonstration.</p>
-                
-                <h4>5. Risk Acknowledgement</h4>
-                <p>You acknowledge that this is a demonstration platform. Real cryptocurrency activities involve significant risks that are not represented here.</p>
-                
-                <h4>6. No Guarantees</h4>
-                <p>We make no guarantees about platform availability, token persistence, or feature continuity. The platform may be modified or discontinued at any time.</p>
-                
-                <h4>7. Educational Purpose</h4>
-                <p>This platform is intended for educational purposes only to help users understand basic concepts of rewards platforms.</p>
-            `
-        };
-
-        // NEW: Show legal page modal
-        function showLegalPage(type) {
-            let title = '';
-            let content = '';
+        // Complete mining session
+        function completeMiningSession() {
+            if (!user.mining) return;
             
-            switch(type) {
-                case 'terms':
-                    title = 'Terms of Service';
-                    content = legalContent.terms;
-                    break;
-                case 'privacy':
-                    title = 'Privacy Policy';
-                    content = legalContent.privacy;
-                    break;
-                case 'cookies':
-                    title = 'Cookie Policy';
-                    content = legalContent.cookies;
-                    break;
-                case 'disclaimer':
-                    title = 'Disclaimer';
-                    content = legalContent.disclaimer;
-                    break;
+            user.mining = false;
+            user.miningStartTime = null;
+            user.miningEndTime = null;
+            user.stc += 12;
+            user.totalMined += 12;
+            
+            // Save user data
+            saveUserData();
+            
+            // Update UI
+            updateUI();
+            
+            // Update mining page if active
+            if (activeNav === 'mining') {
+                const miningBtn = document.getElementById('miningBtn');
+                const miningStatus = document.getElementById('miningStatusText');
+                if (miningBtn && miningStatus) {
+                    miningBtn.textContent = 'Start Mining';
+                    miningBtn.classList.remove('mining-active');
+                    miningBtn.classList.add('btn-mining');
+                    miningStatus.textContent = 'Mining completed! Ready to start again.';
+                    miningStatus.style.color = '';
+                    
+                    document.getElementById('miningTimer').textContent = '06:00:00';
+                    document.getElementById('miningProgress').style.width = '0%';
+                }
             }
             
-            // Create modal if it doesn't exist
-            if (!document.getElementById('legalModal')) {
-                const modalHTML = `
-                    <div id="legalModal" class="modal">
-                        <div class="modal-content" style="max-width: 700px;">
-                            <button class="close-modal" onclick="closeModal('legalModal')">&times;</button>
-                            <div style="max-height: 70vh; overflow-y: auto; padding-right: 10px;">
-                                <h2 class="form-title">${title}</h2>
-                                <div id="legalModalContent" style="color: #cbd5e1; line-height: 1.6; font-size: 14px; margin-top: 15px;">
-                                    ${content}
-                                </div>
-                                <div style="text-align: center; margin-top: 20px;">
-                                    <button class="btn btn-primary" onclick="closeModal('legalModal')">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            // Show notification
+            showNotification('Mining completed! You earned 12 STC tokens.');
+            
+            // Remove persistence notice
+            removeMiningPersistenceNotice();
+        }
+
+        // Show mining persistence notice
+        function showMiningPersistenceNotice() {
+            removeMiningPersistenceNotice();
+            
+            if (activeNav === 'mining') {
+                const notice = document.createElement('div');
+                notice.className = 'mining-persistence-notice';
+                notice.id = 'miningPersistenceNotice';
+                notice.innerHTML = `
+                    <i class="fas fa-info-circle"></i>
+                    Your mining session will continue even if you close this page or navigate away.
+                    Progress is saved automatically.
                 `;
-                document.body.insertAdjacentHTML('beforeend', modalHTML);
-            } else {
-                document.getElementById('legalModalContent').innerHTML = content;
-                document.querySelector('#legalModal .form-title').textContent = title;
+                
+                const miningStatus = document.querySelector('.mining-status');
+                if (miningStatus) {
+                    miningStatus.appendChild(notice);
+                }
             }
-            
-            document.getElementById('legalModal').classList.add('active');
-            currentModal = 'legalModal';
         }
 
-        // UPDATED: Toggle mining function
+        // Remove mining persistence notice
+        function removeMiningPersistenceNotice() {
+            const existingNotice = document.getElementById('miningPersistenceNotice');
+            if (existingNotice) {
+                existingNotice.remove();
+            }
+        }
+
+        // Update mining timer display
+        function updateMiningTimer() {
+            if (!user.mining || !user.miningEndTime) return;
+            
+            const now = Date.now();
+            const remainingTime = Math.max(0, user.miningEndTime - now);
+            
+            updateMiningUI(remainingTime);
+            
+            // Auto-save progress every 30 seconds
+            if (Math.floor(remainingTime / 1000) % 30 === 0) {
+                saveUserData();
+            }
+        }
+
+        // Update mining UI
+        function updateMiningUI(remainingTime) {
+            if (activeNav !== 'mining') return;
+            
+            const hours = Math.floor(remainingTime / 3600000);
+            const minutes = Math.floor((remainingTime % 3600000) / 60000);
+            const seconds = Math.floor((remainingTime % 60000) / 1000);
+            
+            const timerElement = document.getElementById('miningTimer');
+            if (timerElement) {
+                timerElement.textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            const progress = ((21600000 - remainingTime) / 21600000) * 100;
+            const progressBar = document.getElementById('miningProgress');
+            if (progressBar) {
+                progressBar.style.width = `${progress}%`;
+            }
+        }
+
+        // Show token tab
+        function showTokenTab(tabName) {
+            // Update active tab button
+            document.querySelectorAll('.token-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Hide all tab contents
+            document.querySelectorAll('.token-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(`${tabName}Tab`).classList.add('active');
+        }
+
+        // Download whitepaper function
+        function downloadWhitepaper() {
+            showNotification('White Paper download started...', 'info');
+            
+            // Simulate download
+            setTimeout(() => {
+                showNotification('White Paper downloaded successfully!', 'success');
+            }, 2000);
+        }
+
+        // Toggle mining function
         function toggleMining() {
             if (!user.loggedIn) {
                 showAuthModal('login');
@@ -1892,27 +2083,50 @@
             
             if (!user.mining) {
                 // Start mining
-                startMiningTimer(user.miningTime);
+                startMining();
                 miningBtn.textContent = 'Stop Mining';
                 miningBtn.classList.remove('btn-mining');
                 miningBtn.classList.add('mining-active');
                 miningStatus.textContent = 'Mining in progress...';
                 miningStatus.style.color = '#10b981';
                 showNotification('Mining started! Session will complete in 6 hours.');
+                showMiningPersistenceNotice();
             } else {
                 // Stop mining
-                clearInterval(user.miningInterval);
-                user.mining = false;
-                user.miningStartTime = null;
+                stopMining();
                 miningBtn.textContent = 'Start Mining';
                 miningBtn.classList.remove('mining-active');
                 miningBtn.classList.add('btn-mining');
                 miningStatus.textContent = 'Ready to Start';
                 miningStatus.style.color = '';
                 showNotification('Mining stopped');
+                removeMiningPersistenceNotice();
             }
             
             saveUserData();
+        }
+
+        // Start mining function
+        function startMining() {
+            user.mining = true;
+            user.miningStartTime = Date.now();
+            user.miningEndTime = Date.now() + (6 * 60 * 60 * 1000); // 6 hours from now
+            
+            // Update UI immediately
+            updateMiningUI(user.miningEndTime - Date.now());
+        }
+
+        // Stop mining function
+        function stopMining() {
+            user.mining = false;
+            user.miningStartTime = null;
+            user.miningEndTime = null;
+            
+            // Reset UI if on mining page
+            if (activeNav === 'mining') {
+                document.getElementById('miningTimer').textContent = '06:00:00';
+                document.getElementById('miningProgress').style.width = '0%';
+            }
         }
 
         // Initialize Firebase Authentication
@@ -1949,12 +2163,12 @@
             // If new user (no data saved), initialize with default values
             if (!user.referralCode) {
                 user.referralCode = generateReferralCode();
-                // Only give STC if user came from referral (check URL parameter or storage)
+                // Only give STC if user came from referral
                 const urlParams = new URLSearchParams(window.location.search);
                 const refCode = urlParams.get('ref') || localStorage.getItem('referral_code');
                 if (refCode) {
                     user.stc += 20;
-                    user.referrals++; // Increment for the referrer (in real app, you'd update referrer's data)
+                    user.referrals++;
                     localStorage.removeItem('referral_code');
                     showNotification('Welcome! You received 20 STC bonus from referral.');
                 }
@@ -1970,9 +2184,12 @@
             document.getElementById('userNameDisplay').textContent = user.name;
             
             showNotification('Welcome back, ' + user.name + '!');
+            
+            // Check for mining session
+            checkAndRestoreMining();
         }
 
-        // Setup event listeners - UPDATED FOR LEGAL PAGES
+        // Setup event listeners
         function setupEventListeners() {
             // Watch ad buttons
             document.querySelectorAll('.watch-ad-btn').forEach(btn => {
@@ -1985,15 +2202,6 @@
             document.getElementById('loginForm')?.addEventListener('submit', handleEmailLogin);
             document.getElementById('signupForm')?.addEventListener('submit', handleEmailSignup);
             
-            // Legal page links
-            document.querySelectorAll('[data-legal-page]').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const pageType = this.getAttribute('data-legal-page');
-                    showLegalPage(pageType);
-                });
-            });
-            
             // Close modals on ESC
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && currentModal) {
@@ -2005,6 +2213,13 @@
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('modal')) {
                     closeAllModals();
+                }
+            });
+            
+            // Save mining state before page unload
+            window.addEventListener('beforeunload', function() {
+                if (user.mining) {
+                    saveUserData();
                 }
             });
         }
@@ -2059,6 +2274,14 @@
             
             // Update header buttons
             updateHeaderButtons();
+            
+            // Show/hide mining persistence notice
+            if (pageId === 'mining' && user.mining) {
+                showMiningPersistenceNotice();
+                updateMiningTimer();
+            } else {
+                removeMiningPersistenceNotice();
+            }
             
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2641,7 +2864,7 @@
             }
         }
 
-        // Save/Load user data - UPDATED FOR MINING PERSISTENCE
+        // Save/Load user data - UPDATED FOR PERSISTENT MINING
         function saveUserData() {
             if (user.uid) {
                 localStorage.setItem(`stc_user_${user.uid}`, JSON.stringify(user));
@@ -2654,7 +2877,8 @@
                 if (saved) {
                     try {
                         const savedData = JSON.parse(saved);
-                        user = { ...user, ...savedData };
+                        // Merge saved data with current user object
+                        Object.assign(user, savedData);
                     } catch (e) {
                         console.log('Error loading user data');
                     }
@@ -2662,7 +2886,7 @@
             }
         }
 
-        // Logout
+        // Logout - UPDATED
         async function logout() {
             if (!auth) {
                 showNotification('Authentication service is not available.', 'error');
@@ -2670,11 +2894,14 @@
             }
             
             try {
-                // Stop mining if active
-                if (user.mining && user.miningInterval) {
-                    clearInterval(user.miningInterval);
-                    user.mining = false;
-                    user.miningStartTime = null;
+                // Stop mining
+                if (user.mining) {
+                    stopMining();
+                }
+                
+                // Clear mining check interval
+                if (miningCheckInterval) {
+                    clearInterval(miningCheckInterval);
                 }
                 
                 // Sign out from Firebase
@@ -2693,9 +2920,8 @@
                     referrals: 0,
                     totalMined: 0,
                     mining: false,
-                    miningTime: 21600,
                     miningStartTime: null,
-                    miningInterval: null,
+                    miningEndTime: null,
                     joinDate: "",
                     referralCode: "",
                     withdrawalHistory: []
@@ -2712,11 +2938,14 @@
 
         // Handle logout from Firebase
         function handleLogout() {
-            // Stop mining if active
-            if (user.mining && user.miningInterval) {
-                clearInterval(user.miningInterval);
-                user.mining = false;
-                user.miningStartTime = null;
+            // Stop mining
+            if (user.mining) {
+                stopMining();
+            }
+            
+            // Clear mining check interval
+            if (miningCheckInterval) {
+                clearInterval(miningCheckInterval);
             }
             
             // Reset user data
@@ -2732,9 +2961,8 @@
                 referrals: 0,
                 totalMined: 0,
                 mining: false,
-                miningTime: 21600,
                 miningStartTime: null,
-                miningInterval: null,
+                miningEndTime: null,
                 joinDate: "",
                 referralCode: "",
                 withdrawalHistory: []
@@ -2746,13 +2974,82 @@
             }
         }
 
-        // Clean up on page unload
-        window.addEventListener('beforeunload', function() {
-            if (user.mining && user.miningInterval) {
-                clearInterval(user.miningInterval);
-                saveUserData();
+        // Show legal modal
+        function showLegalModal(type) {
+            let title = '';
+            let content = '';
+            
+            switch(type) {
+                case 'terms':
+                    title = 'Terms of Service';
+                    content = `
+                        <h3>STC-REWARDS Terms of Service</h3>
+                        <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
+                        
+                        <h4>1. Acceptance of Terms</h4>
+                        <p>Welcome to STC-REWARDS. By accessing or using our platform, you agree to be bound by these Terms of Service.</p>
+                        
+                        <h4>2. Platform Description</h4>
+                        <p>STC-REWARDS is a demonstration platform that allows users to earn virtual STC tokens through various activities including watching ads, mining simulations, and referral programs.</p>
+                    `;
+                    break;
+                case 'privacy':
+                    title = 'Privacy Policy';
+                    content = `
+                        <h3>Privacy Policy</h3>
+                        <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
+                        
+                        <h4>1. Information We Collect</h4>
+                        <p>We collect information you provide directly, including your name, email address, and date of birth during registration.</p>
+                    `;
+                    break;
+                case 'cookies':
+                    title = 'Cookie Policy';
+                    content = `
+                        <h3>Cookie Policy</h3>
+                        <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
+                        
+                        <h4>1. What Are Cookies</h4>
+                        <p>Cookies are small text files stored on your device when you visit websites. Our platform uses browser localStorage which functions similarly to cookies.</p>
+                    `;
+                    break;
+                case 'disclaimer':
+                    title = 'Disclaimer';
+                    content = `
+                        <h3>Disclaimer</h3>
+                        <p><strong>Last Updated:</strong> ${new Date().toLocaleDateString()}</p>
+                        
+                        <h4>1. Demonstration Platform</h4>
+                        <p>STC-REWARDS is a demonstration and educational platform only. It simulates cryptocurrency mining and rewards for learning purposes.</p>
+                    `;
+                    break;
             }
-        });
+            
+            // Create modal if it doesn't exist
+            if (!document.getElementById('legalModal')) {
+                const modalHTML = `
+                    <div id="legalModal" class="modal">
+                        <div class="modal-content" style="max-width: 700px; max-height: 80vh; overflow-y: auto;">
+                            <button class="close-modal" onclick="closeModal('legalModal')">&times;</button>
+                            <h2 class="form-title">${title}</h2>
+                            <div id="legalModalContent" style="color: #cbd5e1; line-height: 1.6; font-size: 14px; margin-top: 15px;">
+                                ${content}
+                            </div>
+                            <div style="text-align: center; margin-top: 20px;">
+                                <button class="btn btn-primary" onclick="closeModal('legalModal')">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+            } else {
+                document.getElementById('legalModalContent').innerHTML = content;
+                document.querySelector('#legalModal .form-title').textContent = title;
+            }
+            
+            document.getElementById('legalModal').classList.add('active');
+            currentModal = 'legalModal';
+        }
 
         // Set up referral URL sharing
         function setupReferralSharing() {
