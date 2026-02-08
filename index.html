@@ -1687,39 +1687,27 @@
             }
         }
 
-        /* NEW: Ad Display Styles */
-        .ad-display-container {
-            background: rgba(0, 0, 0, 0.3);
+        /* Ad Timer Styles */
+        .ad-timer-notice {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--warning);
             border-radius: 10px;
             padding: 15px;
-            margin: 15px 0;
+            margin: 20px 0;
             text-align: center;
-            min-height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px dashed rgba(255, 255, 255, 0.1);
+            font-size: 14px;
         }
         
-        .ad-display-frame {
-            width: 100%;
-            height: 180px;
-            border: none;
-            border-radius: 8px;
-            background: white;
+        .ad-timer-notice i {
+            color: var(--warning);
+            margin-right: 8px;
         }
         
-        .ad-info {
-            font-size: 12px;
-            color: #94a3b8;
-            margin-top: 10px;
-        }
-        
-        .ad-controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 15px;
+        .return-timer {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--warning);
+            margin: 10px 0;
         }
     </style>
 </head>
@@ -1978,7 +1966,7 @@
                         <div style="text-align: center;">
                             <p style="margin-bottom: 15px; color: #94a3b8;">Each mining session: 6 hours → 12 STC tokens</p>
                             <p style="margin-bottom: 15px; color: var(--warning); font-size: 14px;"><i class="fas fa-info-circle"></i> Watch an ad to start mining and earn bonus!</p>
-                            <button class="btn btn-mining" id="miningBtn" onclick="showAdBeforeMining()">Watch Ad to Start Mining</button>
+                            <button class="btn btn-mining" id="miningBtn" onclick="startMiningAd()">Watch Ad to Start Mining</button>
                         </div>
                     </div>
                     <div class="card">
@@ -2027,7 +2015,7 @@
                         <i class="fas fa-gamepad fa-2x" style="color: var(--primary);"></i>
                         <h4 style="margin: 12px 0; font-size: 16px;">Game Ad</h4>
                         <div class="ad-reward">10-15 coins</div>
-                        <button class="btn btn-primary watch-ad-btn" data-min="10" data-max="15">
+                        <button class="btn btn-primary watch-ad-btn" data-min="10" data-max="15" onclick="openAdDirectly(this)">
                             <i class="fas fa-play"></i> Watch (45s)
                         </button>
                     </div>
@@ -2035,7 +2023,7 @@
                         <i class="fas fa-shopping-bag fa-2x" style="color: var(--accent);"></i>
                         <h4 style="margin: 12px 0; font-size: 16px;">Shopping Ad</h4>
                         <div class="ad-reward">12-18 coins</div>
-                        <button class="btn btn-primary watch-ad-btn" data-min="12" data-max="18">
+                        <button class="btn btn-primary watch-ad-btn" data-min="12" data-max="18" onclick="openAdDirectly(this)">
                             <i class="fas fa-play"></i> Watch (60s)
                         </button>
                     </div>
@@ -2043,7 +2031,7 @@
                         <i class="fas fa-film fa-2x" style="color: var(--warning);"></i>
                         <h4 style="margin: 12px 0; font-size: 16px;">Video Ad</h4>
                         <div class="ad-reward">15-25 coins</div>
-                        <button class="btn btn-primary watch-ad-btn" data-min="15" data-max="25">
+                        <button class="btn btn-primary watch-ad-btn" data-min="15" data-max="25" onclick="openAdDirectly(this)">
                             <i class="fas fa-play"></i> Watch (90s)
                         </button>
                     </div>
@@ -2051,7 +2039,7 @@
                         <i class="fas fa-mobile-alt fa-2x" style="color: var(--success);"></i>
                         <h4 style="margin: 12px 0; font-size: 16px;">App Ad</h4>
                         <div class="ad-reward">10-20 coins</div>
-                        <button class="btn btn-primary watch-ad-btn" data-min="10" data-max="20">
+                        <button class="btn btn-primary watch-ad-btn" data-min="10" data-max="20" onclick="openAdDirectly(this)">
                             <i class="fas fa-play"></i> Watch (60s)
                         </button>
                     </div>
@@ -2868,70 +2856,6 @@
         </div>
     </div>
 
-    <!-- Ad Before Mining Modal -->
-    <div id="adMiningModal" class="modal">
-        <div class="modal-content ad-modal-content">
-            <h2 class="form-title">Watch Ad to Start Mining</h2>
-            <p style="text-align: center; color: #94a3b8; margin-bottom: 20px;">Watch a short ad to start mining STC tokens and earn bonus coins!</p>
-            
-            <div style="padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; margin: 20px 0;">
-                <div style="font-size: 48px; color: var(--primary); text-align: center; margin-bottom: 10px;">
-                    <i class="fas fa-ad"></i>
-                </div>
-                <h3 style="text-align: center; margin-bottom: 10px;">STC Mining Ad</h3>
-                <p style="text-align: center; color: #94a3b8; font-size: 14px;">Duration: 30 seconds</p>
-            </div>
-            
-            <div class="ad-countdown" id="adCountdown">30</div>
-            <div class="ad-progress-container">
-                <div class="ad-progress-bar" id="adProgressBar"></div>
-            </div>
-            
-            <p style="text-align: center; color: var(--warning); margin: 15px 0; font-size: 14px;">
-                <i class="fas fa-gift"></i> Bonus: Earn 50 coins after watching ad!
-            </p>
-            
-            <div style="display: flex; gap: 10px; justify-content: center;">
-                <button class="btn btn-secondary" onclick="closeModal('adMiningModal')" id="cancelAdBtn">
-                    <i class="fas fa-times"></i> Cancel
-                </button>
-                <button class="btn btn-mining" onclick="startMiningAfterAd()" id="startMiningBtn" disabled>
-                    <i class="fas fa-play"></i> Start Mining
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- NEW: Ad Display Modal -->
-    <div id="adDisplayModal" class="modal">
-        <div class="modal-content" style="max-width: 600px;">
-            <button class="close-modal" onclick="closeAdDisplayModal()">&times;</button>
-            <h2 class="form-title">Watch Ad to Earn Coins</h2>
-            
-            <div class="ad-display-container">
-                <iframe class="ad-display-frame" id="adIframe" src=""></iframe>
-            </div>
-            
-            <div class="ad-countdown" id="adDisplayCountdown">30</div>
-            <div class="ad-progress-container">
-                <div class="ad-progress-bar" id="adDisplayProgressBar"></div>
-            </div>
-            
-            <div class="ad-info">
-                <i class="fas fa-info-circle"></i> Please watch the ad for the full duration to earn coins
-            </div>
-            
-            <div class="ad-controls">
-                <button class="btn btn-secondary" onclick="closeAdDisplayModal()" id="cancelAdDisplayBtn">
-                    <i class="fas fa-times"></i> Skip Ad
-                </button>
-                <button class="btn btn-success" onclick="completeAdView()" id="completeAdBtn" disabled>
-                    <i class="fas fa-check"></i> Complete & Earn Coins
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Streak Reward Modal -->
     <div id="streakRewardModal" class="modal">
         <div class="modal-content streak-modal-content">
@@ -2959,6 +2883,39 @@
             
             <button class="btn btn-primary" onclick="closeModal('streakRewardModal'); showPage('dashboard');" style="width: 100%;">
                 <i class="fas fa-check"></i> Awesome!
+            </button>
+        </div>
+    </div>
+
+    <!-- Ad Timer Modal -->
+    <div id="adTimerModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <h2 class="form-title">Ad in Progress</h2>
+            
+            <div class="ad-timer-notice">
+                <i class="fas fa-external-link-alt"></i>
+                The ad has been opened in a new tab. Please watch it completely and return to this page to receive your reward.
+            </div>
+            
+            <div style="text-align: center; margin: 25px 0;">
+                <div style="font-size: 48px; color: var(--warning);">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div style="font-size: 18px; color: var(--light); margin-top: 15px;">Please return after watching the ad</div>
+                <div class="return-timer" id="returnTimer">30</div>
+                <div style="color: #94a3b8; font-size: 14px;">seconds remaining</div>
+            </div>
+            
+            <div class="ad-progress-container">
+                <div class="ad-progress-bar" id="adTimerProgressBar"></div>
+            </div>
+            
+            <button class="btn btn-success" onclick="completeAdManually()" style="width: 100%; margin-top: 20px;">
+                <i class="fas fa-check"></i> I Watched the Ad
+            </button>
+            
+            <button class="btn btn-secondary" onclick="closeModal('adTimerModal')" style="width: 100%; margin-top: 10px;">
+                <i class="fas fa-times"></i> Cancel
             </button>
         </div>
     </div>
@@ -3084,8 +3041,9 @@
         let selectedWithdrawalMethod = 'usdt';
         let withdrawalFee = 1;
         let dailyLoginCheckInterval = null;
-        let adMiningInterval = null; // For ad before mining
-        let adDisplayInterval = null; // For ad display modal
+        let adTimerInterval = null; // For ad timer modal
+        let currentAdButton = null; // Store current ad button info
+        let currentAdDuration = 30; // Default ad duration in seconds
 
         // AD URLs - YOUR 6 AD LINKS ADDED HERE
         const adUrls = [
@@ -3133,22 +3091,10 @@
             
             // Update referral link
             updateReferralLink();
-            
-            // Setup ad buttons
-            setupAdButtons();
         });
 
-        // NEW: Setup ad buttons with click handlers
-        function setupAdButtons() {
-            document.querySelectorAll('.watch-ad-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    watchAdWithRealAds(this);
-                });
-            });
-        }
-
-        // NEW: Watch ad with real ad URLs
-        function watchAdWithRealAds(button) {
+        // NEW: Open ad directly in new tab
+        function openAdDirectly(button) {
             if (!user.loggedIn) {
                 showAuthModal('login');
                 return;
@@ -3165,72 +3111,87 @@
                 element: button,
                 min: min,
                 max: max,
-                originalText: button.innerHTML
+                originalText: button.innerHTML,
+                duration: button.innerHTML.includes('45s') ? 45 : 
+                         button.innerHTML.includes('60s') ? 60 : 90
             };
             
             // Select a random ad from the list
             const randomAdIndex = Math.floor(Math.random() * adUrls.length);
             const selectedAdUrl = adUrls[randomAdIndex];
             
-            // Show the ad display modal
-            showAdDisplayModal(selectedAdUrl);
+            // Disable the button and change text
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening Ad...';
+            
+            // Open ad in new tab
+            window.open(selectedAdUrl, '_blank');
+            
+            // Show timer modal
+            showAdTimerModal(currentAdButton.duration);
         }
 
-        // NEW: Show ad display modal
-        function showAdDisplayModal(adUrl) {
-            // Reset countdown
-            document.getElementById('adDisplayCountdown').textContent = '30';
-            document.getElementById('adDisplayProgressBar').style.width = '0%';
-            document.getElementById('completeAdBtn').disabled = true;
-            document.getElementById('cancelAdDisplayBtn').disabled = false;
-            
-            // Load the ad in iframe
-            document.getElementById('adIframe').src = adUrl;
+        // NEW: Show ad timer modal
+        function showAdTimerModal(duration) {
+            currentAdDuration = duration;
+            document.getElementById('returnTimer').textContent = duration;
+            document.getElementById('adTimerProgressBar').style.width = '0%';
             
             // Show modal
-            showModal('adDisplayModal');
+            showModal('adTimerModal');
             
             // Start countdown
-            let countdown = 30;
-            adDisplayInterval = setInterval(() => {
+            let countdown = duration;
+            adTimerInterval = setInterval(() => {
                 countdown--;
-                document.getElementById('adDisplayCountdown').textContent = countdown;
-                const progress = ((30 - countdown) / 30) * 100;
-                document.getElementById('adDisplayProgressBar').style.width = `${progress}%`;
+                document.getElementById('returnTimer').textContent = countdown;
+                const progress = ((duration - countdown) / duration) * 100;
+                document.getElementById('adTimerProgressBar').style.width = `${progress}%`;
                 
                 if (countdown <= 0) {
-                    clearInterval(adDisplayInterval);
-                    document.getElementById('completeAdBtn').disabled = false;
-                    document.getElementById('cancelAdDisplayBtn').disabled = true;
+                    clearInterval(adTimerInterval);
+                    // Auto-complete after timer ends
+                    completeAdAfterTimer();
                 }
             }, 1000);
         }
 
-        // NEW: Close ad display modal
-        function closeAdDisplayModal() {
-            if (adDisplayInterval) {
-                clearInterval(adDisplayInterval);
-            }
+        // NEW: Complete ad after timer
+        function completeAdAfterTimer() {
+            if (!currentAdButton) return;
             
-            // Clear iframe src to stop loading
-            document.getElementById('adIframe').src = '';
+            // Calculate coins earned
+            const min = currentAdButton.min;
+            const max = currentAdButton.max;
+            const coins = Math.floor(Math.random() * (max - min + 1)) + min;
             
-            // Reset button if ad was cancelled
-            if (currentAdButton && !currentAdButton.completed) {
-                currentAdButton.element.disabled = false;
-                currentAdButton.element.innerHTML = currentAdButton.originalText;
-            }
+            // Add coins to user balance
+            user.coins += coins;
             
-            closeModal('adDisplayModal');
+            // Save data
+            saveUserData();
+            updateUI();
+            
+            // Reset button
+            currentAdButton.element.disabled = false;
+            currentAdButton.element.innerHTML = currentAdButton.originalText;
+            
+            // Close modal
+            closeModal('adTimerModal');
+            
+            // Show notification
+            showNotification(`You earned ${coins} coins! (5000 coins = $1)`);
+            
+            // Reset current ad button
             currentAdButton = null;
         }
 
-        // NEW: Complete ad view and give rewards
-        function completeAdView() {
+        // NEW: Complete ad manually (when user clicks "I Watched the Ad")
+        function completeAdManually() {
             if (!currentAdButton) return;
             
-            if (adDisplayInterval) {
-                clearInterval(adDisplayInterval);
+            if (adTimerInterval) {
+                clearInterval(adTimerInterval);
             }
             
             // Calculate coins earned
@@ -3245,19 +3206,135 @@
             saveUserData();
             updateUI();
             
-            // Mark ad as completed
-            currentAdButton.completed = true;
+            // Reset button
             currentAdButton.element.disabled = false;
             currentAdButton.element.innerHTML = currentAdButton.originalText;
             
             // Close modal
-            closeModal('adDisplayModal');
-            
-            // Clear iframe src
-            document.getElementById('adIframe').src = '';
+            closeModal('adTimerModal');
             
             // Show notification
             showNotification(`You earned ${coins} coins! (5000 coins = $1)`);
+            
+            // Reset current ad button
+            currentAdButton = null;
+        }
+
+        // NEW: Start mining ad (opens ad directly)
+        function startMiningAd() {
+            if (!user.loggedIn) {
+                showAuthModal('login');
+                return;
+            }
+            
+            if (user.mining) {
+                // Already mining, show stop option
+                stopMining();
+                const miningBtn = document.getElementById('miningBtn');
+                const miningStatus = document.getElementById('miningStatusText');
+                if (miningBtn && miningStatus) {
+                    miningBtn.textContent = 'Watch Ad to Start Mining';
+                    miningBtn.classList.remove('mining-active');
+                    miningBtn.classList.add('btn-mining');
+                    miningStatus.textContent = 'Ready to Start';
+                    miningStatus.style.color = '';
+                }
+                showNotification('Mining stopped');
+                removeMiningPersistenceNotice();
+                return;
+            }
+            
+            // Store mining button info
+            currentAdButton = {
+                element: document.getElementById('miningBtn'),
+                originalText: document.getElementById('miningBtn').innerHTML,
+                duration: 30,
+                isMiningAd: true
+            };
+            
+            // Disable mining button
+            const miningBtn = document.getElementById('miningBtn');
+            miningBtn.disabled = true;
+            miningBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening Ad...';
+            
+            // Select a random ad from the list
+            const randomAdIndex = Math.floor(Math.random() * adUrls.length);
+            const selectedAdUrl = adUrls[randomAdIndex];
+            
+            // Open ad in new tab
+            window.open(selectedAdUrl, '_blank');
+            
+            // Show timer modal
+            showMiningAdTimerModal(30);
+        }
+
+        // NEW: Show mining ad timer modal
+        function showMiningAdTimerModal(duration) {
+            currentAdDuration = duration;
+            document.getElementById('returnTimer').textContent = duration;
+            document.getElementById('adTimerProgressBar').style.width = '0%';
+            
+            // Update modal title for mining
+            document.querySelector('#adTimerModal .form-title').textContent = 'Watch Ad to Start Mining';
+            
+            // Update modal content
+            const notice = document.querySelector('#adTimerModal .ad-timer-notice');
+            notice.innerHTML = '<i class="fas fa-hard-hat"></i> Watch the ad to start mining STC tokens and earn bonus coins!';
+            
+            // Show modal
+            showModal('adTimerModal');
+            
+            // Start countdown
+            let countdown = duration;
+            adTimerInterval = setInterval(() => {
+                countdown--;
+                document.getElementById('returnTimer').textContent = countdown;
+                const progress = ((duration - countdown) / duration) * 100;
+                document.getElementById('adTimerProgressBar').style.width = `${progress}%`;
+                
+                if (countdown <= 0) {
+                    clearInterval(adTimerInterval);
+                    // Auto-complete after timer ends
+                    completeMiningAdAfterTimer();
+                }
+            }, 1000);
+        }
+
+        // NEW: Complete mining ad after timer
+        function completeMiningAdAfterTimer() {
+            if (!currentAdButton) return;
+            
+            // Give bonus coins for watching ad
+            user.coins += 50;
+            
+            // Start mining
+            startMining();
+            
+            // Update mining button
+            const miningBtn = document.getElementById('miningBtn');
+            const miningStatus = document.getElementById('miningStatusText');
+            if (miningBtn && miningStatus) {
+                miningBtn.disabled = false;
+                miningBtn.textContent = 'Stop Mining';
+                miningBtn.classList.remove('btn-mining');
+                miningBtn.classList.add('mining-active');
+                miningStatus.textContent = 'Mining in progress...';
+                miningStatus.style.color = '#10b981';
+            }
+            
+            // Close modal
+            closeModal('adTimerModal');
+            
+            // Show notifications
+            showNotification('You earned 50 bonus coins for watching the ad!', 'success');
+            showNotification('Mining started! Session will complete in 6 hours. This is the first phase of STC mining.');
+            
+            // Show persistence notice
+            showMiningPersistenceNotice();
+            
+            // Save user data
+            saveUserData();
+            updateUI();
             
             // Reset current ad button
             currentAdButton = null;
@@ -4050,87 +4127,6 @@
             }, 2000);
         }
 
-        // NEW: Show ad before mining
-        function showAdBeforeMining() {
-            if (!user.loggedIn) {
-                showAuthModal('login');
-                return;
-            }
-            
-            if (user.mining) {
-                // Already mining, show stop option
-                stopMining();
-                const miningBtn = document.getElementById('miningBtn');
-                const miningStatus = document.getElementById('miningStatusText');
-                if (miningBtn && miningStatus) {
-                    miningBtn.textContent = 'Watch Ad to Start Mining';
-                    miningBtn.classList.remove('mining-active');
-                    miningBtn.classList.add('btn-mining');
-                    miningStatus.textContent = 'Ready to Start';
-                    miningStatus.style.color = '';
-                }
-                showNotification('Mining stopped');
-                removeMiningPersistenceNotice();
-                return;
-            }
-            
-            // Show ad modal
-            showModal('adMiningModal');
-            
-            // Reset ad timer
-            document.getElementById('adCountdown').textContent = '30';
-            document.getElementById('adProgressBar').style.width = '0%';
-            document.getElementById('startMiningBtn').disabled = true;
-            document.getElementById('cancelAdBtn').disabled = false;
-            
-            let countdown = 30;
-            adMiningInterval = setInterval(() => {
-                countdown--;
-                document.getElementById('adCountdown').textContent = countdown;
-                const progress = ((30 - countdown) / 30) * 100;
-                document.getElementById('adProgressBar').style.width = `${progress}%`;
-                
-                if (countdown <= 0) {
-                    clearInterval(adMiningInterval);
-                    document.getElementById('startMiningBtn').disabled = false;
-                    document.getElementById('cancelAdBtn').disabled = true;
-                    showNotification('Ad completed! You can now start mining.', 'success');
-                }
-            }, 1000);
-        }
-
-        // NEW: Start mining after ad
-        function startMiningAfterAd() {
-            if (adMiningInterval) {
-                clearInterval(adMiningInterval);
-            }
-            
-            // Give bonus coins for watching ad
-            user.coins += 50;
-            showNotification('You earned 50 bonus coins for watching the ad!', 'success');
-            
-            // Start mining
-            startMining();
-            closeModal('adMiningModal');
-            
-            const miningBtn = document.getElementById('miningBtn');
-            const miningStatus = document.getElementById('miningStatusText');
-            if (miningBtn && miningStatus) {
-                miningBtn.textContent = 'Stop Mining';
-                miningBtn.classList.remove('btn-mining');
-                miningBtn.classList.add('mining-active');
-                miningStatus.textContent = 'Mining in progress...';
-                miningStatus.style.color = '#10b981';
-            }
-            
-            showNotification('Mining started! Session will complete in 6 hours. This is the first phase of STC mining.');
-            showMiningPersistenceNotice();
-            
-            // Save user data
-            saveUserData();
-            updateUI();
-        }
-
         // Start mining function
         function startMining() {
             user.mining = true;
@@ -4366,15 +4362,17 @@
             currentModal = null;
             resetFormButtons();
             
-            // Clear ad interval if ad modal is closed
-            if (modalId === 'adMiningModal' && adMiningInterval) {
-                clearInterval(adMiningInterval);
-                adMiningInterval = null;
-            }
-            
-            if (modalId === 'adDisplayModal' && adDisplayInterval) {
-                clearInterval(adDisplayInterval);
-                adDisplayInterval = null;
+            // Clear ad interval if ad timer modal is closed
+            if (modalId === 'adTimerModal' && adTimerInterval) {
+                clearInterval(adTimerInterval);
+                adTimerInterval = null;
+                
+                // Reset button if ad was cancelled
+                if (currentAdButton) {
+                    currentAdButton.element.disabled = false;
+                    currentAdButton.element.innerHTML = currentAdButton.originalText;
+                    currentAdButton = null;
+                }
             }
         }
 
@@ -4386,14 +4384,16 @@
             resetFormButtons();
             
             // Clear ad intervals
-            if (adMiningInterval) {
-                clearInterval(adMiningInterval);
-                adMiningInterval = null;
-            }
-            
-            if (adDisplayInterval) {
-                clearInterval(adDisplayInterval);
-                adDisplayInterval = null;
+            if (adTimerInterval) {
+                clearInterval(adTimerInterval);
+                adTimerInterval = null;
+                
+                // Reset button if ad was cancelled
+                if (currentAdButton) {
+                    currentAdButton.element.disabled = false;
+                    currentAdButton.element.innerHTML = currentAdButton.originalText;
+                    currentAdButton = null;
+                }
             }
         }
 
@@ -4587,17 +4587,6 @@
                 return;
             }
             showPage('mining');
-            setTimeout(() => {
-                if (!user.mining) {
-                    showAdBeforeMining();
-                }
-            }, 300);
-        }
-
-        // OLD: Watch ad (now replaced with watchAdWithRealAds)
-        function watchAd(button) {
-            // This function is kept for backward compatibility
-            watchAdWithRealAds(button);
         }
 
         // Convert coins to USDT (5000 coins = $1)
@@ -5062,14 +5051,9 @@
                     clearInterval(dailyLoginCheckInterval);
                 }
                 
-                // Clear ad mining interval
-                if (adMiningInterval) {
-                    clearInterval(adMiningInterval);
-                }
-                
-                // Clear ad display interval
-                if (adDisplayInterval) {
-                    clearInterval(adDisplayInterval);
+                // Clear ad timer interval
+                if (adTimerInterval) {
+                    clearInterval(adTimerInterval);
                 }
                 
                 // Sign out from Firebase
@@ -5134,12 +5118,8 @@
                 clearInterval(dailyLoginCheckInterval);
             }
             
-            if (adMiningInterval) {
-                clearInterval(adMiningInterval);
-            }
-            
-            if (adDisplayInterval) {
-                clearInterval(adDisplayInterval);
+            if (adTimerInterval) {
+                clearInterval(adTimerInterval);
             }
             
             // Reset user data
@@ -5276,7 +5256,7 @@
             const refCode = urlParams.get('ref');
             if (refCode && !user.loggedIn) {
                 localStorage.setItem('referral_code', refCode);
-                showNotification('Referral code detected! Sign up to get 50 STC launch bonus + 10% mining bonus for referrer.', 'info');
+                showNotification('Referral code detected! Sign up to get 25 STC launch bonus + 10% mining bonus for referrer.', 'info');
             }
         }
 
