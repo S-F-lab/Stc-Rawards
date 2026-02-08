@@ -1686,6 +1686,41 @@
                 font-size: 28px;
             }
         }
+
+        /* NEW: Ad Display Styles */
+        .ad-display-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+        }
+        
+        .ad-display-frame {
+            width: 100%;
+            height: 180px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        .ad-info {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 10px;
+        }
+        
+        .ad-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -2867,6 +2902,36 @@
         </div>
     </div>
 
+    <!-- NEW: Ad Display Modal -->
+    <div id="adDisplayModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <button class="close-modal" onclick="closeAdDisplayModal()">&times;</button>
+            <h2 class="form-title">Watch Ad to Earn Coins</h2>
+            
+            <div class="ad-display-container">
+                <iframe class="ad-display-frame" id="adIframe" src=""></iframe>
+            </div>
+            
+            <div class="ad-countdown" id="adDisplayCountdown">30</div>
+            <div class="ad-progress-container">
+                <div class="ad-progress-bar" id="adDisplayProgressBar"></div>
+            </div>
+            
+            <div class="ad-info">
+                <i class="fas fa-info-circle"></i> Please watch the ad for the full duration to earn coins
+            </div>
+            
+            <div class="ad-controls">
+                <button class="btn btn-secondary" onclick="closeAdDisplayModal()" id="cancelAdDisplayBtn">
+                    <i class="fas fa-times"></i> Skip Ad
+                </button>
+                <button class="btn btn-success" onclick="completeAdView()" id="completeAdBtn" disabled>
+                    <i class="fas fa-check"></i> Complete & Earn Coins
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Streak Reward Modal -->
     <div id="streakRewardModal" class="modal">
         <div class="modal-content streak-modal-content">
@@ -3020,6 +3085,17 @@
         let withdrawalFee = 1;
         let dailyLoginCheckInterval = null;
         let adMiningInterval = null; // For ad before mining
+        let adDisplayInterval = null; // For ad display modal
+
+        // AD URLs - YOUR 6 AD LINKS ADDED HERE
+        const adUrls = [
+            "https://otieu.com/4/10584090",
+            "https://otieu.com/4/10584092",
+            "https://otieu.com/4/10584093",
+            "https://otieu.com/4/10546347",
+            "https://otieu.com/4/10536264",
+            "https://otieu.com/4/10536238"
+        ];
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -3057,7 +3133,135 @@
             
             // Update referral link
             updateReferralLink();
+            
+            // Setup ad buttons
+            setupAdButtons();
         });
+
+        // NEW: Setup ad buttons with click handlers
+        function setupAdButtons() {
+            document.querySelectorAll('.watch-ad-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    watchAdWithRealAds(this);
+                });
+            });
+        }
+
+        // NEW: Watch ad with real ad URLs
+        function watchAdWithRealAds(button) {
+            if (!user.loggedIn) {
+                showAuthModal('login');
+                return;
+            }
+            
+            if (button.disabled) return;
+            
+            // Get ad parameters
+            const min = parseInt(button.getAttribute('data-min'));
+            const max = parseInt(button.getAttribute('data-max'));
+            
+            // Store the button data for later use
+            currentAdButton = {
+                element: button,
+                min: min,
+                max: max,
+                originalText: button.innerHTML
+            };
+            
+            // Select a random ad from the list
+            const randomAdIndex = Math.floor(Math.random() * adUrls.length);
+            const selectedAdUrl = adUrls[randomAdIndex];
+            
+            // Show the ad display modal
+            showAdDisplayModal(selectedAdUrl);
+        }
+
+        // NEW: Show ad display modal
+        function showAdDisplayModal(adUrl) {
+            // Reset countdown
+            document.getElementById('adDisplayCountdown').textContent = '30';
+            document.getElementById('adDisplayProgressBar').style.width = '0%';
+            document.getElementById('completeAdBtn').disabled = true;
+            document.getElementById('cancelAdDisplayBtn').disabled = false;
+            
+            // Load the ad in iframe
+            document.getElementById('adIframe').src = adUrl;
+            
+            // Show modal
+            showModal('adDisplayModal');
+            
+            // Start countdown
+            let countdown = 30;
+            adDisplayInterval = setInterval(() => {
+                countdown--;
+                document.getElementById('adDisplayCountdown').textContent = countdown;
+                const progress = ((30 - countdown) / 30) * 100;
+                document.getElementById('adDisplayProgressBar').style.width = `${progress}%`;
+                
+                if (countdown <= 0) {
+                    clearInterval(adDisplayInterval);
+                    document.getElementById('completeAdBtn').disabled = false;
+                    document.getElementById('cancelAdDisplayBtn').disabled = true;
+                }
+            }, 1000);
+        }
+
+        // NEW: Close ad display modal
+        function closeAdDisplayModal() {
+            if (adDisplayInterval) {
+                clearInterval(adDisplayInterval);
+            }
+            
+            // Clear iframe src to stop loading
+            document.getElementById('adIframe').src = '';
+            
+            // Reset button if ad was cancelled
+            if (currentAdButton && !currentAdButton.completed) {
+                currentAdButton.element.disabled = false;
+                currentAdButton.element.innerHTML = currentAdButton.originalText;
+            }
+            
+            closeModal('adDisplayModal');
+            currentAdButton = null;
+        }
+
+        // NEW: Complete ad view and give rewards
+        function completeAdView() {
+            if (!currentAdButton) return;
+            
+            if (adDisplayInterval) {
+                clearInterval(adDisplayInterval);
+            }
+            
+            // Calculate coins earned
+            const min = currentAdButton.min;
+            const max = currentAdButton.max;
+            const coins = Math.floor(Math.random() * (max - min + 1)) + min;
+            
+            // Add coins to user balance
+            user.coins += coins;
+            
+            // Save data
+            saveUserData();
+            updateUI();
+            
+            // Mark ad as completed
+            currentAdButton.completed = true;
+            currentAdButton.element.disabled = false;
+            currentAdButton.element.innerHTML = currentAdButton.originalText;
+            
+            // Close modal
+            closeModal('adDisplayModal');
+            
+            // Clear iframe src
+            document.getElementById('adIframe').src = '';
+            
+            // Show notification
+            showNotification(`You earned ${coins} coins! (5000 coins = $1)`);
+            
+            // Reset current ad button
+            currentAdButton = null;
+        }
 
         // NEW: Update referral link
         function updateReferralLink() {
@@ -4026,13 +4230,6 @@
 
         // Setup event listeners
         function setupEventListeners() {
-            // Watch ad buttons
-            document.querySelectorAll('.watch-ad-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    watchAd(this);
-                });
-            });
-            
             // Form submissions
             document.getElementById('loginForm')?.addEventListener('submit', handleEmailLogin);
             document.getElementById('signupForm')?.addEventListener('submit', handleEmailSignup);
@@ -4174,6 +4371,11 @@
                 clearInterval(adMiningInterval);
                 adMiningInterval = null;
             }
+            
+            if (modalId === 'adDisplayModal' && adDisplayInterval) {
+                clearInterval(adDisplayInterval);
+                adDisplayInterval = null;
+            }
         }
 
         function closeAllModals() {
@@ -4183,10 +4385,15 @@
             currentModal = null;
             resetFormButtons();
             
-            // Clear ad interval
+            // Clear ad intervals
             if (adMiningInterval) {
                 clearInterval(adMiningInterval);
                 adMiningInterval = null;
+            }
+            
+            if (adDisplayInterval) {
+                clearInterval(adDisplayInterval);
+                adDisplayInterval = null;
             }
         }
 
@@ -4387,45 +4594,10 @@
             }, 300);
         }
 
-        // Watch ad
+        // OLD: Watch ad (now replaced with watchAdWithRealAds)
         function watchAd(button) {
-            if (!user.loggedIn) {
-                showAuthModal('login');
-                return;
-            }
-            
-            if (button.disabled) return;
-            
-            const min = parseInt(button.getAttribute('data-min'));
-            const max = parseInt(button.getAttribute('data-max'));
-            const coins = Math.floor(Math.random() * (max - min + 1)) + min;
-            
-            // Disable button during ad
-            button.disabled = true;
-            const originalText = button.innerHTML;
-            button.innerHTML = '<div class="spinner"></div>';
-            
-            // Simulate ad watching with progress
-            let timeLeft = parseInt(button.textContent.includes('45s') ? 45 : 
-                                 button.textContent.includes('60s') ? 60 : 
-                                 button.textContent.includes('90s') ? 90 : 30);
-            const interval = setInterval(() => {
-                timeLeft--;
-                button.innerHTML = `<div class="spinner"></div> ${timeLeft}s`;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(interval);
-                    
-                    user.coins += coins;
-                    saveUserData();
-                    updateUI();
-                    
-                    button.disabled = false;
-                    button.innerHTML = originalText;
-                    
-                    showNotification(`You earned ${coins} coins! (5000 coins = $1)`);
-                }
-            }, 1000);
+            // This function is kept for backward compatibility
+            watchAdWithRealAds(button);
         }
 
         // Convert coins to USDT (5000 coins = $1)
@@ -4895,6 +5067,11 @@
                     clearInterval(adMiningInterval);
                 }
                 
+                // Clear ad display interval
+                if (adDisplayInterval) {
+                    clearInterval(adDisplayInterval);
+                }
+                
                 // Sign out from Firebase
                 await auth.signOut();
                 
@@ -4959,6 +5136,10 @@
             
             if (adMiningInterval) {
                 clearInterval(adMiningInterval);
+            }
+            
+            if (adDisplayInterval) {
+                clearInterval(adDisplayInterval);
             }
             
             // Reset user data
