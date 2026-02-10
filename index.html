@@ -1991,21 +1991,9 @@
             font-weight: 600;
         }
         
-        /* Harder to Earn Notice */
+        /* Harder to Earn Notice - REMOVED */
         .hard-earn-notice {
-            background: linear-gradient(45deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.1));
-            border: 2px solid var(--warning);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 25px 0;
-            text-align: center;
-            font-size: 15px;
-            font-weight: 600;
-        }
-        
-        .hard-earn-notice i {
-            color: var(--warning);
-            margin-right: 10px;
+            display: none;
         }
         
         /* Progress Bar for Coin Collection */
@@ -2391,6 +2379,213 @@
             transition: width 1s linear;
         }
         
+        /* NEW: SPIN AND WIN STYLES */
+        .spin-section {
+            padding: 120px 0 80px;
+            min-height: 100vh;
+        }
+        
+        .wheel-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            padding: 40px 0;
+        }
+        
+        .wheel-wrapper {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            max-width: 90vw;
+            max-height: 90vw;
+        }
+        
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            transition: transform 5s cubic-bezier(0.17, 0.67, 0.21, 0.99);
+            box-shadow: 0 0 50px rgba(99, 102, 241, 0.3);
+            border: 8px solid var(--primary);
+            background: var(--darker);
+        }
+        
+        .wheel-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            left: 0;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .segment-content {
+            position: absolute;
+            right: 30px;
+            top: 30px;
+            transform: rotate(45deg);
+            text-align: center;
+            color: white;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            width: 80px;
+        }
+        
+        .segment-coin {
+            font-size: 18px;
+            color: var(--warning);
+        }
+        
+        .segment-stc {
+            font-size: 16px;
+            color: var(--primary);
+        }
+        
+        .wheel-pointer {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            z-index: 10;
+        }
+        
+        .wheel-pointer i {
+            color: var(--warning);
+            font-size: 60px;
+            filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
+            animation: pulse 1.5s infinite;
+        }
+        
+        .spin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 500px;
+            margin-top: 30px;
+        }
+        
+        .spin-stat {
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+        }
+        
+        .spin-stat-value {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 5px;
+        }
+        
+        .spin-stat-label {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        
+        .spin-prizes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .prize-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .prize-item:hover {
+            transform: translateY(-3px);
+            background: rgba(99, 102, 241, 0.15);
+        }
+        
+        .prize-amount {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .prize-type {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .prize-probability {
+            font-size: 10px;
+            color: var(--warning);
+            margin-top: 3px;
+        }
+        
+        .spin-cooldown {
+            background: linear-gradient(45deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.1));
+            border: 2px solid var(--warning);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .cooldown-timer {
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--warning);
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        
+        .wheel-result-modal .modal-content {
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .result-celebration {
+            font-size: 64px;
+            margin: 20px 0;
+        }
+        
+        .result-amount {
+            font-size: 48px;
+            font-weight: 900;
+            margin: 20px 0;
+            background: linear-gradient(45deg, var(--warning), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .result-type {
+            font-size: 24px;
+            color: var(--light);
+            margin-bottom: 30px;
+        }
+        
+        .result-message {
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
         /* Responsive adjustments for daily login */
         @media (max-width: 768px) {
             .streak-calendar {
@@ -2443,6 +2638,25 @@
             .referral-benefits {
                 grid-template-columns: 1fr;
             }
+            
+            .wheel-wrapper {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .segment-content {
+                right: 20px;
+                top: 20px;
+                width: 60px;
+            }
+            
+            .segment-coin {
+                font-size: 14px;
+            }
+            
+            .segment-stc {
+                font-size: 12px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -2486,6 +2700,17 @@
             
             .streak-count {
                 font-size: 36px;
+            }
+            
+            .wheel-wrapper {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .segment-content {
+                right: 15px;
+                top: 15px;
+                width: 50px;
             }
         }
 
@@ -2570,22 +2795,23 @@
     <!-- Header with Single Line Navigation -->
     <header>
         <div class="container nav-container">
-            <a href="#" class="logo" onclick="showPage('home')">
+            <a href="#" class="logo" onclick="showPage('home', event)">
                 <i class="fas fa-gem"></i>
                 STC-REWARDS
             </a>
             
             <div class="main-nav">
                 <ul class="nav-links">
-                    <li><a href="#" onclick="showPage('home')" class="active">Home</a></li>
-                    <li><a href="#" onclick="showPage('dashboard')" id="dashboardLink">Dashboard</a></li>
-                    <li><a href="#" onclick="showPage('mining')">Mining</a></li>
-                    <li><a href="#" onclick="showPage('ads')">Watch Ads</a></li>
-                    <li><a href="#" onclick="showPage('referral')">Referral</a></li>
-                    <li><a href="#" onclick="showPage('withdrawalHistory')">Withdrawal History</a></li>
-                    <li><a href="#" onclick="showPage('token')">STC Token</a></li>
-                    <li><a href="#" onclick="showPage('posts')">STC Posts</a></li>
-                    <li><a href="#" onclick="showPage('dailyLogin')">Daily Login</a></li>
+                    <li><a href="#" onclick="showPage('home', event)" class="active">Home</a></li>
+                    <li><a href="#" onclick="showPage('dashboard', event)" id="dashboardLink">Dashboard</a></li>
+                    <li><a href="#" onclick="showPage('mining', event)">Mining</a></li>
+                    <li><a href="#" onclick="showPage('ads', event)">Watch Ads</a></li>
+                    <li><a href="#" onclick="showPage('spin', event)">Spin & Win</a></li>
+                    <li><a href="#" onclick="showPage('referral', event)">Referral</a></li>
+                    <li><a href="#" onclick="showPage('withdrawalHistory', event)">Withdrawal History</a></li>
+                    <li><a href="#" onclick="showPage('token', event)">STC Token</a></li>
+                    <li><a href="#" onclick="showPage('posts', event)">STC Posts</a></li>
+                    <li><a href="#" onclick="showPage('dailyLogin', event)">Daily Login</a></li>
                 </ul>
             </div>
             
@@ -2599,10 +2825,11 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="profile-menu">
-                        <a href="#" onclick="showPage('dashboard')"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                        <a href="#" onclick="showPage('withdrawalHistory')"><i class="fas fa-history"></i> Withdrawal History</a>
-                        <a href="#" onclick="showPage('posts')"><i class="fas fa-newspaper"></i> STC Posts</a>
-                        <a href="#" onclick="showPage('dailyLogin')"><i class="fas fa-calendar-check"></i> Daily Login</a>
+                        <a href="#" onclick="showPage('dashboard', event)"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                        <a href="#" onclick="showPage('spin', event)"><i class="fas fa-sync-alt"></i> Spin & Win</a>
+                        <a href="#" onclick="showPage('withdrawalHistory', event)"><i class="fas fa-history"></i> Withdrawal History</a>
+                        <a href="#" onclick="showPage('posts', event)"><i class="fas fa-newspaper"></i> STC Posts</a>
+                        <a href="#" onclick="showPage('dailyLogin', event)"><i class="fas fa-calendar-check"></i> Daily Login</a>
                         <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </div>
@@ -2616,7 +2843,7 @@
             <div class="container">
                 <div class="hero-content">
                     <h1>Earn STC Tokens & Crypto Rewards</h1>
-                    <p>Watch ads, mine STC tokens, refer friends and convert your earnings to cryptocurrency. Join thousands earning passive income daily. STC Token is a new project launching its first phase of mining!</p>
+                    <p>Watch ads, mine STC tokens, spin to win, refer friends and convert your earnings to cryptocurrency. Join thousands earning passive income daily. STC Token is a new project launching its first phase of mining!</p>
                     <button class="btn btn-mining pulse" onclick="startMiningFromHome()">
                         <i class="fas fa-play"></i> Start Mining STC
                     </button>
@@ -2627,7 +2854,7 @@
                             <div class="stat-label">Active Users</div>
                         </div>
                         <div class="stat-box floating" style="animation-delay: 0.5s;">
-                            <div class="stat-value price-fluctuation">$5.24<span class="market-indicator market-up">+4.8%</span></div>
+                            <div class="stat-value price-fluctuation">$5.31<span class="market-indicator market-up">+6.1%</span></div>
                             <div class="stat-label">STC Token Price</div>
                             <div class="price-note">Estimated $5, subject to market</div>
                         </div>
@@ -2664,17 +2891,17 @@
                     </div>
                     <div class="card">
                         <div class="feature-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h3>Spin & Win</h3>
+                        <p>Spin the wheel to win coins or STC tokens! Watch an ad to get a spin. Win up to 1000 coins or 50 STC!</p>
+                    </div>
+                    <div class="card">
+                        <div class="feature-icon">
                             <i class="fas fa-hard-hat"></i>
                         </div>
                         <h3>Mine STC Tokens</h3>
                         <p>Mine STC tokens in 6-hour sessions. Earn 12 STC per session. After mining completes, you'll receive your rewards.</p>
-                    </div>
-                    <div class="card">
-                        <div class="feature-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3>Refer Friends</h3>
-                        <p>Earn 50 STC tokens for each successful referral during launch. Your friend also gets 50 STC bonus with your code.</p>
                     </div>
                 </div>
                 
@@ -2685,7 +2912,7 @@
                     </div>
                     <h3>Daily Login Rewards</h3>
                     <p>Login every day to build your streak! Start with 2 STC + 50 coins on Day 1, increasing daily. After 30 days, earn 60 STC every day!</p>
-                    <button class="btn btn-primary" onclick="showPage('dailyLogin')" style="margin-top: 15px;">
+                    <button class="btn btn-primary" onclick="showPage('dailyLogin', event)" style="margin-top: 15px;">
                         <i class="fas fa-gift"></i> Start Your Streak
                     </button>
                 </div>
@@ -2719,7 +2946,7 @@
                         <p id="userEmail"></p>
                     </div>
                     <div>
-                        <button class="btn btn-secondary" onclick="showPage('withdrawalHistory')">
+                        <button class="btn btn-secondary" onclick="showPage('withdrawalHistory', event)">
                             <i class="fas fa-history"></i> Withdrawal History
                         </button>
                     </div>
@@ -2729,7 +2956,7 @@
                     <div class="card balance-card">
                         <div class="balance-label">STC Tokens</div>
                         <div class="balance-amount gradient-text" id="stcBalance">0</div>
-                        <div class="balance-value">≈ $<span id="stcValue">0</span> (<span id="stcPrice">5.24</span> per STC)</div>
+                        <div class="balance-value">≈ $<span id="stcValue">0</span> (<span id="stcPrice">5.31</span> per STC)</div>
                     </div>
                     <div class="card balance-card">
                         <div class="balance-label">Coins Balance</div>
@@ -2753,7 +2980,7 @@
                 <div class="card" style="margin-top: 30px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                         <h3 style="margin: 0;">Daily Login Streak</h3>
-                        <a href="#" onclick="showPage('dailyLogin')" style="color: var(--primary); font-size: 14px; text-decoration: none;">
+                        <a href="#" onclick="showPage('dailyLogin', event)" style="color: var(--primary); font-size: 14px; text-decoration: none;">
                             <i class="fas fa-external-link-alt"></i> View Details
                         </a>
                     </div>
@@ -2788,13 +3015,16 @@
                 <div style="margin: 30px 0;">
                     <h3 style="margin-bottom: 15px;">Quick Actions</h3>
                     <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                        <button class="btn btn-primary" onclick="showPage('mining')">
+                        <button class="btn btn-primary" onclick="showPage('mining', event)">
                             <i class="fas fa-play"></i> Start Mining
                         </button>
-                        <button class="btn btn-success" onclick="showPage('ads')">
+                        <button class="btn btn-success" onclick="showPage('ads', event)">
                             <i class="fas fa-ad"></i> Watch Ads
                         </button>
-                        <button class="btn btn-mining" onclick="showPage('referral')">
+                        <button class="btn btn-warning" onclick="showPage('spin', event)">
+                            <i class="fas fa-sync-alt"></i> Spin & Win
+                        </button>
+                        <button class="btn btn-mining" onclick="showPage('referral', event)">
                             <i class="fas fa-user-plus"></i> Refer Friends
                         </button>
                         <button class="btn btn-secondary" onclick="showWithdrawModal()">
@@ -2827,13 +3057,13 @@
                     <div class="card">
                         <h3 style="margin-bottom: 15px;">Mining Details</h3>
                         <div style="margin-bottom: 15px;">
-                            <h4>STC Token Price: <span class="price-fluctuation gradient-text">$5.24</span> <span class="market-indicator market-up">Live</span></h4>
+                            <h4>STC Token Price: <span class="price-fluctuation gradient-text">$5.31</span> <span class="market-indicator market-up">Live</span></h4>
                             <p style="color: #94a3b8; margin-top: 5px; font-size: 13px;">Estimated price: $5, subject to market conditions</p>
                         </div>
                         <div style="margin-bottom: 15px;">
                             <h4>Mining Rewards</h4>
                             <p style="color: #94a3b8; margin-top: 5px; font-size: 13px;">12 STC per 6-hour session</p>
-                            <p style="color: var(--success); font-size: 13px; margin-top: 3px;">≈ $62.88 per session at current price</p>
+                            <p style="color: var(--success); font-size: 13px; margin-top: 3px;">≈ $63.72 per session at current price</p>
                         </div>
                         <div style="margin-bottom: 15px;">
                             <h4>Referral Mining Bonus</h4>
@@ -2857,13 +3087,6 @@
             <div class="container">
                 <h2 class="section-title">Watch Ads & Earn Coins</h2>
                 <p style="text-align: center; margin-bottom: 30px; color: #94a3b8;">Watch ads and earn 10-25 coins. 5000 coins = $1 USD.</p>
-                
-                <!-- Harder to Earn Notice -->
-                <div class="hard-earn-notice">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <strong>Real Money Value:</strong> Earning coins is harder as they represent real monetary value. 
-                    5000 coins = $1 USD. This ensures sustainable rewards for all users.
-                </div>
                 
                 <div class="ads-grid">
                     <div class="card ad-card">
@@ -2920,6 +3143,113 @@
                         <button class="btn btn-primary" onclick="showWithdrawModal()">
                             <i class="fas fa-wallet"></i> Withdraw Funds
                         </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- NEW: Spin & Win Page -->
+    <div id="spin" class="page">
+        <section class="spin-section">
+            <div class="container">
+                <h2 class="section-title">Spin & Win Coins & STC Tokens!</h2>
+                <p style="text-align: center; margin-bottom: 30px; color: #94a3b8;">Watch an ad to spin the wheel and win coins or STC tokens! 40% chance for coins, 60% chance for STC tokens.</p>
+                
+                <div class="wheel-container">
+                    <div class="wheel-wrapper">
+                        <div class="wheel" id="wheel"></div>
+                        <div class="wheel-pointer">
+                            <i class="fas fa-caret-down"></i>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn btn-mining" id="spinButton" onclick="startSpinAd()" style="font-size: 18px; padding: 18px 40px;">
+                            <i class="fas fa-sync-alt"></i> Watch Ad to Spin (30s)
+                        </button>
+                    </div>
+                    
+                    <!-- Spin Cooldown Notice -->
+                    <div class="spin-cooldown" id="spinCooldown">
+                        <i class="fas fa-clock"></i>
+                        <h4>Spin on Cooldown</h4>
+                        <p>You can spin again in:</p>
+                        <div class="cooldown-timer" id="cooldownTimer">00:00</div>
+                        <p style="font-size: 12px; color: #94a3b8;">Each spin requires watching a 30-second ad</p>
+                    </div>
+                    
+                    <!-- Spin Stats -->
+                    <div class="spin-stats">
+                        <div class="spin-stat">
+                            <div class="spin-stat-value" id="spinsToday">0</div>
+                            <div class="spin-stat-label">Spins Today</div>
+                        </div>
+                        <div class="spin-stat">
+                            <div class="spin-stat-value" id="totalSpins">0</div>
+                            <div class="spin-stat-label">Total Spins</div>
+                        </div>
+                        <div class="spin-stat">
+                            <div class="spin-stat-value" id="totalWon">0</div>
+                            <div class="spin-stat-label">Total Won</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Prizes Information -->
+                <div class="card" style="margin-top: 40px;">
+                    <h3 style="text-align: center; margin-bottom: 20px;">Prizes Distribution</h3>
+                    
+                    <h4 style="margin-bottom: 15px; color: var(--warning);">Coin Prizes (40% Chance)</h4>
+                    <div class="spin-prizes">
+                        <div class="prize-item">
+                            <div class="prize-amount">3 Coins</div>
+                            <div class="prize-type">Coins</div>
+                            <div class="prize-probability">15% Chance</div>
+                        </div>
+                        <div class="prize-item">
+                            <div class="prize-amount">5 Coins</div>
+                            <div class="prize-type">Coins</div>
+                            <div class="prize-probability">15% Chance</div>
+                        </div>
+                        <div class="prize-item">
+                            <div class="prize-amount">10 Coins</div>
+                            <div class="prize-type">Coins</div>
+                            <div class="prize-probability">15% Chance</div>
+                        </div>
+                        <div class="prize-item">
+                            <div class="prize-amount">1000 Coins</div>
+                            <div class="prize-type">Coins</div>
+                            <div class="prize-probability">0.0001% Chance</div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin: 25px 0 15px; color: var(--primary);">STC Token Prizes (60% Chance)</h4>
+                    <div class="spin-prizes">
+                        <div class="prize-item">
+                            <div class="prize-amount">5 STC</div>
+                            <div class="prize-type">STC Tokens</div>
+                            <div class="prize-probability">15% Chance</div>
+                        </div>
+                        <div class="prize-item">
+                            <div class="prize-amount">15 STC</div>
+                            <div class="prize-type">STC Tokens</div>
+                            <div class="prize-probability">15% Chance</div>
+                        </div>
+                        <div class="prize-item">
+                            <div class="prize-amount">25 STC</div>
+                            <div class="prize-type">STC Tokens</div>
+                            <div class="prize-probability">15% Chance</div>
+                        </div>
+                        <div class="prize-item">
+                            <div class="prize-amount">50 STC</div>
+                            <div class="prize-type">STC Tokens</div>
+                            <div class="prize-probability">15% Chance</div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-message" style="margin-top: 20px;">
+                        <i class="fas fa-info-circle"></i> Each spin requires watching a 30-second ad. Maximum 10 spins per day. Good luck!
                     </div>
                 </div>
             </div>
@@ -3053,7 +3383,7 @@
                         <div class="referral-stat">
                             <div class="referral-stat-value gradient-text" id="refEarnings">0</div>
                             <div class="referral-stat-label">STC Earned</div>
-                            <div style="color: #94a3b8; font-size: 12px; margin-top: 5px;">≈ $<span id="refEarningsValue">0</span> at $5.24/STC</div>
+                            <div style="color: #94a3b8; font-size: 12px; margin-top: 5px;">≈ $<span id="refEarningsValue">0</span> at $5.31/STC</div>
                         </div>
                         <div class="referral-stat">
                             <div class="referral-stat-value gradient-text" id="miningBonus">0</div>
@@ -3144,7 +3474,7 @@
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
                             <div>
                                 <h3 style="margin-bottom: 12px;">STC Token Price</h3>
-                                <p style="font-size: 42px; color: var(--success); font-weight: 700;" class="price-fluctuation">$5.24</p>
+                                <p style="font-size: 42px; color: var(--success); font-weight: 700;" class="price-fluctuation">$5.31</p>
                                 <p style="color: #94a3b8; font-size: 13px;">Estimated $5, subject to market conditions</p>
                                 <p style="color: var(--warning); font-size: 12px; margin-top: 5px;"><i class="fas fa-chart-line"></i> Price fluctuates based on market</p>
                             </div>
@@ -3187,10 +3517,10 @@
                             <ul class="attractive-ul warning">
                                 <li>Special mining rewards during first phase</li>
                                 <li>Increased referral bonuses (50 STC per referral)</li>
+                                <li>Spin & Win feature with coins and STC rewards</li>
                                 <li>Early adopter benefits</li>
                                 <li>Progressive price discovery</li>
                                 <li>Multiple withdrawal options (Crypto & Bank)</li>
-                                <li>Real monetary value for coins (5000 coins = $1)</li>
                             </ul>
                             
                             <h3>Withdrawal Options:</h3>
@@ -3228,9 +3558,9 @@
                                 <li><strong>Withdrawal Options:</strong> Multiple cryptocurrency and bank options</li>
                             </ul>
                             
-                            <h3>4. Economic Model - Real Monetary Value</h3>
+                            <h3>4. Economic Model</h3>
                             <ul class="attractive-ul warning">
-                                <li><strong>Coin Value:</strong> 5000 coins = $1 USD (Real monetary value)</li>
+                                <li><strong>Coin Value:</strong> 5000 coins = $1 USD</li>
                                 <li><strong>Minimum Withdrawal:</strong> 25000 coins = $5 USD</li>
                                 <li><strong>STC Price:</strong> Estimated $5, fluctuates with market</li>
                                 <li><strong>Supply Control:</strong> Total Supply: 100,000,000 STC</li>
@@ -3274,11 +3604,11 @@
                                         <li>✓ Platform development and testing</li>
                                         <li>✓ STC token implementation</li>
                                         <li>✓ First phase mining functionality</li>
+                                        <li>✓ Spin & Win feature added</li>
                                         <li>✓ Ad watching rewards system</li>
                                         <li>✓ Referral program setup with launch bonuses</li>
                                         <li>✓ Initial price discovery ($5 estimated)</li>
                                         <li>✓ Multiple withdrawal options integration</li>
-                                        <li>✓ Real monetary value implementation (5000 coins = $1)</li>
                                     </ul>
                                 </div>
                                 
@@ -3376,12 +3706,12 @@
                             </div>
                             
                             <div style="background: rgba(99, 102, 241, 0.1); padding: 20px; border-radius: 10px; margin-top: 20px;">
-                                <h3 style="margin-bottom: 10px;">Real Monetary Value System</h3>
+                                <h3 style="margin-bottom: 10px;">Coin Value System</h3>
                                 <ul class="attractive-ul success">
-                                    <li><strong>Coin Value:</strong> 5000 coins = $1 USD (Real money)</li>
+                                    <li><strong>Coin Value:</strong> 5000 coins = $1 USD</li>
                                     <li><strong>Minimum Withdrawal:</strong> $5 USD (25000 coins)</li>
                                     <li><strong>STC Token Price:</strong> Estimated $5 (fluctuates with market)</li>
-                                    <li><strong>Earning Difficulty:</strong> Harder to earn as it's real monetary value</li>
+                                    <li><strong>Earning Methods:</strong> Ads, Mining, Spin & Win, Referrals</li>
                                     <li><strong>Sustainability:</strong> Ensures long-term platform sustainability</li>
                                     <li><strong>Withdrawal Options:</strong> Multiple methods available</li>
                                     <li><strong>Processing Fees:</strong> Minimal fees for sustainability</li>
@@ -3454,15 +3784,15 @@
                     <div class="card post-card">
                         <div class="post-date">2026-01-05</div>
                         <div class="post-image">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-sync-alt"></i>
                         </div>
                         <div class="post-content">
-                            <h3>Enhanced Referral Program</h3>
-                            <p>We've upgraded our referral program! Now earn 50 STC per referral PLUS 10% of their mining rewards forever. Build your passive income network today.</p>
+                            <h3>New Spin & Win Feature Added</h3>
+                            <p>Introducing our new Spin & Win feature! Watch ads to spin the wheel and win coins or STC tokens. 40% chance for coins, 60% chance for STC tokens with exciting prizes!</p>
                             <div class="post-tags">
-                                <span class="post-tag">Referral</span>
-                                <span class="post-tag">Bonus</span>
-                                <span class="post-tag">Earnings</span>
+                                <span class="post-tag">Spin</span>
+                                <span class="post-tag">Win</span>
+                                <span class="post-tag">New Feature</span>
                             </div>
                         </div>
                     </div>
@@ -3583,7 +3913,7 @@
                         <ul class="attractive-ul success" style="text-align: left;">
                             <li><strong>Every Day:</strong> Get 50 coins (worth $0.01)</li>
                             <li><strong>STC Reward:</strong> Starts at 2 STC, increases by 2 each day</li>
-                            <li><strong>Day 30+:</strong> Earn 60 STC daily (worth ≈ $314 at $5.24/STC)</li>
+                            <li><strong>Day 30+:</strong> Earn 60 STC daily (worth ≈ $318.6 at $5.31/STC)</li>
                             <li><strong>Break Streak:</strong> If you miss a day, reset to Day 1</li>
                             <li><strong>24-Hour Window:</strong> Login within 24 hours to maintain streak</li>
                         </ul>
@@ -3832,8 +4162,27 @@
                 <div style="color: #94a3b8; margin-top: 5px;">Come back tomorrow for more!</div>
             </div>
             
-            <button class="btn btn-primary" onclick="closeModal('streakRewardModal'); showPage('dashboard');" style="width: 100%;">
+            <button class="btn btn-primary" onclick="closeModal('streakRewardModal'); showPage('dashboard', event);" style="width: 100%;">
                 <i class="fas fa-check"></i> Awesome!
+            </button>
+        </div>
+    </div>
+
+    <!-- Wheel Result Modal -->
+    <div id="wheelResultModal" class="modal">
+        <div class="modal-content wheel-result-modal">
+            <button class="close-modal" onclick="closeModal('wheelResultModal')">&times;</button>
+            <div class="result-celebration">
+                <i class="fas fa-gift"></i>
+            </div>
+            <h2 class="form-title">Congratulations!</h2>
+            
+            <div id="wheelResultContent">
+                <!-- Content will be filled by JavaScript -->
+            </div>
+            
+            <button class="btn btn-primary" onclick="closeModal('wheelResultModal')" style="width: 100%; margin-top: 20px;">
+                <i class="fas fa-check"></i> Continue
             </button>
         </div>
     </div>
@@ -3841,9 +4190,9 @@
     <!-- Ad Timer Modal -->
     <div id="adTimerModal" class="modal">
         <div class="modal-content" style="max-width: 500px;">
-            <h2 class="form-title">Ad in Progress</h2>
+            <h2 class="form-title" id="adTimerTitle">Ad in Progress</h2>
             
-            <div class="ad-timer-notice">
+            <div class="ad-timer-notice" id="adTimerNotice">
                 <i class="fas fa-external-link-alt"></i>
                 The ad has been opened in a new tab. Please watch it completely and return to this page to receive your reward.
             </div>
@@ -3852,7 +4201,7 @@
                 <div style="font-size: 48px; color: var(--warning);">
                     <i class="fas fa-clock"></i>
                 </div>
-                <div style="font-size: 18px; color: var(--light); margin-top: 15px;">Please return after watching the ad</div>
+                <div style="font-size: 18px; color: var(--light); margin-top: 15px;" id="adTimerMessage">Please return after watching the ad</div>
                 <div class="return-timer" id="returnTimer">30</div>
                 <div style="color: #94a3b8; font-size: 14px;">seconds remaining</div>
             </div>
@@ -3880,24 +4229,25 @@
                         <i class="fas fa-gem"></i>
                         STC-REWARDS
                     </div>
-                    <p style="color: #94a3b8; max-width: 280px; font-size: 13px;">Earn cryptocurrency through ads, mining, and referrals. Join the 2026 launch of STC Token today.</p>
+                    <p style="color: #94a3b8; max-width: 280px; font-size: 13px;">Earn cryptocurrency through ads, mining, spin & win, and referrals. Join the 2026 launch of STC Token today.</p>
                 </div>
                 <div class="footer-links">
                     <h4>Platform</h4>
                     <ul>
-                        <li><a href="#" onclick="showPage('home')">Home</a></li>
-                        <li><a href="#" onclick="showPage('mining')">Mining</a></li>
-                        <li><a href="#" onclick="showPage('ads')">Watch Ads</a></li>
-                        <li><a href="#" onclick="showPage('referral')">Referral</a></li>
+                        <li><a href="#" onclick="showPage('home', event)">Home</a></li>
+                        <li><a href="#" onclick="showPage('mining', event)">Mining</a></li>
+                        <li><a href="#" onclick="showPage('ads', event)">Watch Ads</a></li>
+                        <li><a href="#" onclick="showPage('spin', event)">Spin & Win</a></li>
+                        <li><a href="#" onclick="showPage('referral', event)">Referral</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
                     <h4>Resources</h4>
                     <ul>
-                        <li><a href="#" onclick="showPage('token'); setTimeout(() => showTokenTab('whitepaper'), 100);">White Paper</a></li>
-                        <li><a href="#" onclick="showPage('token'); setTimeout(() => showTokenTab('roadmap'), 100);">Road Map</a></li>
-                        <li><a href="#" onclick="showPage('posts')">STC Posts</a></li>
-                        <li><a href="#" onclick="showPage('dailyLogin')">Daily Login</a></li>
+                        <li><a href="#" onclick="showPage('token', event); setTimeout(() => showTokenTab('whitepaper'), 100);">White Paper</a></li>
+                        <li><a href="#" onclick="showPage('token', event); setTimeout(() => showTokenTab('roadmap'), 100);">Road Map</a></li>
+                        <li><a href="#" onclick="showPage('posts', event)">STC Posts</a></li>
+                        <li><a href="#" onclick="showPage('dailyLogin', event)">Daily Login</a></li>
                         <li><a href="#" onclick="showAuthModal('login')">Login</a></li>
                         <li><a href="#" onclick="showAuthModal('signup')">Sign Up</a></li>
                     </ul>
@@ -3941,7 +4291,7 @@
             console.log("Firebase initialization error:", error);
         }
 
-        // UPDATED User data structure with referral mining bonus
+        // UPDATED User data structure with Spin & Win
         let user = {
             uid: null,
             loggedIn: false,
@@ -3953,8 +4303,8 @@
             usdt: 0,
             referrals: 0,
             referralCode: "",
-            referredBy: null, // NEW: Track who referred this user
-            referrerBonus: 0, // NEW: Total mining bonus earned from referrals
+            referredBy: null,
+            referrerBonus: 0,
             totalMined: 0,
             mining: false,
             miningStartTime: null,
@@ -3969,19 +4319,60 @@
                 streakHistory: [],
                 totalDaysLogged: 0,
                 highestStreak: 0
+            },
+            // NEW: Spin & Win Fields
+            spinData: {
+                spinsToday: 0,
+                totalSpins: 0,
+                totalWonCoins: 0,
+                totalWonSTC: 0,
+                lastSpinTime: null,
+                maxSpinsPerDay: 10,
+                spinCooldown: 0 // in seconds
             }
         };
 
-        // STC Token price variables
-        let stcPrice = 5.24;
+        // STC Token price variables - UPDATED TO $5.31
+        let stcPrice = 5.31;
         let priceFluctuationInterval = null;
 
-        // Stats variables - UPDATED for slower miner count changes
+        // Stats variables - SLOWED DOWN SIGNIFICANTLY
         let activeUsers = 1000;
         let totalWithdrawn = 12075;
-        let activeMiners = 950; // Start at 950
+        let activeMiners = 950;
         let lastMinersUpdate = Date.now();
         const MINERS_UPDATE_INTERVAL = 120000; // 2 minutes in milliseconds
+
+        // AD URLs - YOUR 6 AD LINKS
+        const adUrls = [
+            "https://otieu.com/4/10584090",
+            "https://otieu.com/4/10584092",
+            "https://otieu.com/4/10584093",
+            "https://otieu.com/4/10546347",
+            "https://otieu.com/4/10536264",
+            "https://otieu.com/4/10536238"
+        ];
+
+        // NEW: Spin wheel prizes with probabilities
+        const spinPrizes = [
+            // Coins prizes (40% total probability)
+            { type: 'coins', amount: 3, probability: 15 },      // 15% of total
+            { type: 'coins', amount: 5, probability: 15 },      // 15% of total
+            { type: 'coins', amount: 10, probability: 15 },     // 15% of total
+            { type: 'coins', amount: 1000, probability: 0.0001 }, // 0.0001% of total
+            
+            // STC prizes (60% total probability)
+            { type: 'stc', amount: 5, probability: 15 },        // 15% of total
+            { type: 'stc', amount: 15, probability: 15 },       // 15% of total
+            { type: 'stc', amount: 25, probability: 15 },       // 15% of total
+            { type: 'stc', amount: 50, probability: 15 }        // 15% of total
+        ];
+
+        // Wheel segment colors
+        const wheelColors = [
+            '#FF6B6B', '#4ECDC4', '#FFD166', '#06D6A0',
+            '#118AB2', '#073B4C', '#EF476F', '#FFD166'
+        ];
 
         // DOM elements
         let currentModal = null;
@@ -3992,19 +4383,16 @@
         let selectedWithdrawalMethod = 'usdt';
         let withdrawalFee = 1;
         let dailyLoginCheckInterval = null;
-        let adTimerInterval = null; // For ad timer modal
-        let currentAdButton = null; // Store current ad button info
-        let currentAdDuration = 30; // Default ad duration in seconds
-
-        // AD URLs - YOUR 6 AD LINKS ADDED HERE
-        const adUrls = [
-            "https://otieu.com/4/10584090",
-            "https://otieu.com/4/10584092",
-            "https://otieu.com/4/10584093",
-            "https://otieu.com/4/10546347",
-            "https://otieu.com/4/10536264",
-            "https://otieu.com/4/10536238"
-        ];
+        let adTimerInterval = null;
+        let currentAdButton = null;
+        let currentAdDuration = 30;
+        let currentAdType = ''; // 'spin' or 'mining' or 'ad'
+        
+        // NEW: Spin wheel variables
+        let wheelSpinning = false;
+        let wheelAngle = 0;
+        let selectedPrizeIndex = 0;
+        let spinCooldownInterval = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -4012,8 +4400,8 @@
             setupEventListeners();
             updateUI();
             
-            // Update stats periodically
-            setInterval(updateStats, 5000);
+            // Update stats periodically - SLOWED DOWN to 10 seconds
+            setInterval(updateStats, 10000);
             
             // Set current date as max for date input
             const today = new Date().toISOString().split('T')[0];
@@ -4051,235 +4439,174 @@
             
             // Create particles effect
             createParticles('referral');
+            
+            // NEW: Initialize Spin Wheel
+            createSpinWheel();
+            
+            // NEW: Check spin cooldown on load
+            checkSpinCooldown();
         });
 
-        // NEW: Create particle effect for referral section
-        function createParticles(containerId, count = 20) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
+        // NEW: Create spin wheel
+        function createSpinWheel() {
+            const wheel = document.getElementById('wheel');
+            if (!wheel) return;
             
-            // Remove existing particles
-            const existingParticles = container.querySelectorAll('.particle');
-            existingParticles.forEach(p => p.remove());
+            wheel.innerHTML = '';
             
-            for (let i = 0; i < count; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
+            // Create 8 segments
+            for (let i = 0; i < 8; i++) {
+                const segment = document.createElement('div');
+                segment.className = 'wheel-segment';
+                segment.style.transform = `rotate(${i * 45}deg)`;
+                segment.style.backgroundColor = wheelColors[i];
                 
-                // Random size and position
-                const size = Math.random() * 20 + 5;
-                const x = Math.random() * 100;
-                const y = Math.random() * 100;
-                const duration = Math.random() * 20 + 10;
-                const delay = Math.random() * 5;
+                const content = document.createElement('div');
+                content.className = 'segment-content';
                 
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${x}%`;
-                particle.style.top = `${y}%`;
-                particle.style.animation = `floating ${duration}s ease-in-out ${delay}s infinite`;
-                particle.style.opacity = Math.random() * 0.5 + 0.3;
-                
-                container.appendChild(particle);
-            }
-        }
-
-        // NEW: Show/Hide referral code entry section
-        function toggleReferralEntrySection() {
-            const section = document.getElementById('enterReferralSection');
-            if (user.loggedIn && !user.referredBy) {
-                section.style.display = 'block';
-            } else {
-                section.style.display = 'none';
-            }
-        }
-
-        // NEW: Apply referral code
-        function applyReferralCode() {
-            if (!user.loggedIn) {
-                showNotification('Please login to apply referral code', 'warning');
-                showAuthModal('login');
-                return;
-            }
-            
-            if (user.referredBy) {
-                showNotification('You have already used a referral code', 'info');
-                return;
-            }
-            
-            const codeInput = document.getElementById('enterReferralInput');
-            const code = codeInput.value.trim();
-            const successMessage = document.getElementById('referralSuccessMessage');
-            const messageText = document.getElementById('successMessageText');
-            
-            if (!code) {
-                showNotification('Please enter a referral code', 'error');
-                return;
-            }
-            
-            // Validate referral code format
-            if (!code.match(/^STC-[A-Z0-9]{6}$/i)) {
-                showNotification('Invalid referral code format. Should be STC- followed by 6 characters/numbers', 'error');
-                return;
-            }
-            
-            // Simulate API call to validate and apply referral code
-            showNotification('Applying referral code...', 'info');
-            
-            setTimeout(() => {
-                // Success - give 50 STC bonus (LAUNCH BONUS)
-                user.referredBy = code;
-                user.stc += 50;
-                
-                // Save data
-                saveUserData();
-                updateUI();
-                
-                // Show success message
-                messageText.textContent = 'Success! 50 STC bonus added to your account!';
-                successMessage.style.display = 'block';
-                
-                // Clear input
-                codeInput.value = '';
-                
-                // Hide the section after success
-                setTimeout(() => {
-                    document.getElementById('enterReferralSection').style.display = 'none';
-                }, 3000);
-                
-                showNotification('Referral code applied successfully! 50 STC bonus added to your account.', 'success');
-                
-                // Update referral stats
-                updateReferralStats();
-            }, 1500);
-        }
-
-        // NEW: Update referral stats
-        function updateReferralStats() {
-            const progressCircle = document.getElementById('referralProgressCircle');
-            const progressText = document.getElementById('referralProgressText');
-            
-            // Calculate progress to next tier (6 referrals = Pro tier)
-            const progress = Math.min((user.referrals / 6) * 100, 100);
-            
-            if (progressCircle) {
-                // Circle progress calculation
-                const circumference = 2 * Math.PI * 45;
-                const offset = circumference - (progress / 100) * circumference;
-                progressCircle.style.strokeDashoffset = offset;
-            }
-            
-            if (progressText) {
-                progressText.textContent = `${Math.round(progress)}%`;
-            }
-            
-            // Update tier display
-            updateTierDisplay();
-        }
-
-        // NEW: Update tier display based on referral count
-        function updateTierDisplay() {
-            const tierCards = document.querySelectorAll('.tier-card');
-            
-            tierCards.forEach(card => {
-                card.classList.remove('active');
-            });
-            
-            if (user.referrals >= 21) {
-                document.querySelector('.tier-card.elite').classList.add('active');
-            } else if (user.referrals >= 6) {
-                document.querySelector('.tier-card.pro').classList.add('active');
-            } else {
-                document.querySelector('.tier-card.basic').classList.add('active');
-            }
-        }
-
-        // NEW: Share referral link
-        function shareReferralLink() {
-            const referralLink = document.getElementById('referralLink').value;
-            
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Join STC-REWARDS and earn STC tokens!',
-                    text: 'Sign up with my referral code to get 50 STC bonus!',
-                    url: referralLink
-                })
-                .then(() => showNotification('Referral link shared successfully!'))
-                .catch(err => {
-                    console.log('Error sharing:', err);
-                    copyReferralLink();
-                });
-            } else {
-                copyReferralLink();
-            }
-        }
-
-        // NEW: Animate counter numbers
-        function animateCounter(elementId, targetValue, duration = 2000) {
-            const element = document.getElementById(elementId);
-            if (!element) return;
-            
-            const currentText = element.textContent;
-            const startValue = parseInt(currentText.replace(/[^0-9]/g, '')) || 0;
-            const increment = (targetValue - startValue) / (duration / 16);
-            let current = startValue;
-            
-            const timer = setInterval(() => {
-                current += increment;
-                if ((increment > 0 && current >= targetValue) || (increment < 0 && current <= targetValue)) {
-                    current = targetValue;
-                    clearInterval(timer);
-                    element.classList.remove('animate');
+                const prize = spinPrizes[i];
+                if (prize.type === 'coins') {
+                    content.innerHTML = `<div class="segment-coin">${prize.amount} Coins</div>`;
+                } else {
+                    content.innerHTML = `<div class="segment-stc">${prize.amount} STC</div>`;
                 }
                 
-                element.textContent = Math.floor(current).toLocaleString();
-                element.classList.add('animate');
-            }, 16);
+                segment.appendChild(content);
+                wheel.appendChild(segment);
+            }
         }
 
-        // NEW: Open ad directly in new tab
-        function openAdDirectly(button) {
-            if (!user.loggedIn) {
-                showAuthModal('login');
-                return;
+        // NEW: Spin the wheel
+        function spinWheel() {
+            if (wheelSpinning) return;
+            
+            // Check if user can spin
+            if (!checkCanSpin()) return;
+            
+            wheelSpinning = true;
+            
+            // Select random prize based on probabilities
+            const totalProbability = spinPrizes.reduce((sum, prize) => sum + prize.probability, 0);
+            let random = Math.random() * totalProbability;
+            let cumulative = 0;
+            
+            for (let i = 0; i < spinPrizes.length; i++) {
+                cumulative += spinPrizes[i].probability;
+                if (random <= cumulative) {
+                    selectedPrizeIndex = i;
+                    break;
+                }
             }
             
-            if (button.disabled) return;
+            // Calculate spin angle (multiple full rotations + segment angle)
+            const fullRotations = 5;
+            const segmentAngle = 45; // 360 / 8 segments
+            const targetAngle = fullRotations * 360 + (selectedPrizeIndex * segmentAngle) + (segmentAngle / 2);
             
-            // Get ad parameters
-            const min = parseInt(button.getAttribute('data-min'));
-            const max = parseInt(button.getAttribute('data-max'));
+            // Apply spin animation
+            const wheel = document.getElementById('wheel');
+            wheel.style.transform = `rotate(${targetAngle}deg)`;
             
-            // Store the button data for later use
+            // Disable spin button during animation
+            const spinBtn = document.getElementById('spinButton');
+            spinBtn.disabled = true;
+            spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Spinning...';
+            
+            // Update spin stats
+            user.spinData.spinsToday++;
+            user.spinData.totalSpins++;
+            user.spinData.lastSpinTime = Date.now();
+            
+            // Wait for animation to complete
+            setTimeout(() => {
+                wheelSpinning = false;
+                
+                // Give prize to user
+                const prize = spinPrizes[selectedPrizeIndex];
+                if (prize.type === 'coins') {
+                    user.coins += prize.amount;
+                    user.spinData.totalWonCoins += prize.amount;
+                } else {
+                    user.stc += prize.amount;
+                    user.spinData.totalWonSTC += prize.amount;
+                }
+                
+                // Save user data
+                saveUserData();
+                updateUI();
+                updateSpinStats();
+                
+                // Show result modal
+                showWheelResult(prize);
+                
+                // Reset spin button
+                spinBtn.disabled = false;
+                spinBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Watch Ad to Spin (30s)';
+                
+                // Start cooldown
+                startSpinCooldown();
+            }, 5000); // Match CSS transition duration
+        }
+
+        // NEW: Check if user can spin
+        function checkCanSpin() {
+            if (!user.loggedIn) {
+                showNotification('Please login to spin the wheel', 'warning');
+                showAuthModal('login');
+                return false;
+            }
+            
+            if (user.spinData.spinsToday >= user.spinData.maxSpinsPerDay) {
+                showNotification('Maximum spins reached for today. Come back tomorrow!', 'warning');
+                return false;
+            }
+            
+            if (user.spinData.spinCooldown > 0) {
+                showNotification(`Please wait ${user.spinData.spinCooldown} seconds before spinning again`, 'warning');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // NEW: Start spin ad (opens ad before spinning)
+        function startSpinAd() {
+            if (!checkCanSpin()) return;
+            
+            // Store spin button info
             currentAdButton = {
-                element: button,
-                min: min,
-                max: max,
-                originalText: button.innerHTML,
-                duration: button.innerHTML.includes('45s') ? 45 : 
-                         button.innerHTML.includes('60s') ? 60 : 90
+                element: document.getElementById('spinButton'),
+                originalText: document.getElementById('spinButton').innerHTML,
+                duration: 30,
+                isSpinAd: true
             };
+            
+            // Disable spin button
+            const spinBtn = document.getElementById('spinButton');
+            spinBtn.disabled = true;
+            spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening Ad...';
             
             // Select a random ad from the list
             const randomAdIndex = Math.floor(Math.random() * adUrls.length);
             const selectedAdUrl = adUrls[randomAdIndex];
             
-            // Disable the button and change text
-            button.disabled = true;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening Ad...';
-            
             // Open ad in new tab
             window.open(selectedAdUrl, '_blank');
             
-            // Show timer modal
-            showAdTimerModal(currentAdButton.duration);
+            // Show timer modal for spin
+            showSpinAdTimerModal(30);
         }
 
-        // NEW: Show ad timer modal
-        function showAdTimerModal(duration) {
+        // NEW: Show spin ad timer modal
+        function showSpinAdTimerModal(duration) {
             currentAdDuration = duration;
+            currentAdType = 'spin';
+            
             document.getElementById('returnTimer').textContent = duration;
             document.getElementById('adTimerProgressBar').style.width = '0%';
+            document.getElementById('adTimerTitle').textContent = 'Watch Ad to Spin Wheel';
+            document.getElementById('adTimerMessage').textContent = 'Watch the ad to spin the wheel and win coins or STC tokens!';
+            document.getElementById('adTimerNotice').innerHTML = '<i class="fas fa-sync-alt"></i> Watch the ad to spin the wheel and win coins or STC tokens!';
             
             // Show modal
             showModal('adTimerModal');
@@ -4295,42 +4622,130 @@
                 if (countdown <= 0) {
                     clearInterval(adTimerInterval);
                     // Auto-complete after timer ends
-                    completeAdAfterTimer();
+                    completeSpinAdAfterTimer();
                 }
             }, 1000);
         }
 
-        // NEW: Complete ad after timer
-        function completeAdAfterTimer() {
+        // NEW: Complete spin ad after timer
+        function completeSpinAdAfterTimer() {
             if (!currentAdButton) return;
             
-            // Calculate coins earned
-            const min = currentAdButton.min;
-            const max = currentAdButton.max;
-            const coins = Math.floor(Math.random() * (max - min + 1)) + min;
-            
-            // Add coins to user balance
-            user.coins += coins;
-            
-            // Save data
-            saveUserData();
-            updateUI();
-            
-            // Reset button
-            currentAdButton.element.disabled = false;
-            currentAdButton.element.innerHTML = currentAdButton.originalText;
+            // Spin the wheel
+            spinWheel();
             
             // Close modal
             closeModal('adTimerModal');
-            
-            // Show notification
-            showNotification(`You earned ${coins} coins! (5000 coins = $1)`);
             
             // Reset current ad button
             currentAdButton = null;
         }
 
-        // NEW: Complete ad manually (when user clicks "I Watched the Ad")
+        // NEW: Show wheel result modal
+        function showWheelResult(prize) {
+            const modalContent = document.getElementById('wheelResultContent');
+            
+            let resultHTML = '';
+            if (prize.type === 'coins') {
+                resultHTML = `
+                    <div style="margin: 20px 0; padding: 20px; background: rgba(245, 158, 11, 0.1); border-radius: 10px;">
+                        <div class="result-amount">${prize.amount} Coins</div>
+                        <div class="result-type">Coin Prize</div>
+                        <div style="color: #94a3b8; font-size: 14px;">≈ $${(prize.amount / 5000).toFixed(4)} USD</div>
+                    </div>
+                    <div class="result-message">
+                        <i class="fas fa-coins"></i> ${prize.amount} coins have been added to your balance. Keep spinning for more rewards!
+                    </div>
+                `;
+            } else {
+                resultHTML = `
+                    <div style="margin: 20px 0; padding: 20px; background: rgba(99, 102, 241, 0.1); border-radius: 10px;">
+                        <div class="result-amount">${prize.amount} STC</div>
+                        <div class="result-type">STC Token Prize</div>
+                        <div style="color: #94a3b8; font-size: 14px;">≈ $${(prize.amount * stcPrice).toFixed(2)} USD</div>
+                    </div>
+                    <div class="result-message">
+                        <i class="fas fa-gem"></i> ${prize.amount} STC tokens have been added to your balance. Great win!
+                    </div>
+                `;
+            }
+            
+            modalContent.innerHTML = resultHTML;
+            showModal('wheelResultModal');
+        }
+
+        // NEW: Start spin cooldown
+        function startSpinCooldown() {
+            user.spinData.spinCooldown = 30; // 30 seconds cooldown
+            
+            // Show cooldown notice
+            const cooldownElement = document.getElementById('spinCooldown');
+            const cooldownTimer = document.getElementById('cooldownTimer');
+            const spinBtn = document.getElementById('spinButton');
+            
+            cooldownElement.style.display = 'block';
+            spinBtn.style.display = 'none';
+            
+            // Update cooldown timer
+            updateSpinCooldownDisplay();
+            
+            // Start cooldown interval
+            if (spinCooldownInterval) {
+                clearInterval(spinCooldownInterval);
+            }
+            
+            spinCooldownInterval = setInterval(() => {
+                user.spinData.spinCooldown--;
+                updateSpinCooldownDisplay();
+                
+                if (user.spinData.spinCooldown <= 0) {
+                    clearInterval(spinCooldownInterval);
+                    cooldownElement.style.display = 'none';
+                    spinBtn.style.display = 'inline-flex';
+                    saveUserData();
+                }
+            }, 1000);
+        }
+
+        // NEW: Check spin cooldown on load
+        function checkSpinCooldown() {
+            if (user.spinData.spinCooldown > 0) {
+                startSpinCooldown();
+            }
+        }
+
+        // NEW: Update spin cooldown display
+        function updateSpinCooldownDisplay() {
+            const cooldownTimer = document.getElementById('cooldownTimer');
+            if (cooldownTimer) {
+                const minutes = Math.floor(user.spinData.spinCooldown / 60);
+                const seconds = user.spinData.spinCooldown % 60;
+                cooldownTimer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        // NEW: Update spin stats display
+        function updateSpinStats() {
+            if (!user.spinData) {
+                user.spinData = {
+                    spinsToday: 0,
+                    totalSpins: 0,
+                    totalWonCoins: 0,
+                    totalWonSTC: 0,
+                    lastSpinTime: null,
+                    maxSpinsPerDay: 10,
+                    spinCooldown: 0
+                };
+            }
+            
+            document.getElementById('spinsToday').textContent = user.spinData.spinsToday;
+            document.getElementById('totalSpins').textContent = user.spinData.totalSpins;
+            
+            const totalWon = user.spinData.totalWonCoins + (user.spinData.totalWonSTC * stcPrice);
+            document.getElementById('totalWon').textContent = `$${totalWon.toFixed(2)}`;
+        }
+
+        // Complete ad manually (when user clicks "I Watched the Ad")
         function completeAdManually() {
             if (!currentAdButton) return;
             
@@ -4338,17 +4753,24 @@
                 clearInterval(adTimerInterval);
             }
             
-            // Calculate coins earned
-            const min = currentAdButton.min;
-            const max = currentAdButton.max;
-            const coins = Math.floor(Math.random() * (max - min + 1)) + min;
-            
-            // Add coins to user balance
-            user.coins += coins;
-            
-            // Save data
-            saveUserData();
-            updateUI();
+            if (currentAdType === 'spin') {
+                // Complete spin ad
+                spinWheel();
+            } else if (currentAdButton.isMiningAd) {
+                // Complete mining ad
+                completeMiningAdAfterTimer();
+            } else {
+                // Complete regular ad
+                const min = currentAdButton.min;
+                const max = currentAdButton.max;
+                const coins = Math.floor(Math.random() * (max - min + 1)) + min;
+                
+                user.coins += coins;
+                saveUserData();
+                updateUI();
+                
+                showNotification(`You earned ${coins} coins! (5000 coins = $1)`);
+            }
             
             // Reset button
             currentAdButton.element.disabled = false;
@@ -4357,623 +4779,64 @@
             // Close modal
             closeModal('adTimerModal');
             
-            // Show notification
-            showNotification(`You earned ${coins} coins! (5000 coins = $1)`);
-            
             // Reset current ad button
             currentAdButton = null;
+            currentAdType = '';
         }
 
-        // NEW: Start mining ad (opens ad directly)
-        function startMiningAd() {
-            if (!user.loggedIn) {
-                showAuthModal('login');
-                return;
+        // Update live stats - SLOWED DOWN SIGNIFICANTLY
+        function updateStats() {
+            // Active Users: Very slowly increase (0-1 every 10 seconds)
+            if (Math.random() > 0.8) {
+                activeUsers += Math.floor(Math.random() * 2) + 0;
+                document.getElementById('totalUsers').textContent = activeUsers.toLocaleString();
             }
             
-            if (user.mining) {
-                // Already mining, show stop option
-                stopMining();
-                const miningBtn = document.getElementById('miningBtn');
-                const miningStatus = document.getElementById('miningStatusText');
-                if (miningBtn && miningStatus) {
-                    miningBtn.textContent = 'Watch Ad to Start Mining';
-                    miningBtn.classList.remove('mining-active');
-                    miningBtn.classList.add('btn-mining');
-                    miningStatus.textContent = 'Ready to Start';
-                    miningStatus.style.color = '';
-                }
-                showNotification('Mining stopped');
-                removeMiningPersistenceNotice();
-                return;
+            // Total Withdrawn: Very slowly increase (3-7 every 10 seconds)
+            if (Math.random() > 0.7) {
+                totalWithdrawn += Math.floor(Math.random() * 5) + 3;
+                document.getElementById('totalWithdrawn').textContent = '$' + totalWithdrawn.toLocaleString();
             }
             
-            // Store mining button info
-            currentAdButton = {
-                element: document.getElementById('miningBtn'),
-                originalText: document.getElementById('miningBtn').innerHTML,
-                duration: 30,
-                isMiningAd: true
-            };
+            // Update stats display (handles miners with 2-minute delay)
+            updateStatsDisplay();
             
-            // Disable mining button
-            const miningBtn = document.getElementById('miningBtn');
-            miningBtn.disabled = true;
-            miningBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening Ad...';
-            
-            // Select a random ad from the list
-            const randomAdIndex = Math.floor(Math.random() * adUrls.length);
-            const selectedAdUrl = adUrls[randomAdIndex];
-            
-            // Open ad in new tab
-            window.open(selectedAdUrl, '_blank');
-            
-            // Show timer modal
-            showMiningAdTimerModal(30);
+            // Update price displays
+            updatePriceDisplays();
         }
 
-        // NEW: Show mining ad timer modal
-        function showMiningAdTimerModal(duration) {
-            currentAdDuration = duration;
-            document.getElementById('returnTimer').textContent = duration;
-            document.getElementById('adTimerProgressBar').style.width = '0%';
-            
-            // Update modal title for mining
-            document.querySelector('#adTimerModal .form-title').textContent = 'Watch Ad to Start Mining';
-            
-            // Update modal content
-            const notice = document.querySelector('#adTimerModal .ad-timer-notice');
-            notice.innerHTML = '<i class="fas fa-hard-hat"></i> Watch the ad to start mining STC tokens and earn bonus coins!';
-            
-            // Show modal
-            showModal('adTimerModal');
-            
-            // Start countdown
-            let countdown = duration;
-            adTimerInterval = setInterval(() => {
-                countdown--;
-                document.getElementById('returnTimer').textContent = countdown;
-                const progress = ((duration - countdown) / duration) * 100;
-                document.getElementById('adTimerProgressBar').style.width = `${progress}%`;
-                
-                if (countdown <= 0) {
-                    clearInterval(adTimerInterval);
-                    // Auto-complete after timer ends
-                    completeMiningAdAfterTimer();
-                }
-            }, 1000);
-        }
-
-        // NEW: Complete mining ad after timer
-        function completeMiningAdAfterTimer() {
-            if (!currentAdButton) return;
-            
-            // Give bonus coins for watching ad
-            user.coins += 50;
-            
-            // Start mining
-            startMining();
-            
-            // Update mining button
-            const miningBtn = document.getElementById('miningBtn');
-            const miningStatus = document.getElementById('miningStatusText');
-            if (miningBtn && miningStatus) {
-                miningBtn.disabled = false;
-                miningBtn.textContent = 'Stop Mining';
-                miningBtn.classList.remove('btn-mining');
-                miningBtn.classList.add('mining-active');
-                miningStatus.textContent = 'Mining in progress...';
-                miningStatus.style.color = '#10b981';
-            }
-            
-            // Close modal
-            closeModal('adTimerModal');
-            
-            // Show notifications
-            showNotification('You earned 50 bonus coins for watching the ad!', 'success');
-            showNotification('Mining started! Session will complete in 6 hours. This is the first phase of STC mining.');
-            
-            // Show persistence notice
-            showMiningPersistenceNotice();
-            
-            // Save user data
-            saveUserData();
-            updateUI();
-            
-            // Reset current ad button
-            currentAdButton = null;
-        }
-
-        // NEW: Update referral link
-        function updateReferralLink() {
-            const referralLink = document.getElementById('referralLink');
-            if (referralLink) {
-                const refCode = user.referralCode || 'X8Y9Z7';
-                referralLink.value = `${window.location.origin}${window.location.pathname}?ref=${refCode}`;
-            }
-        }
-
-        // NEW: Copy referral link
-        function copyReferralLink() {
-            const referralLink = document.getElementById('referralLink');
-            if (referralLink) {
-                referralLink.select();
-                document.execCommand('copy');
-                showNotification('Referral link copied to clipboard! Share it with friends to earn 50 STC + 10% mining bonus.');
-            }
-        }
-
-        // Start Daily Login Checker
-        function startDailyLoginChecker() {
-            if (dailyLoginCheckInterval) {
-                clearInterval(dailyLoginCheckInterval);
-            }
-            
-            dailyLoginCheckInterval = setInterval(() => {
-                if (user.loggedIn) {
-                    checkDailyLoginStatus();
-                }
-            }, 60000);
-        }
-
-        // Check Daily Login Status
-        function checkDailyLoginStatus() {
-            if (!user.loggedIn) return;
-            
-            const today = getCurrentDate();
-            const yesterday = getYesterdayDate();
-            
-            // Initialize daily login object if it doesn't exist
-            if (!user.dailyLogin) {
-                user.dailyLogin = {
-                    streak: 0,
-                    lastLoginDate: "",
-                    claimedToday: false,
-                    streakHistory: [],
-                    totalDaysLogged: 0,
-                    highestStreak: 0
-                };
-            }
-            
-            // Check if this is first login
-            if (!user.dailyLogin.lastLoginDate) {
-                // First time logging in
-                user.dailyLogin.streak = 1;
-                user.dailyLogin.lastLoginDate = today;
-                user.dailyLogin.claimedToday = false;
-                user.dailyLogin.totalDaysLogged = 1;
-                user.dailyLogin.highestStreak = 1;
-                updateStreakHistory();
-            } else if (user.dailyLogin.lastLoginDate === today) {
-                // Already logged in today
-                // Do nothing, reward already claimed or available
-            } else if (user.dailyLogin.lastLoginDate === yesterday) {
-                // Consecutive day - streak continues
-                user.dailyLogin.streak++;
-                user.dailyLogin.lastLoginDate = today;
-                user.dailyLogin.claimedToday = false;
-                user.dailyLogin.totalDaysLogged++;
-                
-                // Update highest streak if needed
-                if (user.dailyLogin.streak > user.dailyLogin.highestStreak) {
-                    user.dailyLogin.highestStreak = user.dailyLogin.streak;
-                }
-                
-                updateStreakHistory();
-            } else {
-                // Streak broken - more than 1 day missed
-                const lastLogin = new Date(user.dailyLogin.lastLoginDate);
-                const current = new Date(today);
-                const diffDays = Math.floor((current - lastLogin) / (1000 * 60 * 60 * 24));
-                
-                if (diffDays > 1) {
-                    // Streak broken
-                    user.dailyLogin.streak = 1;
-                    user.dailyLogin.lastLoginDate = today;
-                    user.dailyLogin.claimedToday = false;
-                    user.dailyLogin.totalDaysLogged++;
-                    updateStreakHistory();
-                    
-                    // Show streak broken notification if streak was > 1
-                    if (user.dailyLogin.streakHistory.length > 0) {
-                        showNotification('Daily login streak broken! Starting from Day 1.', 'warning');
-                    }
-                }
-            }
-            
-            // Save and update UI
-            saveUserData();
-            updateStreakUI();
-        }
-
-        // Get Current Date in YYYY-MM-DD format
-        function getCurrentDate() {
-            const now = new Date();
-            return now.toISOString().split('T')[0];
-        }
-
-        // Get Yesterday's Date
-        function getYesterdayDate() {
-            const yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            return yesterday.toISOString().split('T')[0];
-        }
-
-        // Update Streak History Array
-        function updateStreakHistory() {
-            if (!user.dailyLogin.streakHistory) {
-                user.dailyLogin.streakHistory = [];
-            }
-            
-            const today = getCurrentDate();
-            
-            // Add today to history if not already there
-            const todayIndex = user.dailyLogin.streakHistory.findIndex(day => day.date === today);
-            
-            if (todayIndex === -1) {
-                // Add new day
-                user.dailyLogin.streakHistory.push({
-                    date: today,
-                    claimed: user.dailyLogin.claimedToday,
-                    streak: user.dailyLogin.streak
-                });
-                
-                // Keep only last 30 days
-                if (user.dailyLogin.streakHistory.length > 30) {
-                    user.dailyLogin.streakHistory.shift();
-                }
-            } else {
-                // Update existing day
-                user.dailyLogin.streakHistory[todayIndex].claimed = user.dailyLogin.claimedToday;
-                user.dailyLogin.streakHistory[todayIndex].streak = user.dailyLogin.streak;
-            }
-        }
-
-        // Claim Daily Reward
-        function claimDailyReward() {
-            if (!user.loggedIn) {
-                showAuthModal('login');
-                return;
-            }
-            
-            // Check if already claimed today
-            if (user.dailyLogin.claimedToday) {
-                showNotification('You have already claimed your daily reward today!', 'info');
-                return;
-            }
-            
-            // Calculate rewards
-            let stcReward;
-            if (user.dailyLogin.streak > 30) {
-                stcReward = 60; // 60 STC after 30 days
-            } else {
-                stcReward = user.dailyLogin.streak * 2; // 2 STC per day
-            }
-            
-            const coinReward = 50; // 50 coins every day
-            
-            // Add rewards to user balance
-            user.stc += stcReward;
-            user.coins += coinReward;
-            
-            // Update daily login status
-            user.dailyLogin.claimedToday = true;
-            updateStreakHistory();
-            
-            // Save data
-            saveUserData();
-            updateUI();
-            updateStreakUI();
-            
-            // Show reward modal
-            showRewardModal(stcReward, coinReward);
-            
-            // Show notification
-            showNotification(`Daily reward claimed! ${stcReward} STC + ${coinReward} coins added.`, 'success');
-        }
-
-        // Show Reward Modal
-        function showRewardModal(stcReward, coinReward) {
-            document.getElementById('rewardSTC').textContent = `+${stcReward} STC`;
-            document.getElementById('rewardCoins').textContent = `+${coinReward} Coins`;
-            document.getElementById('modalStreak').textContent = `${user.dailyLogin.streak} Days`;
-            
-            // Set modal title based on streak
-            let title = "Daily Reward Claimed!";
-            if (user.dailyLogin.streak === 7) {
-                title = "Week Streak Achieved!";
-            } else if (user.dailyLogin.streak === 30) {
-                title = "30-Day Milestone!";
-            } else if (user.dailyLogin.streak > 30) {
-                title = "Maintaining 30+ Day Streak!";
-            }
-            
-            document.getElementById('streakModalTitle').textContent = title;
-            showModal('streakRewardModal');
-        }
-
-        // Show Modal function
-        function showModal(modalId) {
-            closeAllModals();
-            document.getElementById(modalId).classList.add('active');
-            currentModal = modalId;
-        }
-
-        // Update Streak UI
-        function updateStreakUI() {
-            if (!user.loggedIn) return;
-            
-            // Update streak count
-            const streak = user.dailyLogin.streak || 0;
-            document.getElementById('streakCount').textContent = streak;
-            document.getElementById('dashboardStreak').textContent = streak;
-            
-            // Calculate current and next rewards
-            let currentSTC, nextSTC;
-            if (streak > 30) {
-                currentSTC = 60;
-                nextSTC = 60; // Stays at 60 after 30 days
-            } else {
-                currentSTC = streak * 2;
-                nextSTC = (streak + 1) * 2;
-            }
-            
-            // Update reward displays
-            document.getElementById('currentSTCReward').textContent = `${currentSTC} STC Today`;
-            document.getElementById('streakFormula').textContent = streak > 30 ? 
-                `Day ${streak}: 60 STC` : `Day ${streak}: ${currentSTC} STC`;
-            
-            // Update dashboard widgets
-            const claimedText = user.dailyLogin.claimedToday ? " (Claimed)" : "";
-            document.getElementById('todayReward').textContent = `${currentSTC} STC + 50 coins${claimedText}`;
-            document.getElementById('nextReward').textContent = `${nextSTC} STC + 50 coins`;
-            
-            // Update status
-            const statusElement = document.getElementById('streakStatus');
-            const claimBtn = document.getElementById('dashboardClaimBtn');
-            const dailyClaimBtn = document.getElementById('dailyClaimBtn');
-            
-            if (user.dailyLogin.claimedToday) {
-                statusElement.textContent = "Reward Claimed";
-                statusElement.style.color = "var(--success)";
-                claimBtn.classList.add('claimed');
-                claimBtn.innerHTML = '<i class="fas fa-check"></i> Reward Claimed Today';
-                claimBtn.disabled = true;
-                dailyClaimBtn.classList.add('claimed');
-                dailyClaimBtn.innerHTML = '<i class="fas fa-check"></i> Reward Claimed Today';
-                dailyClaimBtn.disabled = true;
-            } else {
-                statusElement.textContent = "Ready to claim";
-                statusElement.style.color = "var(--warning)";
-                claimBtn.classList.remove('claimed');
-                claimBtn.innerHTML = '<i class="fas fa-gift"></i> Claim Daily Reward';
-                claimBtn.disabled = false;
-                dailyClaimBtn.classList.remove('claimed');
-                dailyClaimBtn.innerHTML = '<i class="fas fa-gift"></i> Claim Today\'s Reward';
-                dailyClaimBtn.disabled = false;
-            }
-            
-            // Update streak calendar
-            updateStreakCalendar();
-            
-            // Update login reminder
-            updateLoginReminder();
-        }
-
-        // Update Streak Calendar
-        function updateStreakCalendar() {
-            const calendar = document.getElementById('streakCalendar');
-            if (!calendar) return;
-            
-            calendar.innerHTML = '';
-            const today = getCurrentDate();
-            const streakHistory = user.dailyLogin.streakHistory || [];
-            
-            // Create calendar for last 30 days
-            for (let i = 29; i >= 0; i--) {
-                const date = new Date();
-                date.setDate(date.getDate() - i);
-                const dateStr = date.toISOString().split('T')[0];
-                const dayNum = 30 - i;
-                
-                // Check if this day is in streak history
-                const dayData = streakHistory.find(day => day.date === dateStr);
-                const isToday = dateStr === today;
-                const isPast = dateStr < today;
-                
-                const dayBox = document.createElement('div');
-                dayBox.className = 'day-box';
-                
-                // Calculate reward for this day
-                let rewardSTC;
-                if (dayNum > 30) {
-                    rewardSTC = 60;
-                } else {
-                    rewardSTC = dayNum * 2;
-                }
-                
-                // Set class based on status
-                if (isToday) {
-                    dayBox.classList.add('current');
-                    dayBox.title = `Today - Day ${dayNum}: ${rewardSTC} STC`;
-                } else if (dayData && dayData.claimed) {
-                    dayBox.classList.add('completed');
-                    dayBox.title = `Day ${dayNum}: Claimed ${rewardSTC} STC`;
-                } else if (isPast) {
-                    dayBox.classList.add('missed');
-                    dayBox.title = `Day ${dayNum}: Missed`;
-                } else {
-                    dayBox.classList.add('future');
-                    dayBox.title = `Day ${dayNum}: ${rewardSTC} STC`;
-                }
-                
-                dayBox.textContent = dayNum;
-                
-                // Add reward tooltip
-                const rewardSpan = document.createElement('span');
-                rewardSpan.className = 'day-reward';
-                rewardSpan.textContent = `${rewardSTC} STC`;
-                dayBox.appendChild(rewardSpan);
-                
-                calendar.appendChild(dayBox);
-            }
-        }
-
-        // Update Login Reminder
-        function updateLoginReminder() {
-            const reminder = document.getElementById('loginReminder');
-            if (!reminder) return;
-            
-            if (!user.dailyLogin.claimedToday) {
-                reminder.innerHTML = '<i class="fas fa-bell"></i> <span>Claim your daily reward before it resets at midnight UTC!</span>';
-                reminder.style.background = 'rgba(245, 158, 11, 0.15)';
-                reminder.style.borderColor = 'var(--warning)';
-            } else {
-                reminder.innerHTML = '<i class="fas fa-check-circle"></i> <span>Daily reward claimed! Come back tomorrow to continue your streak.</span>';
-                reminder.style.background = 'rgba(16, 185, 129, 0.15)';
-                reminder.style.borderColor = 'var(--success)';
-            }
-        }
-
-        // Setup withdrawal options
-        function setupWithdrawalOptions() {
-            const options = document.querySelectorAll('.withdrawal-option');
-            options.forEach(option => {
-                option.addEventListener('click', function() {
-                    // Remove selected class from all options
-                    options.forEach(opt => opt.classList.remove('selected'));
-                    
-                    // Add selected class to clicked option
-                    this.classList.add('selected');
-                    
-                    // Update selected method
-                    selectedWithdrawalMethod = this.getAttribute('data-method');
-                    withdrawalFee = parseInt(this.getAttribute('data-fee'));
-                    const network = this.getAttribute('data-network');
-                    
-                    // Update network dropdown for crypto methods
-                    if (selectedWithdrawalMethod !== 'bank') {
-                        document.getElementById('cryptoForm').style.display = 'block';
-                        document.getElementById('bankForm').style.display = 'none';
-                        
-                        // Update wallet label
-                        const methodNames = {
-                            'usdt': 'USDT',
-                            'btc': 'Bitcoin',
-                            'eth': 'Ethereum',
-                            'usdc': 'USDC'
-                        };
-                        document.getElementById('walletLabel').textContent = 
-                            `${methodNames[selectedWithdrawalMethod]} Wallet Address`;
-                        
-                        // Update placeholder
-                        document.getElementById('walletAddress').placeholder = 
-                            `Enter your ${methodNames[selectedWithdrawalMethod]} wallet address`;
-                        
-                        // Update network dropdown
-                        const networkSelect = document.getElementById('withdrawNetwork');
-                        networkSelect.innerHTML = '';
-                        
-                        if (selectedWithdrawalMethod === 'usdt') {
-                            networkSelect.innerHTML = `
-                                <option value="TRC20">TRC20 (Recommended)</option>
-                                <option value="ERC20">ERC20</option>
-                                <option value="BEP20">BEP20</option>
-                            `;
-                        } else if (selectedWithdrawalMethod === 'btc') {
-                            networkSelect.innerHTML = `
-                                <option value="BTC">Bitcoin Network</option>
-                                <option value="BTC-Lightning">Lightning Network</option>
-                            `;
-                        } else if (selectedWithdrawalMethod === 'eth') {
-                            networkSelect.innerHTML = `
-                                <option value="ERC20">ERC20</option>
-                                <option value="Arbitrum">Arbitrum</option>
-                                <option value="Optimism">Optimism</option>
-                            `;
-                        } else if (selectedWithdrawalMethod === 'usdc') {
-                            networkSelect.innerHTML = `
-                                <option value="ERC20">ERC20</option>
-                                <option value="TRC20">TRC20</option>
-                                <option value="Polygon">Polygon</option>
-                            `;
-                        }
-                    } else {
-                        // Bank transfer selected
-                        document.getElementById('cryptoForm').style.display = 'none';
-                        document.getElementById('bankForm').style.display = 'block';
-                        document.getElementById('bankForm').classList.add('active');
-                    }
-                    
-                    // Update fee display
-                    updateWithdrawalFee();
-                });
-            });
-            
-            // Listen to amount input changes
-            document.getElementById('withdrawAmount').addEventListener('input', updateWithdrawalFee);
-        }
-
-        // Update withdrawal fee display
-        function updateWithdrawalFee() {
-            const amount = parseFloat(document.getElementById('withdrawAmount').value) || 5;
-            const fee = (amount * withdrawalFee) / 100;
-            const netAmount = amount - fee;
-            
-            document.getElementById('displayAmount').textContent = amount.toFixed(2);
-            document.getElementById('feePercent').textContent = withdrawalFee;
-            document.getElementById('feeAmount').textContent = fee.toFixed(2);
-            document.getElementById('netAmount').textContent = netAmount.toFixed(2);
-            
-            // Update available balance
-            document.getElementById('availableBalance').textContent = user.usdt.toFixed(2);
-        }
-
-        // Update stats display - UPDATED for slower miner updates
-        function updateStatsDisplay() {
-            // Animate counters
-            animateCounter('totalUsers', activeUsers);
-            animateCounter('totalWithdrawn', totalWithdrawn);
-            
-            // Update active miners only every 2 minutes
-            const now = Date.now();
-            if (now - lastMinersUpdate > MINERS_UPDATE_INTERVAL) {
-                // Random number between 900 and 1000
-                activeMiners = Math.floor(Math.random() * 101) + 900;
-                lastMinersUpdate = now;
-                animateCounter('activeMiners', activeMiners);
-            }
-        }
-
-        // Simulate STC price fluctuations
+        // Simulate STC price fluctuations - ADJUSTED TO $5.31 BASE
         function startPriceFluctuation() {
             if (priceFluctuationInterval) {
                 clearInterval(priceFluctuationInterval);
             }
             
-            // Update price every 10 seconds with small fluctuations
+            // Update price every 15 seconds with small fluctuations
             priceFluctuationInterval = setInterval(() => {
                 // Random fluctuation between -0.5% to +0.5%
                 const changePercent = (Math.random() - 0.5) * 0.01;
                 stcPrice = stcPrice * (1 + changePercent);
                 
-                // Keep price between $4.50 and $5.50 (around estimated $5)
-                if (stcPrice < 4.50) stcPrice = 4.50;
+                // Keep price between $5.00 and $5.50
+                if (stcPrice < 5.00) stcPrice = 5.00;
                 if (stcPrice > 5.50) stcPrice = 5.50;
                 
                 // Update all price displays
                 updatePriceDisplays();
-            }, 10000);
+            }, 15000);
         }
 
         // Update all price displays
         function updatePriceDisplays() {
+            // Calculate percentage change from $5.00
+            const changePercent = ((stcPrice - 5.00) / 5.00 * 100).toFixed(1);
+            const marketClass = changePercent >= 0 ? 'market-up' : 'market-down';
+            const changeSymbol = changePercent >= 0 ? '+' : '';
+            
             // Update price on homepage
             const priceElement = document.querySelector('.hero .stat-box:nth-child(2) .stat-value');
             if (priceElement) {
-                const change = ((stcPrice - 5) / 5 * 100).toFixed(1);
-                const marketClass = change >= 0 ? 'market-up' : 'market-down';
-                priceElement.innerHTML = `$${stcPrice.toFixed(2)}<span class="market-indicator ${marketClass}">${change >= 0 ? '+' : ''}${change}%</span>`;
+                priceElement.innerHTML = `$${stcPrice.toFixed(2)}<span class="market-indicator ${marketClass}">${changeSymbol}${changePercent}%</span>`;
             }
             
             // Update price on dashboard
@@ -5001,7 +4864,10 @@
             updateCoinProgress();
             
             // Update mining bonus display
-            document.getElementById('miningBonus').textContent = (user.referrerBonus || 0) + ' STC';
+            document.getElementById('miningBonus').textContent = (user.referrerBonus || 0).toFixed(2) + ' STC';
+            
+            // Update spin stats
+            updateSpinStats();
         }
 
         // Update coin progress
@@ -5039,261 +4905,346 @@
             }
         }
 
-        // Update live stats - UPDATED for slower updates
-        function updateStats() {
-            // Active Users: Slowly increase (1-3 every 5 seconds)
-            if (Math.random() > 0.3) {
-                activeUsers += Math.floor(Math.random() * 3) + 1;
-                document.getElementById('totalUsers').textContent = activeUsers.toLocaleString();
+        // Update stats display - UPDATED for slower miner updates
+        function updateStatsDisplay() {
+            // Animate counters
+            animateCounter('totalUsers', activeUsers);
+            animateCounter('totalWithdrawn', totalWithdrawn);
+            
+            // Update active miners only every 2 minutes
+            const now = Date.now();
+            if (now - lastMinersUpdate > MINERS_UPDATE_INTERVAL) {
+                // Random number between 900 and 1000
+                activeMiners = Math.floor(Math.random() * 101) + 900;
+                lastMinersUpdate = now;
+                animateCounter('activeMiners', activeMiners);
+            }
+        }
+
+        // FIXED: Page navigation
+        function showPage(pageId, event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
             }
             
-            // Total Withdrawn: Slowly increase (10-20 every 5 seconds)
-            if (Math.random() > 0.4) {
-                totalWithdrawn += Math.floor(Math.random() * 11) + 10;
-                document.getElementById('totalWithdrawn').textContent = '$' + totalWithdrawn.toLocaleString();
+            // Check if login is required for certain pages
+            const pagesRequiringLogin = ['dashboard', 'withdrawalHistory', 'dailyLogin', 'posts', 'spin'];
+            if (pagesRequiringLogin.includes(pageId) && !user.loggedIn) {
+                showNotification(`Please login to access ${pageId === 'spin' ? 'Spin & Win' : pageId}`, 'warning');
+                showAuthModal('login');
+                return;
             }
             
-            // Update stats display (handles miners with 2-minute delay)
-            updateStatsDisplay();
+            // Update active nav
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.querySelector(`.nav-links a[onclick*="${pageId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            activeNav = pageId;
+            
+            // Page-specific initializations
+            if (pageId === 'withdrawalHistory') {
+                loadWithdrawalHistory();
+            } else if (pageId === 'dailyLogin') {
+                updateStreakUI();
+            } else if (pageId === 'spin') {
+                updateSpinStats();
+                createSpinWheel();
+            } else if (pageId === 'referral') {
+                toggleReferralEntrySection();
+                updateReferralStats();
+            }
+            
+            // Update header buttons
+            updateHeaderButtons();
+            
+            // Show/hide mining persistence notice
+            if (pageId === 'mining' && user.mining) {
+                showMiningPersistenceNotice();
+                updateMiningTimer();
+            } else {
+                removeMiningPersistenceNotice();
+            }
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Update header buttons based on login state
+        function updateHeaderButtons() {
+            const loginBtn = document.getElementById('loginBtn');
+            const signupBtn = document.getElementById('signupBtn');
+            const userProfile = document.getElementById('userProfile');
+            
+            if (user.loggedIn) {
+                loginBtn.style.display = 'none';
+                signupBtn.style.display = 'none';
+                userProfile.style.display = 'flex';
+            } else {
+                loginBtn.style.display = 'inline-flex';
+                signupBtn.style.display = 'inline-flex';
+                userProfile.style.display = 'none';
+            }
+        }
+
+        // UPDATED: Update UI with all new features including spin
+        function updateUI() {
+            // Update referral code display
+            document.getElementById('refCode').textContent = user.referralCode || 'X8Y9Z7';
+            
+            // Calculate STC value at current price
+            const stcValue = user.stc * stcPrice;
+            
+            // Update balances
+            document.getElementById('stcBalance').textContent = user.stc;
+            document.getElementById('stcValue').textContent = stcValue.toFixed(2);
+            document.getElementById('coinBalance').textContent = user.coins;
+            document.getElementById('coinValue').textContent = (user.coins / 5000).toFixed(2);
+            document.getElementById('usdtBalance').textContent = user.usdt.toFixed(2);
+            document.getElementById('totalCoins').textContent = user.coins + ' coins';
+            document.getElementById('totalMined').textContent = user.totalMined + ' STC';
+            document.getElementById('refCount').textContent = user.referrals;
+            document.getElementById('refEarnings').textContent = (user.referrals * 50) + ' STC';
+            
+            // Update referral mining bonus
+            document.getElementById('miningBonus').textContent = (user.referrerBonus || 0).toFixed(2) + ' STC';
             
             // Update price displays
             updatePriceDisplays();
-        }
-
-        // Start periodic mining checker
-        function startMiningChecker() {
-            if (miningCheckInterval) {
-                clearInterval(miningCheckInterval);
+            
+            // Update coin progress
+            updateCoinProgress();
+            
+            // Update user name and email
+            if (user.loggedIn) {
+                document.getElementById('userName').textContent = `Welcome, ${user.name}!`;
+                document.getElementById('userEmail').textContent = user.email;
+                
+                // Update profile dropdown
+                document.getElementById('userNameDisplay').textContent = user.name;
+                if (user.photoURL) {
+                    document.getElementById('userAvatar').src = user.photoURL;
+                }
+                
+                // Update streak UI
+                updateStreakUI();
+                
+                // Update spin stats
+                updateSpinStats();
             }
             
-            miningCheckInterval = setInterval(() => {
-                if (user.loggedIn && user.mining && user.miningEndTime) {
-                    const now = Date.now();
-                    if (now >= user.miningEndTime) {
-                        completeMiningSession();
-                    } else {
-                        updateMiningTimer();
+            // Update header buttons
+            updateHeaderButtons();
+            
+            // Update referral stats
+            updateReferralStats();
+            
+            // Update referral section
+            toggleReferralEntrySection();
+        }
+
+        // UPDATED: Save/Load user data with all new fields including spin
+        function saveUserData() {
+            if (user.uid) {
+                localStorage.setItem(`stc_user_${user.uid}`, JSON.stringify(user));
+            }
+        }
+
+        function loadUserData() {
+            if (user.uid) {
+                const saved = localStorage.getItem(`stc_user_${user.uid}`);
+                if (saved) {
+                    try {
+                        const savedData = JSON.parse(saved);
+                        // Merge saved data with current user object
+                        Object.assign(user, savedData);
+                        
+                        // Ensure all objects exist
+                        if (!user.dailyLogin) {
+                            user.dailyLogin = {
+                                streak: 0,
+                                lastLoginDate: "",
+                                claimedToday: false,
+                                streakHistory: [],
+                                totalDaysLogged: 0,
+                                highestStreak: 0
+                            };
+                        }
+                        
+                        if (!user.referrerBonus) {
+                            user.referrerBonus = 0;
+                        }
+                        
+                        if (!user.spinData) {
+                            user.spinData = {
+                                spinsToday: 0,
+                                totalSpins: 0,
+                                totalWonCoins: 0,
+                                totalWonSTC: 0,
+                                lastSpinTime: null,
+                                maxSpinsPerDay: 10,
+                                spinCooldown: 0
+                            };
+                        }
+                    } catch (e) {
+                        console.log('Error loading user data');
                     }
                 }
-            }, 1000);
+            }
         }
 
-        // Enhanced mining restoration
-        function checkAndRestoreMining() {
-            if (!user.loggedIn) return;
+        // UPDATED: Logout with all intervals cleared including spin
+        async function logout() {
+            if (!auth) {
+                showNotification('Authentication service is not available.', 'error');
+                return;
+            }
             
-            // Check if there's an active mining session
-            if (user.mining && user.miningEndTime) {
-                const now = Date.now();
-                
-                if (now >= user.miningEndTime) {
-                    // Mining completed while away
-                    completeMiningSession();
-                } else {
-                    // Resume mining
-                    resumeMiningSession();
+            try {
+                // Stop mining
+                if (user.mining) {
+                    stopMining();
                 }
+                
+                // Clear all intervals
+                if (miningCheckInterval) clearInterval(miningCheckInterval);
+                if (priceFluctuationInterval) clearInterval(priceFluctuationInterval);
+                if (dailyLoginCheckInterval) clearInterval(dailyLoginCheckInterval);
+                if (adTimerInterval) clearInterval(adTimerInterval);
+                if (spinCooldownInterval) clearInterval(spinCooldownInterval);
+                
+                // Sign out from Firebase
+                await auth.signOut();
+                
+                // Reset user data
+                user = {
+                    uid: null,
+                    loggedIn: false,
+                    name: "",
+                    email: "",
+                    photoURL: "",
+                    stc: 0,
+                    coins: 0,
+                    usdt: 0,
+                    referrals: 0,
+                    referralCode: "",
+                    referredBy: null,
+                    referrerBonus: 0,
+                    totalMined: 0,
+                    mining: false,
+                    miningStartTime: null,
+                    miningEndTime: null,
+                    joinDate: "",
+                    withdrawalHistory: [],
+                    dailyLogin: {
+                        streak: 0,
+                        lastLoginDate: "",
+                        claimedToday: false,
+                        streakHistory: [],
+                        totalDaysLogged: 0,
+                        highestStreak: 0
+                    },
+                    spinData: {
+                        spinsToday: 0,
+                        totalSpins: 0,
+                        totalWonCoins: 0,
+                        totalWonSTC: 0,
+                        lastSpinTime: null,
+                        maxSpinsPerDay: 10,
+                        spinCooldown: 0
+                    }
+                };
+                
+                updateUI();
+                showPage('home');
+                showNotification('Logged out successfully');
+            } catch (error) {
+                console.error("Logout Error:", error);
+                showNotification('Logout failed: ' + error.message, 'error');
             }
         }
 
-        // Resume mining session
-        function resumeMiningSession() {
-            if (!user.mining || !user.miningEndTime) return;
+        // UPDATED: Handle logout from Firebase
+        function handleLogout() {
+            // Stop mining
+            if (user.mining) {
+                stopMining();
+            }
             
-            const now = Date.now();
-            const remainingTime = Math.max(0, user.miningEndTime - now);
+            // Clear all intervals
+            if (miningCheckInterval) clearInterval(miningCheckInterval);
+            if (priceFluctuationInterval) clearInterval(priceFluctuationInterval);
+            if (dailyLoginCheckInterval) clearInterval(dailyLoginCheckInterval);
+            if (adTimerInterval) clearInterval(adTimerInterval);
+            if (spinCooldownInterval) clearInterval(spinCooldownInterval);
             
-            // Update UI if on mining page
-            if (activeNav === 'mining') {
-                updateMiningUI(remainingTime);
-                
-                const miningBtn = document.getElementById('miningBtn');
-                const miningStatus = document.getElementById('miningStatusText');
-                if (miningBtn && miningStatus) {
-                    miningBtn.textContent = 'Stop Mining';
-                    miningBtn.classList.remove('btn-mining');
-                    miningBtn.classList.add('mining-active');
-                    miningStatus.textContent = 'Mining in progress...';
-                    miningStatus.style.color = '#10b981';
+            // Reset user data
+            user = {
+                uid: null,
+                loggedIn: false,
+                name: "",
+                email: "",
+                photoURL: "",
+                stc: 0,
+                coins: 0,
+                usdt: 0,
+                referrals: 0,
+                referralCode: "",
+                referredBy: null,
+                referrerBonus: 0,
+                totalMined: 0,
+                mining: false,
+                miningStartTime: null,
+                miningEndTime: null,
+                joinDate: "",
+                withdrawalHistory: [],
+                dailyLogin: {
+                    streak: 0,
+                    lastLoginDate: "",
+                    claimedToday: false,
+                    streakHistory: [],
+                    totalDaysLogged: 0,
+                    highestStreak: 0
+                },
+                spinData: {
+                    spinsToday: 0,
+                    totalSpins: 0,
+                    totalWonCoins: 0,
+                    totalWonSTC: 0,
+                    lastSpinTime: null,
+                    maxSpinsPerDay: 10,
+                    spinCooldown: 0
                 }
-            }
+            };
             
-            // Add persistence notice
-            showMiningPersistenceNotice();
-            
-            console.log("Mining session resumed with", Math.floor(remainingTime / 1000), "seconds remaining");
-        }
-
-        // Complete mining session - UPDATED with referral bonus
-        function completeMiningSession() {
-            if (!user.mining) return;
-            
-            user.mining = false;
-            user.miningStartTime = null;
-            user.miningEndTime = null;
-            
-            // Calculate rewards based on current price
-            const stcReward = 12;
-            user.stc += stcReward;
-            user.totalMined += stcReward;
-            
-            // NEW: Distribute 10% to referrer if exists
-            if (user.referredBy) {
-                const referrerBonus = stcReward * 0.10; // 10% bonus
-                
-                // In a real app, you would update the referrer's balance in database
-                // For demo, we'll store it in the user's data
-                if (!user.referrerBonus) user.referrerBonus = 0;
-                user.referrerBonus += referrerBonus;
-                
-                // Show notification about referrer bonus
-                showNotification(`Referrer earned ${referrerBonus.toFixed(2)} STC from your mining!`, 'info');
-            }
-            
-            // Save user data
-            saveUserData();
-            
-            // Update UI
             updateUI();
-            
-            // Update mining page if active
-            if (activeNav === 'mining') {
-                const miningBtn = document.getElementById('miningBtn');
-                const miningStatus = document.getElementById('miningStatusText');
-                if (miningBtn && miningStatus) {
-                    miningBtn.textContent = 'Watch Ad to Start Mining';
-                    miningBtn.classList.remove('mining-active');
-                    miningBtn.classList.add('btn-mining');
-                    miningStatus.textContent = 'Mining completed! Ready to start again.';
-                    miningStatus.style.color = '';
-                    
-                    document.getElementById('miningTimer').textContent = '06:00:00';
-                    document.getElementById('miningProgress').style.width = '0%';
-                }
-            }
-            
-            // Show notification with current value
-            const rewardValue = (stcReward * stcPrice).toFixed(2);
-            showNotification(`Mining completed! You earned ${stcReward} STC tokens (≈ $${rewardValue} at current price).`);
-            
-            // Remove persistence notice
-            removeMiningPersistenceNotice();
-        }
-
-        // Show mining persistence notice
-        function showMiningPersistenceNotice() {
-            removeMiningPersistenceNotice();
-            
-            if (activeNav === 'mining') {
-                const notice = document.createElement('div');
-                notice.className = 'mining-persistence-notice';
-                notice.id = 'miningPersistenceNotice';
-                notice.innerHTML = `
-                    <i class="fas fa-info-circle"></i>
-                    Your mining session will continue even if you close this page or navigate away.
-                    Progress is saved automatically. This is the first phase of STC mining.
-                `;
-                
-                const miningStatus = document.querySelector('.mining-status');
-                if (miningStatus) {
-                    miningStatus.appendChild(notice);
-                }
+            if (activeNav !== 'home') {
+                showPage('home');
             }
         }
 
-        // Remove mining persistence notice
-        function removeMiningPersistenceNotice() {
-            const existingNotice = document.getElementById('miningPersistenceNotice');
-            if (existingNotice) {
-                existingNotice.remove();
-            }
-        }
+        // The rest of the functions remain the same as in the previous code
+        // (initializeFirebaseAuth, handleFirebaseUser, setupEventListeners, etc.)
+        // They should work as is with the updated user structure
 
-        // Update mining timer display
-        function updateMiningTimer() {
-            if (!user.mining || !user.miningEndTime) return;
-            
-            const now = Date.now();
-            const remainingTime = Math.max(0, user.miningEndTime - now);
-            
-            updateMiningUI(remainingTime);
-            
-            // Auto-save progress every 30 seconds
-            if (Math.floor(remainingTime / 1000) % 30 === 0) {
-                saveUserData();
-            }
-        }
+        // ... [Rest of the functions remain the same as in your original code] ...
 
-        // Update mining UI
-        function updateMiningUI(remainingTime) {
-            if (activeNav !== 'mining') return;
-            
-            const hours = Math.floor(remainingTime / 3600000);
-            const minutes = Math.floor((remainingTime % 3600000) / 60000);
-            const seconds = Math.floor((remainingTime % 60000) / 1000);
-            
-            const timerElement = document.getElementById('miningTimer');
-            if (timerElement) {
-                timerElement.textContent = 
-                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            }
-            
-            const progress = ((21600000 - remainingTime) / 21600000) * 100;
-            const progressBar = document.getElementById('miningProgress');
-            if (progressBar) {
-                progressBar.style.width = `${progress}%`;
-            }
-        }
-
-        // Show token tab
-        function showTokenTab(tabName) {
-            // Update active tab button
-            document.querySelectorAll('.token-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Hide all tab contents
-            document.querySelectorAll('.token-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Show selected tab content
-            document.getElementById(`${tabName}Tab`).classList.add('active');
-        }
-
-        // Download whitepaper function
-        function downloadWhitepaper() {
-            showNotification('White Paper download started...', 'info');
-            
-            // Simulate download
-            setTimeout(() => {
-                showNotification('White Paper downloaded successfully!', 'success');
-            }, 2000);
-        }
-
-        // Start mining function
-        function startMining() {
-            user.mining = true;
-            user.miningStartTime = Date.now();
-            user.miningEndTime = Date.now() + (6 * 60 * 60 * 1000); // 6 hours from now
-            
-            // Update UI immediately
-            updateMiningUI(user.miningEndTime - Date.now());
-        }
-
-        // Stop mining function
-        function stopMining() {
-            user.mining = false;
-            user.miningStartTime = null;
-            user.miningEndTime = null;
-            
-            // Reset UI if on mining page
-            if (activeNav === 'mining') {
-                document.getElementById('miningTimer').textContent = '06:00:00';
-                document.getElementById('miningProgress').style.width = '0%';
-            }
-        }
+        // Note: Since the code is very long, I've focused on fixing the navigation,
+        // adding the Spin & Win page, and slowing down the stats updates.
+        // All other functions from your original code should work as before.
 
         // Initialize Firebase Authentication
         function initializeFirebaseAuth() {
@@ -5314,7 +5265,7 @@
             });
         }
 
-        // UPDATED: Handle Firebase user with referral tracking
+        // Handle Firebase user with referral tracking
         function handleFirebaseUser(firebaseUser) {
             user.uid = firebaseUser.uid;
             user.loggedIn = true;
@@ -5348,6 +5299,19 @@
                 }
             }
             
+            // Initialize spin data if not exists
+            if (!user.spinData) {
+                user.spinData = {
+                    spinsToday: 0,
+                    totalSpins: 0,
+                    totalWonCoins: 0,
+                    totalWonSTC: 0,
+                    lastSpinTime: null,
+                    maxSpinsPerDay: 10,
+                    spinCooldown: 0
+                };
+            }
+            
             // Check daily login status
             checkDailyLoginStatus();
             
@@ -5371,6 +5335,19 @@
             // Update referral section
             toggleReferralEntrySection();
             updateReferralStats();
+            
+            // Check spin cooldown
+            checkSpinCooldown();
+        }
+
+        // Generate random referral code
+        function generateReferralCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 6; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
         }
 
         // Setup event listeners
@@ -5401,109 +5378,6 @@
             });
         }
 
-        // Generate random referral code
-        function generateReferralCode() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let code = '';
-            for (let i = 0; i < 6; i++) {
-                code += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return code;
-        }
-
-        // Page navigation
-        function showPage(pageId) {
-            if (pageId === 'dashboard' && !user.loggedIn) {
-                showNotification('Please login to access dashboard', 'warning');
-                showAuthModal('login');
-                return;
-            }
-            
-            if (pageId === 'withdrawalHistory' && !user.loggedIn) {
-                showNotification('Please login to view withdrawal history', 'warning');
-                showAuthModal('login');
-                return;
-            }
-            
-            if (pageId === 'dailyLogin' && !user.loggedIn) {
-                showNotification('Please login to access daily login rewards', 'warning');
-                showAuthModal('login');
-                return;
-            }
-            
-            if (pageId === 'posts' && !user.loggedIn) {
-                showNotification('Please login to view STC posts', 'warning');
-                showAuthModal('login');
-                return;
-            }
-            
-            // Update active nav
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            const activeLink = document.querySelector(`.nav-links a[onclick*="${pageId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
-            
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // Show selected page
-            document.getElementById(pageId).classList.add('active');
-            activeNav = pageId;
-            
-            // Load withdrawal history if on that page
-            if (pageId === 'withdrawalHistory') {
-                loadWithdrawalHistory();
-            }
-            
-            // Update streak UI if on daily login page
-            if (pageId === 'dailyLogin') {
-                updateStreakUI();
-            }
-            
-            // Update header buttons
-            updateHeaderButtons();
-            
-            // Show/hide mining persistence notice
-            if (pageId === 'mining' && user.mining) {
-                showMiningPersistenceNotice();
-                updateMiningTimer();
-            } else {
-                removeMiningPersistenceNotice();
-            }
-            
-            // Update referral section if on referral page
-            if (pageId === 'referral') {
-                toggleReferralEntrySection();
-                updateReferralStats();
-            }
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Update header buttons based on login state
-        function updateHeaderButtons() {
-            const loginBtn = document.getElementById('loginBtn');
-            const signupBtn = document.getElementById('signupBtn');
-            const userProfile = document.getElementById('userProfile');
-            
-            if (user.loggedIn) {
-                loginBtn.style.display = 'none';
-                signupBtn.style.display = 'none';
-                userProfile.style.display = 'flex';
-            } else {
-                loginBtn.style.display = 'inline-flex';
-                signupBtn.style.display = 'inline-flex';
-                userProfile.style.display = 'none';
-            }
-        }
-
         // Modal handling
         function showAuthModal(type) {
             closeAllModals();
@@ -5528,6 +5402,7 @@
                     currentAdButton.element.innerHTML = currentAdButton.originalText;
                     currentAdButton = null;
                 }
+                currentAdType = '';
             }
         }
 
@@ -5549,6 +5424,7 @@
                     currentAdButton.element.innerHTML = currentAdButton.originalText;
                     currentAdButton = null;
                 }
+                currentAdType = '';
             }
         }
 
@@ -5794,6 +5670,100 @@
             
             // Update fee display
             updateWithdrawalFee();
+        }
+
+        // Setup withdrawal options
+        function setupWithdrawalOptions() {
+            const options = document.querySelectorAll('.withdrawal-option');
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove selected class from all options
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                    
+                    // Update selected method
+                    selectedWithdrawalMethod = this.getAttribute('data-method');
+                    withdrawalFee = parseInt(this.getAttribute('data-fee'));
+                    const network = this.getAttribute('data-network');
+                    
+                    // Update network dropdown for crypto methods
+                    if (selectedWithdrawalMethod !== 'bank') {
+                        document.getElementById('cryptoForm').style.display = 'block';
+                        document.getElementById('bankForm').style.display = 'none';
+                        
+                        // Update wallet label
+                        const methodNames = {
+                            'usdt': 'USDT',
+                            'btc': 'Bitcoin',
+                            'eth': 'Ethereum',
+                            'usdc': 'USDC'
+                        };
+                        document.getElementById('walletLabel').textContent = 
+                            `${methodNames[selectedWithdrawalMethod]} Wallet Address`;
+                        
+                        // Update placeholder
+                        document.getElementById('walletAddress').placeholder = 
+                            `Enter your ${methodNames[selectedWithdrawalMethod]} wallet address`;
+                        
+                        // Update network dropdown
+                        const networkSelect = document.getElementById('withdrawNetwork');
+                        networkSelect.innerHTML = '';
+                        
+                        if (selectedWithdrawalMethod === 'usdt') {
+                            networkSelect.innerHTML = `
+                                <option value="TRC20">TRC20 (Recommended)</option>
+                                <option value="ERC20">ERC20</option>
+                                <option value="BEP20">BEP20</option>
+                            `;
+                        } else if (selectedWithdrawalMethod === 'btc') {
+                            networkSelect.innerHTML = `
+                                <option value="BTC">Bitcoin Network</option>
+                                <option value="BTC-Lightning">Lightning Network</option>
+                            `;
+                        } else if (selectedWithdrawalMethod === 'eth') {
+                            networkSelect.innerHTML = `
+                                <option value="ERC20">ERC20</option>
+                                <option value="Arbitrum">Arbitrum</option>
+                                <option value="Optimism">Optimism</option>
+                            `;
+                        } else if (selectedWithdrawalMethod === 'usdc') {
+                            networkSelect.innerHTML = `
+                                <option value="ERC20">ERC20</option>
+                                <option value="TRC20">TRC20</option>
+                                <option value="Polygon">Polygon</option>
+                            `;
+                        }
+                    } else {
+                        // Bank transfer selected
+                        document.getElementById('cryptoForm').style.display = 'none';
+                        document.getElementById('bankForm').style.display = 'block';
+                        document.getElementById('bankForm').classList.add('active');
+                    }
+                    
+                    // Update fee display
+                    updateWithdrawalFee();
+                });
+            });
+            
+            // Listen to amount input changes
+            document.getElementById('withdrawAmount').addEventListener('input', updateWithdrawalFee);
+        }
+
+        // Update withdrawal fee display
+        function updateWithdrawalFee() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value) || 5;
+            const fee = (amount * withdrawalFee) / 100;
+            const netAmount = amount - fee;
+            
+            document.getElementById('displayAmount').textContent = amount.toFixed(2);
+            document.getElementById('feePercent').textContent = withdrawalFee;
+            document.getElementById('feeAmount').textContent = fee.toFixed(2);
+            document.getElementById('netAmount').textContent = netAmount.toFixed(2);
+            
+            // Update available balance
+            document.getElementById('availableBalance').textContent = user.usdt.toFixed(2);
         }
 
         // Process withdrawal
@@ -6092,231 +6062,991 @@
             });
         }
 
-        // UPDATED: Update UI with all new features
-        function updateUI() {
-            // Update referral code display
-            document.getElementById('refCode').textContent = user.referralCode || 'X8Y9Z7';
+        // NEW: Create particle effect for referral section
+        function createParticles(containerId, count = 20) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
             
-            // Calculate STC value at current price
-            const stcValue = user.stc * stcPrice;
+            // Remove existing particles
+            const existingParticles = container.querySelectorAll('.particle');
+            existingParticles.forEach(p => p.remove());
             
-            // Update balances
-            document.getElementById('stcBalance').textContent = user.stc;
-            document.getElementById('stcValue').textContent = stcValue.toFixed(2);
-            document.getElementById('coinBalance').textContent = user.coins;
-            document.getElementById('coinValue').textContent = (user.coins / 5000).toFixed(2); // 5000 coins = $1
-            document.getElementById('usdtBalance').textContent = user.usdt.toFixed(2);
-            document.getElementById('totalCoins').textContent = user.coins + ' coins';
-            document.getElementById('totalMined').textContent = user.totalMined + ' STC';
-            document.getElementById('refCount').textContent = user.referrals;
-            document.getElementById('refEarnings').textContent = (user.referrals * 50) + ' STC'; // 50 STC per referral during launch
-            
-            // Update referral mining bonus
-            document.getElementById('miningBonus').textContent = (user.referrerBonus || 0).toFixed(2) + ' STC';
-            
-            // Update price displays
-            updatePriceDisplays();
-            
-            // Update coin progress
-            updateCoinProgress();
-            
-            // Update user name and email
-            if (user.loggedIn) {
-                document.getElementById('userName').textContent = `Welcome, ${user.name}!`;
-                document.getElementById('userEmail').textContent = user.email;
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
                 
-                // Update profile dropdown
-                document.getElementById('userNameDisplay').textContent = user.name;
-                if (user.photoURL) {
-                    document.getElementById('userAvatar').src = user.photoURL;
-                }
+                // Random size and position
+                const size = Math.random() * 20 + 5;
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
                 
-                // Update streak UI
-                updateStreakUI();
-            }
-            
-            // Update header buttons
-            updateHeaderButtons();
-            
-            // Update referral stats
-            updateReferralStats();
-            
-            // Update referral section
-            toggleReferralEntrySection();
-        }
-
-        // UPDATED: Save/Load user data with all new fields
-        function saveUserData() {
-            if (user.uid) {
-                localStorage.setItem(`stc_user_${user.uid}`, JSON.stringify(user));
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${x}%`;
+                particle.style.top = `${y}%`;
+                particle.style.animation = `floating ${duration}s ease-in-out ${delay}s infinite`;
+                particle.style.opacity = Math.random() * 0.5 + 0.3;
+                
+                container.appendChild(particle);
             }
         }
 
-        function loadUserData() {
-            if (user.uid) {
-                const saved = localStorage.getItem(`stc_user_${user.uid}`);
-                if (saved) {
-                    try {
-                        const savedData = JSON.parse(saved);
-                        // Merge saved data with current user object
-                        Object.assign(user, savedData);
-                        
-                        // Ensure dailyLogin object exists
-                        if (!user.dailyLogin) {
-                            user.dailyLogin = {
-                                streak: 0,
-                                lastLoginDate: "",
-                                claimedToday: false,
-                                streakHistory: [],
-                                totalDaysLogged: 0,
-                                highestStreak: 0
-                            };
-                        }
-                        
-                        // Ensure referrerBonus exists
-                        if (!user.referrerBonus) {
-                            user.referrerBonus = 0;
-                        }
-                    } catch (e) {
-                        console.log('Error loading user data');
-                    }
-                }
+        // NEW: Show/Hide referral code entry section
+        function toggleReferralEntrySection() {
+            const section = document.getElementById('enterReferralSection');
+            if (user.loggedIn && !user.referredBy) {
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
             }
         }
 
-        // UPDATED: Logout with all intervals cleared
-        async function logout() {
-            if (!auth) {
-                showNotification('Authentication service is not available.', 'error');
+        // NEW: Apply referral code
+        function applyReferralCode() {
+            if (!user.loggedIn) {
+                showNotification('Please login to apply referral code', 'warning');
+                showAuthModal('login');
                 return;
             }
             
-            try {
-                // Stop mining
-                if (user.mining) {
-                    stopMining();
-                }
+            if (user.referredBy) {
+                showNotification('You have already used a referral code', 'info');
+                return;
+            }
+            
+            const codeInput = document.getElementById('enterReferralInput');
+            const code = codeInput.value.trim();
+            const successMessage = document.getElementById('referralSuccessMessage');
+            const messageText = document.getElementById('successMessageText');
+            
+            if (!code) {
+                showNotification('Please enter a referral code', 'error');
+                return;
+            }
+            
+            // Validate referral code format
+            if (!code.match(/^STC-[A-Z0-9]{6}$/i)) {
+                showNotification('Invalid referral code format. Should be STC- followed by 6 characters/numbers', 'error');
+                return;
+            }
+            
+            // Simulate API call to validate and apply referral code
+            showNotification('Applying referral code...', 'info');
+            
+            setTimeout(() => {
+                // Success - give 50 STC bonus (LAUNCH BONUS)
+                user.referredBy = code;
+                user.stc += 50;
                 
-                // Clear mining check interval
-                if (miningCheckInterval) {
-                    clearInterval(miningCheckInterval);
-                }
-                
-                // Clear price fluctuation interval
-                if (priceFluctuationInterval) {
-                    clearInterval(priceFluctuationInterval);
-                }
-                
-                // Clear daily login check interval
-                if (dailyLoginCheckInterval) {
-                    clearInterval(dailyLoginCheckInterval);
-                }
-                
-                // Clear ad timer interval
-                if (adTimerInterval) {
-                    clearInterval(adTimerInterval);
-                }
-                
-                // Sign out from Firebase
-                await auth.signOut();
-                
-                // Reset user data
-                user = {
-                    uid: null,
-                    loggedIn: false,
-                    name: "",
-                    email: "",
-                    photoURL: "",
-                    stc: 0,
-                    coins: 0,
-                    usdt: 0,
-                    referrals: 0,
-                    referralCode: "",
-                    referredBy: null,
-                    referrerBonus: 0,
-                    totalMined: 0,
-                    mining: false,
-                    miningStartTime: null,
-                    miningEndTime: null,
-                    joinDate: "",
-                    withdrawalHistory: [],
-                    dailyLogin: {
-                        streak: 0,
-                        lastLoginDate: "",
-                        claimedToday: false,
-                        streakHistory: [],
-                        totalDaysLogged: 0,
-                        highestStreak: 0
-                    }
-                };
-                
+                // Save data
+                saveUserData();
                 updateUI();
-                showPage('home');
-                showNotification('Logged out successfully');
-            } catch (error) {
-                console.error("Logout Error:", error);
-                showNotification('Logout failed: ' + error.message, 'error');
+                
+                // Show success message
+                messageText.textContent = 'Success! 50 STC bonus added to your account!';
+                successMessage.style.display = 'block';
+                
+                // Clear input
+                codeInput.value = '';
+                
+                // Hide the section after success
+                setTimeout(() => {
+                    document.getElementById('enterReferralSection').style.display = 'none';
+                }, 3000);
+                
+                showNotification('Referral code applied successfully! 50 STC bonus added to your account.', 'success');
+                
+                // Update referral stats
+                updateReferralStats();
+            }, 1500);
+        }
+
+        // NEW: Update referral stats
+        function updateReferralStats() {
+            const progressCircle = document.getElementById('referralProgressCircle');
+            const progressText = document.getElementById('referralProgressText');
+            
+            // Calculate progress to next tier (6 referrals = Pro tier)
+            const progress = Math.min((user.referrals / 6) * 100, 100);
+            
+            if (progressCircle) {
+                // Circle progress calculation
+                const circumference = 2 * Math.PI * 45;
+                const offset = circumference - (progress / 100) * circumference;
+                progressCircle.style.strokeDashoffset = offset;
+            }
+            
+            if (progressText) {
+                progressText.textContent = `${Math.round(progress)}%`;
+            }
+            
+            // Update tier display
+            updateTierDisplay();
+        }
+
+        // NEW: Update tier display based on referral count
+        function updateTierDisplay() {
+            const tierCards = document.querySelectorAll('.tier-card');
+            
+            tierCards.forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            if (user.referrals >= 21) {
+                document.querySelector('.tier-card.elite').classList.add('active');
+            } else if (user.referrals >= 6) {
+                document.querySelector('.tier-card.pro').classList.add('active');
+            } else {
+                document.querySelector('.tier-card.basic').classList.add('active');
             }
         }
 
-        // UPDATED: Handle logout from Firebase
-        function handleLogout() {
-            // Stop mining
+        // NEW: Share referral link
+        function shareReferralLink() {
+            const referralLink = document.getElementById('referralLink').value;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Join STC-REWARDS and earn STC tokens!',
+                    text: 'Sign up with my referral code to get 50 STC bonus!',
+                    url: referralLink
+                })
+                .then(() => showNotification('Referral link shared successfully!'))
+                .catch(err => {
+                    console.log('Error sharing:', err);
+                    copyReferralLink();
+                });
+            } else {
+                copyReferralLink();
+            }
+        }
+
+        // NEW: Update referral link
+        function updateReferralLink() {
+            const referralLink = document.getElementById('referralLink');
+            if (referralLink) {
+                const refCode = user.referralCode || 'X8Y9Z7';
+                referralLink.value = `${window.location.origin}${window.location.pathname}?ref=${refCode}`;
+            }
+        }
+
+        // NEW: Copy referral link
+        function copyReferralLink() {
+            const referralLink = document.getElementById('referralLink');
+            if (referralLink) {
+                referralLink.select();
+                document.execCommand('copy');
+                showNotification('Referral link copied to clipboard! Share it with friends to earn 50 STC + 10% mining bonus.');
+            }
+        }
+
+        // NEW: Animate counter numbers
+        function animateCounter(elementId, targetValue, duration = 2000) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            const currentText = element.textContent;
+            const startValue = parseInt(currentText.replace(/[^0-9]/g, '')) || 0;
+            const increment = (targetValue - startValue) / (duration / 16);
+            let current = startValue;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= targetValue) || (increment < 0 && current <= targetValue)) {
+                    current = targetValue;
+                    clearInterval(timer);
+                    element.classList.remove('animate');
+                }
+                
+                element.textContent = Math.floor(current).toLocaleString();
+                element.classList.add('animate');
+            }, 16);
+        }
+
+        // NEW: Open ad directly in new tab
+        function openAdDirectly(button) {
+            if (!user.loggedIn) {
+                showAuthModal('login');
+                return;
+            }
+            
+            if (button.disabled) return;
+            
+            // Get ad parameters
+            const min = parseInt(button.getAttribute('data-min'));
+            const max = parseInt(button.getAttribute('data-max'));
+            
+            // Store the button data for later use
+            currentAdButton = {
+                element: button,
+                min: min,
+                max: max,
+                originalText: button.innerHTML,
+                duration: button.innerHTML.includes('45s') ? 45 : 
+                         button.innerHTML.includes('60s') ? 60 : 90
+            };
+            
+            // Select a random ad from the list
+            const randomAdIndex = Math.floor(Math.random() * adUrls.length);
+            const selectedAdUrl = adUrls[randomAdIndex];
+            
+            // Disable the button and change text
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening Ad...';
+            
+            // Open ad in new tab
+            window.open(selectedAdUrl, '_blank');
+            
+            // Show timer modal
+            showAdTimerModal(currentAdButton.duration);
+        }
+
+        // NEW: Show ad timer modal
+        function showAdTimerModal(duration) {
+            currentAdDuration = duration;
+            currentAdType = 'ad';
+            document.getElementById('returnTimer').textContent = duration;
+            document.getElementById('adTimerProgressBar').style.width = '0%';
+            document.getElementById('adTimerTitle').textContent = 'Ad in Progress';
+            document.getElementById('adTimerMessage').textContent = 'Please return after watching the ad';
+            document.getElementById('adTimerNotice').innerHTML = '<i class="fas fa-external-link-alt"></i> The ad has been opened in a new tab. Please watch it completely and return to this page to receive your reward.';
+            
+            // Show modal
+            showModal('adTimerModal');
+            
+            // Start countdown
+            let countdown = duration;
+            adTimerInterval = setInterval(() => {
+                countdown--;
+                document.getElementById('returnTimer').textContent = countdown;
+                const progress = ((duration - countdown) / duration) * 100;
+                document.getElementById('adTimerProgressBar').style.width = `${progress}%`;
+                
+                if (countdown <= 0) {
+                    clearInterval(adTimerInterval);
+                    // Auto-complete after timer ends
+                    completeAdAfterTimer();
+                }
+            }, 1000);
+        }
+
+        // NEW: Complete ad after timer
+        function completeAdAfterTimer() {
+            if (!currentAdButton) return;
+            
+            // Calculate coins earned
+            const min = currentAdButton.min;
+            const max = currentAdButton.max;
+            const coins = Math.floor(Math.random() * (max - min + 1)) + min;
+            
+            // Add coins to user balance
+            user.coins += coins;
+            
+            // Save data
+            saveUserData();
+            updateUI();
+            
+            // Reset button
+            currentAdButton.element.disabled = false;
+            currentAdButton.element.innerHTML = currentAdButton.originalText;
+            
+            // Close modal
+            closeModal('adTimerModal');
+            
+            // Show notification
+            showNotification(`You earned ${coins} coins! (5000 coins = $1)`);
+            
+            // Reset current ad button
+            currentAdButton = null;
+            currentAdType = '';
+        }
+
+        // NEW: Start mining ad (opens ad directly)
+        function startMiningAd() {
+            if (!user.loggedIn) {
+                showAuthModal('login');
+                return;
+            }
+            
             if (user.mining) {
+                // Already mining, show stop option
                 stopMining();
+                const miningBtn = document.getElementById('miningBtn');
+                const miningStatus = document.getElementById('miningStatusText');
+                if (miningBtn && miningStatus) {
+                    miningBtn.textContent = 'Watch Ad to Start Mining';
+                    miningBtn.classList.remove('mining-active');
+                    miningBtn.classList.add('btn-mining');
+                    miningStatus.textContent = 'Ready to Start';
+                    miningStatus.style.color = '';
+                }
+                showNotification('Mining stopped');
+                removeMiningPersistenceNotice();
+                return;
             }
             
-            // Clear all intervals
-            if (miningCheckInterval) {
-                clearInterval(miningCheckInterval);
+            // Store mining button info
+            currentAdButton = {
+                element: document.getElementById('miningBtn'),
+                originalText: document.getElementById('miningBtn').innerHTML,
+                duration: 30,
+                isMiningAd: true
+            };
+            
+            // Disable mining button
+            const miningBtn = document.getElementById('miningBtn');
+            miningBtn.disabled = true;
+            miningBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening Ad...';
+            
+            // Select a random ad from the list
+            const randomAdIndex = Math.floor(Math.random() * adUrls.length);
+            const selectedAdUrl = adUrls[randomAdIndex];
+            
+            // Open ad in new tab
+            window.open(selectedAdUrl, '_blank');
+            
+            // Show timer modal
+            showMiningAdTimerModal(30);
+        }
+
+        // NEW: Show mining ad timer modal
+        function showMiningAdTimerModal(duration) {
+            currentAdDuration = duration;
+            currentAdType = 'mining';
+            
+            document.getElementById('returnTimer').textContent = duration;
+            document.getElementById('adTimerProgressBar').style.width = '0%';
+            document.getElementById('adTimerTitle').textContent = 'Watch Ad to Start Mining';
+            document.getElementById('adTimerMessage').textContent = 'Watch the ad to start mining STC tokens and earn bonus coins!';
+            document.getElementById('adTimerNotice').innerHTML = '<i class="fas fa-hard-hat"></i> Watch the ad to start mining STC tokens and earn bonus coins!';
+            
+            // Show modal
+            showModal('adTimerModal');
+            
+            // Start countdown
+            let countdown = duration;
+            adTimerInterval = setInterval(() => {
+                countdown--;
+                document.getElementById('returnTimer').textContent = countdown;
+                const progress = ((duration - countdown) / duration) * 100;
+                document.getElementById('adTimerProgressBar').style.width = `${progress}%`;
+                
+                if (countdown <= 0) {
+                    clearInterval(adTimerInterval);
+                    // Auto-complete after timer ends
+                    completeMiningAdAfterTimer();
+                }
+            }, 1000);
+        }
+
+        // NEW: Complete mining ad after timer
+        function completeMiningAdAfterTimer() {
+            if (!currentAdButton) return;
+            
+            // Give bonus coins for watching ad
+            user.coins += 50;
+            
+            // Start mining
+            startMining();
+            
+            // Update mining button
+            const miningBtn = document.getElementById('miningBtn');
+            const miningStatus = document.getElementById('miningStatusText');
+            if (miningBtn && miningStatus) {
+                miningBtn.disabled = false;
+                miningBtn.textContent = 'Stop Mining';
+                miningBtn.classList.remove('btn-mining');
+                miningBtn.classList.add('mining-active');
+                miningStatus.textContent = 'Mining in progress...';
+                miningStatus.style.color = '#10b981';
             }
             
-            if (priceFluctuationInterval) {
-                clearInterval(priceFluctuationInterval);
-            }
+            // Close modal
+            closeModal('adTimerModal');
             
+            // Show notifications
+            showNotification('You earned 50 bonus coins for watching the ad!', 'success');
+            showNotification('Mining started! Session will complete in 6 hours. This is the first phase of STC mining.');
+            
+            // Show persistence notice
+            showMiningPersistenceNotice();
+            
+            // Save user data
+            saveUserData();
+            updateUI();
+            
+            // Reset current ad button
+            currentAdButton = null;
+            currentAdType = '';
+        }
+
+        // Show Modal function
+        function showModal(modalId) {
+            closeAllModals();
+            document.getElementById(modalId).classList.add('active');
+            currentModal = modalId;
+        }
+
+        // Start Daily Login Checker
+        function startDailyLoginChecker() {
             if (dailyLoginCheckInterval) {
                 clearInterval(dailyLoginCheckInterval);
             }
             
-            if (adTimerInterval) {
-                clearInterval(adTimerInterval);
-            }
+            dailyLoginCheckInterval = setInterval(() => {
+                if (user.loggedIn) {
+                    checkDailyLoginStatus();
+                }
+            }, 60000);
+        }
+
+        // Check Daily Login Status
+        function checkDailyLoginStatus() {
+            if (!user.loggedIn) return;
             
-            // Reset user data
-            user = {
-                uid: null,
-                loggedIn: false,
-                name: "",
-                email: "",
-                photoURL: "",
-                stc: 0,
-                coins: 0,
-                usdt: 0,
-                referrals: 0,
-                referralCode: "",
-                referredBy: null,
-                referrerBonus: 0,
-                totalMined: 0,
-                mining: false,
-                miningStartTime: null,
-                miningEndTime: null,
-                joinDate: "",
-                withdrawalHistory: [],
-                dailyLogin: {
+            const today = getCurrentDate();
+            const yesterday = getYesterdayDate();
+            
+            // Initialize daily login object if it doesn't exist
+            if (!user.dailyLogin) {
+                user.dailyLogin = {
                     streak: 0,
                     lastLoginDate: "",
                     claimedToday: false,
                     streakHistory: [],
                     totalDaysLogged: 0,
                     highestStreak: 0
-                }
-            };
-            
-            updateUI();
-            if (activeNav !== 'home') {
-                showPage('home');
+                };
             }
+            
+            // Check if this is first login
+            if (!user.dailyLogin.lastLoginDate) {
+                // First time logging in
+                user.dailyLogin.streak = 1;
+                user.dailyLogin.lastLoginDate = today;
+                user.dailyLogin.claimedToday = false;
+                user.dailyLogin.totalDaysLogged = 1;
+                user.dailyLogin.highestStreak = 1;
+                updateStreakHistory();
+            } else if (user.dailyLogin.lastLoginDate === today) {
+                // Already logged in today
+                // Do nothing, reward already claimed or available
+            } else if (user.dailyLogin.lastLoginDate === yesterday) {
+                // Consecutive day - streak continues
+                user.dailyLogin.streak++;
+                user.dailyLogin.lastLoginDate = today;
+                user.dailyLogin.claimedToday = false;
+                user.dailyLogin.totalDaysLogged++;
+                
+                // Update highest streak if needed
+                if (user.dailyLogin.streak > user.dailyLogin.highestStreak) {
+                    user.dailyLogin.highestStreak = user.dailyLogin.streak;
+                }
+                
+                updateStreakHistory();
+            } else {
+                // Streak broken - more than 1 day missed
+                const lastLogin = new Date(user.dailyLogin.lastLoginDate);
+                const current = new Date(today);
+                const diffDays = Math.floor((current - lastLogin) / (1000 * 60 * 60 * 24));
+                
+                if (diffDays > 1) {
+                    // Streak broken
+                    user.dailyLogin.streak = 1;
+                    user.dailyLogin.lastLoginDate = today;
+                    user.dailyLogin.claimedToday = false;
+                    user.dailyLogin.totalDaysLogged++;
+                    updateStreakHistory();
+                    
+                    // Show streak broken notification if streak was > 1
+                    if (user.dailyLogin.streakHistory.length > 0) {
+                        showNotification('Daily login streak broken! Starting from Day 1.', 'warning');
+                    }
+                }
+            }
+            
+            // Save and update UI
+            saveUserData();
+            updateStreakUI();
+        }
+
+        // Get Current Date in YYYY-MM-DD format
+        function getCurrentDate() {
+            const now = new Date();
+            return now.toISOString().split('T')[0];
+        }
+
+        // Get Yesterday's Date
+        function getYesterdayDate() {
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            return yesterday.toISOString().split('T')[0];
+        }
+
+        // Update Streak History Array
+        function updateStreakHistory() {
+            if (!user.dailyLogin.streakHistory) {
+                user.dailyLogin.streakHistory = [];
+            }
+            
+            const today = getCurrentDate();
+            
+            // Add today to history if not already there
+            const todayIndex = user.dailyLogin.streakHistory.findIndex(day => day.date === today);
+            
+            if (todayIndex === -1) {
+                // Add new day
+                user.dailyLogin.streakHistory.push({
+                    date: today,
+                    claimed: user.dailyLogin.claimedToday,
+                    streak: user.dailyLogin.streak
+                });
+                
+                // Keep only last 30 days
+                if (user.dailyLogin.streakHistory.length > 30) {
+                    user.dailyLogin.streakHistory.shift();
+                }
+            } else {
+                // Update existing day
+                user.dailyLogin.streakHistory[todayIndex].claimed = user.dailyLogin.claimedToday;
+                user.dailyLogin.streakHistory[todayIndex].streak = user.dailyLogin.streak;
+            }
+        }
+
+        // Claim Daily Reward
+        function claimDailyReward() {
+            if (!user.loggedIn) {
+                showAuthModal('login');
+                return;
+            }
+            
+            // Check if already claimed today
+            if (user.dailyLogin.claimedToday) {
+                showNotification('You have already claimed your daily reward today!', 'info');
+                return;
+            }
+            
+            // Calculate rewards
+            let stcReward;
+            if (user.dailyLogin.streak > 30) {
+                stcReward = 60; // 60 STC after 30 days
+            } else {
+                stcReward = user.dailyLogin.streak * 2; // 2 STC per day
+            }
+            
+            const coinReward = 50; // 50 coins every day
+            
+            // Add rewards to user balance
+            user.stc += stcReward;
+            user.coins += coinReward;
+            
+            // Update daily login status
+            user.dailyLogin.claimedToday = true;
+            updateStreakHistory();
+            
+            // Save data
+            saveUserData();
+            updateUI();
+            updateStreakUI();
+            
+            // Show reward modal
+            showRewardModal(stcReward, coinReward);
+            
+            // Show notification
+            showNotification(`Daily reward claimed! ${stcReward} STC + ${coinReward} coins added.`, 'success');
+        }
+
+        // Show Reward Modal
+        function showRewardModal(stcReward, coinReward) {
+            document.getElementById('rewardSTC').textContent = `+${stcReward} STC`;
+            document.getElementById('rewardCoins').textContent = `+${coinReward} Coins`;
+            document.getElementById('modalStreak').textContent = `${user.dailyLogin.streak} Days`;
+            
+            // Set modal title based on streak
+            let title = "Daily Reward Claimed!";
+            if (user.dailyLogin.streak === 7) {
+                title = "Week Streak Achieved!";
+            } else if (user.dailyLogin.streak === 30) {
+                title = "30-Day Milestone!";
+            } else if (user.dailyLogin.streak > 30) {
+                title = "Maintaining 30+ Day Streak!";
+            }
+            
+            document.getElementById('streakModalTitle').textContent = title;
+            showModal('streakRewardModal');
+        }
+
+        // Update Streak UI
+        function updateStreakUI() {
+            if (!user.loggedIn) return;
+            
+            // Update streak count
+            const streak = user.dailyLogin.streak || 0;
+            document.getElementById('streakCount').textContent = streak;
+            document.getElementById('dashboardStreak').textContent = streak;
+            
+            // Calculate current and next rewards
+            let currentSTC, nextSTC;
+            if (streak > 30) {
+                currentSTC = 60;
+                nextSTC = 60; // Stays at 60 after 30 days
+            } else {
+                currentSTC = streak * 2;
+                nextSTC = (streak + 1) * 2;
+            }
+            
+            // Update reward displays
+            document.getElementById('currentSTCReward').textContent = `${currentSTC} STC Today`;
+            document.getElementById('streakFormula').textContent = streak > 30 ? 
+                `Day ${streak}: 60 STC` : `Day ${streak}: ${currentSTC} STC`;
+            
+            // Update dashboard widgets
+            const claimedText = user.dailyLogin.claimedToday ? " (Claimed)" : "";
+            document.getElementById('todayReward').textContent = `${currentSTC} STC + 50 coins${claimedText}`;
+            document.getElementById('nextReward').textContent = `${nextSTC} STC + 50 coins`;
+            
+            // Update status
+            const statusElement = document.getElementById('streakStatus');
+            const claimBtn = document.getElementById('dashboardClaimBtn');
+            const dailyClaimBtn = document.getElementById('dailyClaimBtn');
+            
+            if (user.dailyLogin.claimedToday) {
+                statusElement.textContent = "Reward Claimed";
+                statusElement.style.color = "var(--success)";
+                claimBtn.classList.add('claimed');
+                claimBtn.innerHTML = '<i class="fas fa-check"></i> Reward Claimed Today';
+                claimBtn.disabled = true;
+                dailyClaimBtn.classList.add('claimed');
+                dailyClaimBtn.innerHTML = '<i class="fas fa-check"></i> Reward Claimed Today';
+                dailyClaimBtn.disabled = true;
+            } else {
+                statusElement.textContent = "Ready to claim";
+                statusElement.style.color = "var(--warning)";
+                claimBtn.classList.remove('claimed');
+                claimBtn.innerHTML = '<i class="fas fa-gift"></i> Claim Daily Reward';
+                claimBtn.disabled = false;
+                dailyClaimBtn.classList.remove('claimed');
+                dailyClaimBtn.innerHTML = '<i class="fas fa-gift"></i> Claim Today\'s Reward';
+                dailyClaimBtn.disabled = false;
+            }
+            
+            // Update streak calendar
+            updateStreakCalendar();
+            
+            // Update login reminder
+            updateLoginReminder();
+        }
+
+        // Update Streak Calendar
+        function updateStreakCalendar() {
+            const calendar = document.getElementById('streakCalendar');
+            if (!calendar) return;
+            
+            calendar.innerHTML = '';
+            const today = getCurrentDate();
+            const streakHistory = user.dailyLogin.streakHistory || [];
+            
+            // Create calendar for last 30 days
+            for (let i = 29; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                const dayNum = 30 - i;
+                
+                // Check if this day is in streak history
+                const dayData = streakHistory.find(day => day.date === dateStr);
+                const isToday = dateStr === today;
+                const isPast = dateStr < today;
+                
+                const dayBox = document.createElement('div');
+                dayBox.className = 'day-box';
+                
+                // Calculate reward for this day
+                let rewardSTC;
+                if (dayNum > 30) {
+                    rewardSTC = 60;
+                } else {
+                    rewardSTC = dayNum * 2;
+                }
+                
+                // Set class based on status
+                if (isToday) {
+                    dayBox.classList.add('current');
+                    dayBox.title = `Today - Day ${dayNum}: ${rewardSTC} STC`;
+                } else if (dayData && dayData.claimed) {
+                    dayBox.classList.add('completed');
+                    dayBox.title = `Day ${dayNum}: Claimed ${rewardSTC} STC`;
+                } else if (isPast) {
+                    dayBox.classList.add('missed');
+                    dayBox.title = `Day ${dayNum}: Missed`;
+                } else {
+                    dayBox.classList.add('future');
+                    dayBox.title = `Day ${dayNum}: ${rewardSTC} STC`;
+                }
+                
+                dayBox.textContent = dayNum;
+                
+                // Add reward tooltip
+                const rewardSpan = document.createElement('span');
+                rewardSpan.className = 'day-reward';
+                rewardSpan.textContent = `${rewardSTC} STC`;
+                dayBox.appendChild(rewardSpan);
+                
+                calendar.appendChild(dayBox);
+            }
+        }
+
+        // Update Login Reminder
+        function updateLoginReminder() {
+            const reminder = document.getElementById('loginReminder');
+            if (!reminder) return;
+            
+            if (!user.dailyLogin.claimedToday) {
+                reminder.innerHTML = '<i class="fas fa-bell"></i> <span>Claim your daily reward before it resets at midnight UTC!</span>';
+                reminder.style.background = 'rgba(245, 158, 11, 0.15)';
+                reminder.style.borderColor = 'var(--warning)';
+            } else {
+                reminder.innerHTML = '<i class="fas fa-check-circle"></i> <span>Daily reward claimed! Come back tomorrow to continue your streak.</span>';
+                reminder.style.background = 'rgba(16, 185, 129, 0.15)';
+                reminder.style.borderColor = 'var(--success)';
+            }
+        }
+
+        // Start periodic mining checker
+        function startMiningChecker() {
+            if (miningCheckInterval) {
+                clearInterval(miningCheckInterval);
+            }
+            
+            miningCheckInterval = setInterval(() => {
+                if (user.loggedIn && user.mining && user.miningEndTime) {
+                    const now = Date.now();
+                    if (now >= user.miningEndTime) {
+                        completeMiningSession();
+                    } else {
+                        updateMiningTimer();
+                    }
+                }
+            }, 1000);
+        }
+
+        // Enhanced mining restoration
+        function checkAndRestoreMining() {
+            if (!user.loggedIn) return;
+            
+            // Check if there's an active mining session
+            if (user.mining && user.miningEndTime) {
+                const now = Date.now();
+                
+                if (now >= user.miningEndTime) {
+                    // Mining completed while away
+                    completeMiningSession();
+                } else {
+                    // Resume mining
+                    resumeMiningSession();
+                }
+            }
+        }
+
+        // Resume mining session
+        function resumeMiningSession() {
+            if (!user.mining || !user.miningEndTime) return;
+            
+            const now = Date.now();
+            const remainingTime = Math.max(0, user.miningEndTime - now);
+            
+            // Update UI if on mining page
+            if (activeNav === 'mining') {
+                updateMiningUI(remainingTime);
+                
+                const miningBtn = document.getElementById('miningBtn');
+                const miningStatus = document.getElementById('miningStatusText');
+                if (miningBtn && miningStatus) {
+                    miningBtn.textContent = 'Stop Mining';
+                    miningBtn.classList.remove('btn-mining');
+                    miningBtn.classList.add('mining-active');
+                    miningStatus.textContent = 'Mining in progress...';
+                    miningStatus.style.color = '#10b981';
+                }
+            }
+            
+            // Add persistence notice
+            showMiningPersistenceNotice();
+            
+            console.log("Mining session resumed with", Math.floor(remainingTime / 1000), "seconds remaining");
+        }
+
+        // Complete mining session - UPDATED with referral bonus
+        function completeMiningSession() {
+            if (!user.mining) return;
+            
+            user.mining = false;
+            user.miningStartTime = null;
+            user.miningEndTime = null;
+            
+            // Calculate rewards based on current price
+            const stcReward = 12;
+            user.stc += stcReward;
+            user.totalMined += stcReward;
+            
+            // NEW: Distribute 10% to referrer if exists
+            if (user.referredBy) {
+                const referrerBonus = stcReward * 0.10; // 10% bonus
+                
+                // In a real app, you would update the referrer's balance in database
+                // For demo, we'll store it in the user's data
+                if (!user.referrerBonus) user.referrerBonus = 0;
+                user.referrerBonus += referrerBonus;
+                
+                // Show notification about referrer bonus
+                showNotification(`Referrer earned ${referrerBonus.toFixed(2)} STC from your mining!`, 'info');
+            }
+            
+            // Save user data
+            saveUserData();
+            
+            // Update UI
+            updateUI();
+            
+            // Update mining page if active
+            if (activeNav === 'mining') {
+                const miningBtn = document.getElementById('miningBtn');
+                const miningStatus = document.getElementById('miningStatusText');
+                if (miningBtn && miningStatus) {
+                    miningBtn.textContent = 'Watch Ad to Start Mining';
+                    miningBtn.classList.remove('mining-active');
+                    miningBtn.classList.add('btn-mining');
+                    miningStatus.textContent = 'Mining completed! Ready to start again.';
+                    miningStatus.style.color = '';
+                    
+                    document.getElementById('miningTimer').textContent = '06:00:00';
+                    document.getElementById('miningProgress').style.width = '0%';
+                }
+            }
+            
+            // Show notification with current value
+            const rewardValue = (stcReward * stcPrice).toFixed(2);
+            showNotification(`Mining completed! You earned ${stcReward} STC tokens (≈ $${rewardValue} at current price).`);
+            
+            // Remove persistence notice
+            removeMiningPersistenceNotice();
+        }
+
+        // Show mining persistence notice
+        function showMiningPersistenceNotice() {
+            removeMiningPersistenceNotice();
+            
+            if (activeNav === 'mining') {
+                const notice = document.createElement('div');
+                notice.className = 'mining-persistence-notice';
+                notice.id = 'miningPersistenceNotice';
+                notice.innerHTML = `
+                    <i class="fas fa-info-circle"></i>
+                    Your mining session will continue even if you close this page or navigate away.
+                    Progress is saved automatically. This is the first phase of STC mining.
+                `;
+                
+                const miningStatus = document.querySelector('.mining-status');
+                if (miningStatus) {
+                    miningStatus.appendChild(notice);
+                }
+            }
+        }
+
+        // Remove mining persistence notice
+        function removeMiningPersistenceNotice() {
+            const existingNotice = document.getElementById('miningPersistenceNotice');
+            if (existingNotice) {
+                existingNotice.remove();
+            }
+        }
+
+        // Update mining timer display
+        function updateMiningTimer() {
+            if (!user.mining || !user.miningEndTime) return;
+            
+            const now = Date.now();
+            const remainingTime = Math.max(0, user.miningEndTime - now);
+            
+            updateMiningUI(remainingTime);
+            
+            // Auto-save progress every 30 seconds
+            if (Math.floor(remainingTime / 1000) % 30 === 0) {
+                saveUserData();
+            }
+        }
+
+        // Update mining UI
+        function updateMiningUI(remainingTime) {
+            if (activeNav !== 'mining') return;
+            
+            const hours = Math.floor(remainingTime / 3600000);
+            const minutes = Math.floor((remainingTime % 3600000) / 60000);
+            const seconds = Math.floor((remainingTime % 60000) / 1000);
+            
+            const timerElement = document.getElementById('miningTimer');
+            if (timerElement) {
+                timerElement.textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            const progress = ((21600000 - remainingTime) / 21600000) * 100;
+            const progressBar = document.getElementById('miningProgress');
+            if (progressBar) {
+                progressBar.style.width = `${progress}%`;
+            }
+        }
+
+        // Start mining function
+        function startMining() {
+            user.mining = true;
+            user.miningStartTime = Date.now();
+            user.miningEndTime = Date.now() + (6 * 60 * 60 * 1000); // 6 hours from now
+            
+            // Update UI immediately
+            updateMiningUI(user.miningEndTime - Date.now());
+        }
+
+        // Stop mining function
+        function stopMining() {
+            user.mining = false;
+            user.miningStartTime = null;
+            user.miningEndTime = null;
+            
+            // Reset UI if on mining page
+            if (activeNav === 'mining') {
+                document.getElementById('miningTimer').textContent = '06:00:00';
+                document.getElementById('miningProgress').style.width = '0%';
+            }
+        }
+
+        // Show token tab
+        function showTokenTab(tabName) {
+            // Update active tab button
+            document.querySelectorAll('.token-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Hide all tab contents
+            document.querySelectorAll('.token-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(`${tabName}Tab`).classList.add('active');
+        }
+
+        // Download whitepaper function
+        function downloadWhitepaper() {
+            showNotification('White Paper download started...', 'info');
+            
+            // Simulate download
+            setTimeout(() => {
+                showNotification('White Paper downloaded successfully!', 'success');
+            }, 2000);
         }
 
         // Show legal modal
@@ -6335,7 +7065,7 @@
                         <p>Welcome to STC-REWARDS. By accessing or using our platform, you agree to be bound by these Terms of Service.</p>
                         
                         <h4>2. Platform Description</h4>
-                        <p>STC-REWARDS is a Realstration platform launched in 2026 that allows users to earn STC tokens through various activities including watching ads, mining, and referral programs.</p>
+                        <p>STC-REWARDS is a Realstration platform launched in 2026 that allows users to earn STC tokens through various activities including watching ads, mining, spin & win, and referral programs.</p>
                         
                         <h4>3. STC Token Information</h4>
                         <p>STC Token is a new utility token launched in 2026. The estimated price is $5 but fluctuates up and down based on market conditions. This is the first phase of mining distribution.</p>
@@ -6419,6 +7149,29 @@
                 localStorage.setItem('referral_code', refCode);
                 showNotification('Referral code detected! Sign up to get 50 STC launch bonus + 10% mining bonus for referrer.', 'info');
             }
+        }
+
+        // Animate counter numbers
+        function animateCounter(elementId, targetValue, duration = 2000) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            const currentText = element.textContent;
+            const startValue = parseInt(currentText.replace(/[^0-9]/g, '')) || 0;
+            const increment = (targetValue - startValue) / (duration / 16);
+            let current = startValue;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= targetValue) || (increment < 0 && current <= targetValue)) {
+                    current = targetValue;
+                    clearInterval(timer);
+                    element.classList.remove('animate');
+                }
+                
+                element.textContent = Math.floor(current).toLocaleString();
+                element.classList.add('animate');
+            }, 16);
         }
     </script>
 </body>
