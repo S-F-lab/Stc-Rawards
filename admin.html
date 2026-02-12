@@ -3,97 +3,640 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STC Admin Login</title>
+    <title>STC Admin • Dashboard</title>
+    <!-- Font Awesome 6 (icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Font (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0f172a;
+            background: #0b0f1a;
+            color: #e2e8f0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ---------- SIDEBAR ---------- */
+        .sidebar {
+            width: 280px;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 50;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .sidebar-logo i {
+            font-size: 28px;
+            color: #6366f1;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-logo span {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f8fafc, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: #94a3b8;
+            font-weight: 500;
+            transition: all 0.2s;
+            margin-bottom: 8px;
+        }
+
+        .nav-item i {
+            width: 24px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.15), transparent);
             color: #f8fafc;
+            border-left: 4px solid #6366f1;
+        }
+
+        .nav-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: #f8fafc;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        /* ---------- MAIN CONTENT ---------- */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 30px 35px;
+            background: #0f172a;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .page-title h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f8fafc, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+        }
+
+        .page-title p {
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logout-btn {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            color: #fff;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: #6366f1;
+            box-shadow: 0 12px 24px -8px rgba(99, 102, 241, 0.2);
+        }
+
+        .stat-info h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #f8fafc;
+        }
+
+        .stat-icon {
+            width: 54px;
+            height: 54px;
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
+            font-size: 26px;
+            color: #818cf8;
         }
-        .login-card {
-            background: #1e293b;
-            border-radius: 16px;
-            padding: 40px;
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid #334155;
-        }
-        h1 {
-            color: #6366f1;
+
+        /* Search & Filters */
+        .search-section {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            padding: 24px;
             margin-bottom: 30px;
-            text-align: center;
-            font-size: 28px;
         }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #94a3b8;
-            font-weight: 500;
-        }
-        input {
-            width: 100%;
-            padding: 14px;
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
             background: #0f172a;
             border: 1px solid #334155;
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
+            border-radius: 40px;
+            padding: 4px 4px 4px 20px;
         }
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #6366f1;
-            color: white;
+
+        .search-wrapper i {
+            color: #64748b;
+            font-size: 18px;
+        }
+
+        .search-wrapper input {
+            flex: 1;
+            background: transparent;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
+            padding: 16px 12px;
+            color: #f8fafc;
+            font-size: 15px;
+            outline: none;
         }
-        button:hover {
+
+        .search-wrapper input::placeholder {
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .search-wrapper button {
+            background: #6366f1;
+            border: none;
+            border-radius: 40px;
+            padding: 12px 28px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .search-wrapper button:hover {
             background: #4f46e5;
         }
-        .error {
-            color: #ef4444;
-            margin-top: 15px;
-            text-align: center;
+
+        /* Table Card */
+        .table-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            padding: 24px;
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .table-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-header h2 i {
+            color: #818cf8;
+        }
+
+        .user-badge {
+            background: rgba(99, 102, 241, 0.2);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #a5b4fc;
+            border: 1px solid rgba(99, 102, 241, 0.4);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th {
+            text-align: left;
+            padding: 18px 12px;
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #334155;
+        }
+
+        td {
+            padding: 18px 12px;
+            border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+            color: #e2e8f0;
             font-size: 14px;
         }
-        .hidden {
+
+        tr:hover td {
+            background: rgba(51, 65, 85, 0.4);
+        }
+
+        .admin-badge {
+            background: linear-gradient(145deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-edit {
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            color: #a5b4fc;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-edit:hover {
+            background: #6366f1;
+            color: white;
+            border-color: #6366f1;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(6px);
             display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.2s;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 28px;
+            padding: 32px;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #f8fafc;
+        }
+
+        .modal-content h2 i {
+            color: #818cf8;
+        }
+
+        .modal-field {
+            margin-bottom: 20px;
+        }
+
+        .modal-field label {
+            display: block;
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modal-field input {
+            width: 100%;
+            padding: 16px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .modal-field input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 28px;
+        }
+
+        .btn-save {
+            flex: 1;
+            background: #10b981;
+            border: none;
+            padding: 16px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-save:hover {
+            background: #059669;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            background: transparent;
+            border: 1px solid #ef4444;
+            color: #f87171;
+            padding: 16px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+            color: #fff;
+        }
+
+        /* Loading / Empty states */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748b;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 100px;
+                padding: 30px 15px;
+            }
+            .sidebar-logo span, .nav-item span {
+                display: none;
+            }
+            .main-content {
+                margin-left: 100px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: relative;
+                flex-direction: row;
+                align-items: center;
+                padding: 15px 20px;
+            }
+            .sidebar-logo {
+                margin-bottom: 0;
+            }
+            .nav-links {
+                display: flex;
+                gap: 10px;
+            }
+            .main-content {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="login-card" id="loginCard">
-        <h1>🔐 STC Admin</h1>
-        <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="email" placeholder="admin@example.com" value="shahk5281718@gmail.com">
+    <!-- ========== SIDEBAR ========== -->
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fas fa-crown"></i>
+            <span>STC Admin</span>
         </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="password" placeholder="••••••••">
+        <div class="nav-links">
+            <div class="nav-item active">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-history"></i>
+                <span>Withdrawals</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </div>
         </div>
-        <button onclick="login()">Login to Admin Panel</button>
-        <div id="errorMessage" class="error"></div>
+        <div class="sidebar-footer">
+            <div class="nav-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>Security</span>
+            </div>
+        </div>
     </div>
 
-    <div id="adminPanel" style="display: none; width: 100%;">
-        <!-- Admin dashboard content will be injected here -->
+    <!-- ========== MAIN CONTENT ========== -->
+    <div class="main-content" id="mainContent">
+        <!-- This entire section will be replaced by JavaScript after login -->
+    </div>
+
+    <!-- ========== LOGIN CARD (initially visible) ========== -->
+    <div id="loginContainer" style="display: flex; align-items: center; justify-content: center; width: 100%; min-height: 100vh; background: #0f172a;">
+        <div class="login-card" style="background: #1e293b; border-radius: 28px; padding: 48px; width: 100%; max-width: 420px; border: 1px solid #334155; box-shadow: 0 25px 40px -12px rgba(0,0,0,0.5);">
+            <div style="text-align: center; margin-bottom: 32px;">
+                <i class="fas fa-crown" style="font-size: 48px; color: #6366f1; background: linear-gradient(145deg, #6366f1, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                <h1 style="color: #f8fafc; font-size: 28px; margin-top: 16px; font-weight: 700;">Admin Login</h1>
+                <p style="color: #94a3b8; margin-top: 8px;">Secure access for administrators</p>
+            </div>
+            <div class="form-group" style="margin-bottom: 24px;">
+                <label style="color: #cbd5e1; font-weight: 600; margin-bottom: 8px; display: block;">Email</label>
+                <input type="email" id="email" placeholder="admin@example.com" value="shah512512512@gmail.com" style="width: 100%; padding: 16px; background: #0f172a; border: 1px solid #334155; border-radius: 40px; color: white; font-size: 16px; outline: none;">
+            </div>
+            <div class="form-group" style="margin-bottom: 24px;">
+                <label style="color: #cbd5e1; font-weight: 600; margin-bottom: 8px; display: block;">Password</label>
+                <input type="password" id="password" placeholder="••••••••" style="width: 100%; padding: 16px; background: #0f172a; border: 1px solid #334155; border-radius: 40px; color: white; font-size: 16px; outline: none;">
+            </div>
+            <button onclick="login()" style="width: 100%; padding: 16px; background: linear-gradient(145deg, #6366f1, #8b5cf6); border: none; border-radius: 40px; color: white; font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; transition: 0.2s;">
+                <i class="fas fa-lock-open"></i> Login to Dashboard
+            </button>
+            <div id="errorMessage" style="color: #ef4444; margin-top: 20px; text-align: center; font-size: 14px;"></div>
+        </div>
+    </div>
+
+    <!-- ========== MODAL (edit user) ========== -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <h2><i class="fas fa-edit"></i> Edit Balance</h2>
+            <div style="margin-bottom: 24px; padding: 12px 16px; background: rgba(99,102,241,0.1); border-left: 4px solid #6366f1; border-radius: 12px; color: #cbd5e1;" id="editUserInfo"></div>
+            <div class="modal-field">
+                <label>STC Tokens</label>
+                <input type="number" id="editSTC" placeholder="0">
+            </div>
+            <div class="modal-field">
+                <label>Coins</label>
+                <input type="number" id="editCoins" placeholder="0">
+            </div>
+            <div class="modal-field">
+                <label>USDT ($)</label>
+                <input type="number" id="editUSDT" step="0.01" placeholder="0.00">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-save" onclick="saveUserEdits()"><i class="fas fa-check"></i> Save</button>
+                <button class="btn-cancel" onclick="closeModal()"><i class="fas fa-times"></i> Cancel</button>
+            </div>
+        </div>
     </div>
 
     <script type="module">
+        // 🔥 Firebase Config
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { 
             getFirestore, 
@@ -123,60 +666,146 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
+        // UI elements
+        const loginContainer = document.getElementById('loginContainer');
+        const mainContent = document.getElementById('mainContent');
+        const errorDiv = document.getElementById('errorMessage');
+
         window.login = async function() {
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('errorMessage');
-
             if (!email || !password) {
                 errorDiv.textContent = 'Email and password required';
                 return;
             }
-
             try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                // Auth state listener will handle the rest
+                await signInWithEmailAndPassword(auth, email, password);
             } catch (error) {
                 errorDiv.textContent = 'Invalid email or password';
             }
         };
 
-        // Check admin access on auth state change
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
-                // Show login, hide admin
-                document.getElementById('loginCard').style.display = 'block';
-                document.getElementById('adminPanel').style.display = 'none';
+                loginContainer.style.display = 'flex';
+                mainContent.innerHTML = '';
                 return;
             }
 
-            // **Only allow this exact email**
-            if (user.email !== 'shahk5281718@gmail.com') {
-                await signOut(auth);
-                document.getElementById('errorMessage').textContent = 'Access denied. Only the designated admin can log in.';
-                return;
-            }
-
-            // Check Firestore for isAdmin = true
+            // Verify admin in Firestore
             const userDoc = await getDoc(doc(db, 'users', user.uid));
             if (!userDoc.exists() || !userDoc.data().isAdmin) {
                 await signOut(auth);
-                document.getElementById('errorMessage').textContent = 'Access denied. Admin privileges not found.';
+                errorDiv.textContent = 'Access denied. Admin privileges not found.';
                 return;
             }
 
-            // ✅ Admin access granted – load the dashboard
-            document.getElementById('loginCard').style.display = 'none';
-            document.getElementById('adminPanel').style.display = 'block';
-            document.getElementById('adminPanel').innerHTML = await getAdminDashboardHTML();
-            loadUsers(); // defined below
+            // Admin authenticated — load dashboard
+            loginContainer.style.display = 'none';
+            mainContent.innerHTML = buildDashboardHTML();
+            loadUsers();
         });
 
         window.logout = async function() {
             await signOut(auth);
         };
 
-        // ----- Admin Dashboard Functions (same as before) -----
+        // ---------- Dashboard HTML (modern) ----------
+        function buildDashboardHTML() {
+            return `
+                <div class="dashboard-header">
+                    <div class="page-title">
+                        <h1><i class="fas fa-chart-pie" style="margin-right: 12px; color: #818cf8;"></i> Dashboard</h1>
+                        <p>Manage users and monitor platform activity</p>
+                    </div>
+                    <div class="admin-profile">
+                        <div class="logout-btn" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total Users</h3>
+                            <div class="stat-number" id="totalUsers">0</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-user-group"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total STC</h3>
+                            <div class="stat-number" id="totalSTC">0</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total Coins</h3>
+                            <div class="stat-number" id="totalCoins">0</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Pending Withdrawals</h3>
+                            <div class="stat-number" id="pendingWithdrawals">0</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search -->
+                <div class="search-section">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search by email, name or UID..." onkeyup="filterUsers()">
+                        <button onclick="filterUsers()"><i class="fas fa-filter"></i> Filter</button>
+                    </div>
+                </div>
+
+                <!-- Users Table -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <h2><i class="fas fa-users"></i> Registered Users</h2>
+                        <span class="user-badge"><i class="fas fa-shield"></i> Admin access</span>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>UID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>STC</th>
+                                    <th>Coins</th>
+                                    <th>USDT</th>
+                                    <th>Referrals</th>
+                                    <th>Joined</th>
+                                    <th>Admin</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <tr><td colspan="10" class="empty-state"><i class="fas fa-spinner fa-pulse"></i> Loading users...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ---------- Data & Table Functions ----------
         let allUsers = [];
         let currentEditUserId = null;
 
@@ -206,8 +835,9 @@
 
         window.renderUsersTable = function(users) {
             const tbody = document.getElementById('usersTableBody');
+            if (!tbody) return;
             if (users.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 40px;">No users found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="10" class="empty-state"><i class="fas fa-inbox"></i> No users found</td></tr>';
                 return;
             }
 
@@ -216,19 +846,18 @@
                 html += `
                     <tr>
                         <td style="font-family: monospace; color: #94a3b8;">${user.id?.substring(0, 6)}...</td>
-                        <td><strong>${user.name || 'No name'}</strong></td>
-                        <td>${user.email || 'No email'}</td>
-                        <td style="color: #6366f1; font-weight: bold;">${user.stc || 0}</td>
-                        <td style="color: #f59e0b;">${user.coins || 0}</td>
-                        <td style="color: #10b981;">$${(user.usdt || 0).toFixed(2)}</td>
+                        <td><strong>${user.name || '—'}</strong></td>
+                        <td>${user.email || '—'}</td>
+                        <td style="color: #818cf8; font-weight: 700;">${user.stc || 0}</td>
+                        <td style="color: #fbbf24; font-weight: 600;">${user.coins || 0}</td>
+                        <td style="color: #34d399;">$${(user.usdt || 0).toFixed(2)}</td>
                         <td>${user.referrals || 0}</td>
-                        <td style="color: #94a3b8;">${user.joinDate || 'Unknown'}</td>
-                        <td>${user.isAdmin ? '<span class="badge">Admin</span>' : ''}</td>
+                        <td style="color: #94a3b8;">${user.joinDate || '—'}</td>
+                        <td>${user.isAdmin ? '<span class="admin-badge"><i class="fas fa-crown"></i> Admin</span>' : '—'}</td>
                         <td>
-                            <button class="btn" onclick="window.editUser('${user.id}', '${user.name || ''}', ${user.stc || 0}, ${user.coins || 0}, ${user.usdt || 0})">
-                                ✏️ Edit
+                            <button class="btn-edit" onclick="window.editUser('${user.id}', '${user.name || ''}', ${user.stc || 0}, ${user.coins || 0}, ${user.usdt || 0})">
+                                <i class="fas fa-pen"></i> Edit
                             </button>
-                            <!-- "Make Admin" button removed for security -->
                         </td>
                     </tr>
                 `;
@@ -249,7 +878,7 @@
 
         window.editUser = function(userId, name, stc, coins, usdt) {
             currentEditUserId = userId;
-            document.getElementById('editUserInfo').innerHTML = `<strong>Editing:</strong> ${name} (${userId.substring(0, 8)}...)`;
+            document.getElementById('editUserInfo').innerHTML = `<i class="fas fa-user"></i> <strong>${name || 'User'}</strong> · ${userId.substring(0, 8)}...`;
             document.getElementById('editSTC').value = stc;
             document.getElementById('editCoins').value = coins;
             document.getElementById('editUSDT').value = usdt;
@@ -272,83 +901,6 @@
             document.getElementById('editModal').classList.remove('active');
             currentEditUserId = null;
         };
-
-        async function getAdminDashboardHTML() {
-            // Return the full admin panel HTML (stats, table, modals)
-            return `
-                <div class="container">
-                    <header>
-                        <h1>🔥 STC Admin Panel</h1>
-                        <button class="btn" onclick="logout()">Logout</button>
-                    </header>
-                    <div class="stats">
-                        <div class="stat-card">
-                            <div class="stat-value" id="totalUsers">0</div>
-                            <div class="stat-label">Total Users</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="totalSTC">0</div>
-                            <div class="stat-label">Total STC</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="totalCoins">0</div>
-                            <div class="stat-label">Total Coins</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="pendingWithdrawals">0</div>
-                            <div class="stat-label">Pending Withdrawals</div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search by email, name, or UID..." onkeyup="filterUsers()">
-                    </div>
-                    <div class="card">
-                        <h2 style="margin-bottom: 20px;">👥 All Users</h2>
-                        <div style="overflow-x: auto;">
-                            <table id="usersTable">
-                                <thead>
-                                    <tr>
-                                        <th>UID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>STC</th>
-                                        <th>Coins</th>
-                                        <th>USDT</th>
-                                        <th>Referrals</th>
-                                        <th>Joined</th>
-                                        <th>Admin</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="usersTableBody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal" id="editModal">
-                    <div class="modal-content">
-                        <h2 style="margin-bottom: 20px;">✏️ Edit Balance</h2>
-                        <div style="margin-bottom: 20px; color: #94a3b8;" id="editUserInfo"></div>
-                        <div style="margin-bottom: 15px;">
-                            <label style="display: block; margin-bottom: 5px; color: #94a3b8;">STC Tokens</label>
-                            <input type="number" id="editSTC" style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: white;">
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                            <label style="display: block; margin-bottom: 5px; color: #94a3b8;">Coins</label>
-                            <input type="number" id="editCoins" style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: white;">
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                            <label style="display: block; margin-bottom: 5px; color: #94a3b8;">USDT</label>
-                            <input type="number" id="editUSDT" step="0.01" style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: white;">
-                        </div>
-                        <div style="display: flex; gap: 10px; margin-top: 25px;">
-                            <button class="btn btn-success" style="flex: 1;" onclick="saveUserEdits()">Save Changes</button>
-                            <button class="btn btn-danger" style="flex: 1;" onclick="closeModal()">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
 
         // Expose functions globally
         window.logout = logout;
