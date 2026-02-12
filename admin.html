@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC Admin Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .login-card {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #334155;
+        }
+        h1 {
+            color: #6366f1;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 14px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #4f46e5;
+        }
+        .error {
+            color: #ef4444;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card" id="loginCard">
+        <h1>🔐 STC Admin</h1>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="admin@example.com" value="shahk5281718@gmail.com">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+        <button onclick="login()">Login to Admin Panel</button>
+        <div id="errorMessage" class="error"></div>
+    </div>
+
+    <div id="adminPanel" style="display: none; width: 100%;">
+        <!-- Admin dashboard content will be injected here -->
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { 
+            getFirestore, 
+            collection, 
+            doc, 
+            getDocs, 
+            getDoc, 
+            updateDoc 
+        } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { 
+            getAuth, 
+            signInWithEmailAndPassword, 
+            signOut, 
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDn4uLD3qNuEYpiXf_S8q_PVGzeaTlRthc",
+            authDomain: "stc-rewards-b541f.firebaseapp.com",
+            projectId: "stc-rewards-b541f",
+            storageBucket: "stc-rewards-b541f.firebasestorage.app",
+            messagingSenderId: "886121063816",
+            appId: "1:886121063816:web:bb2ad55b5e05db7163c63d"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        window.login = async function() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('errorMessage');
+
+            if (!email || !password) {
+                errorDiv.textContent = 'Email and password required';
+                return;
+            }
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                // Auth state listener will handle the rest
+            } catch (error) {
+                errorDiv.textContent = 'Invalid email or password';
+            }
+        };
+
+        // Check admin access on auth state change
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                // Show login, hide admin
+                document.getElementById('loginCard').style.display = 'block';
+                document.getElementById('adminPanel').style.display = 'none';
+                return;
+            }
+
+            // **Only allow this exact email**
+            if (user.email !== 'shahk5281718@gmail.com') {
+                await signOut(auth);
+                document.getElementById('errorMessage').textContent = 'Access denied. Only the designated admin can log in.';
+                return;
+            }
+
+            // Check Firestore for isAdmin = true
+            const userDoc = await getDoc(doc(db, 'users', user.uid));
+            if (!userDoc.exists() || !userDoc.data().isAdmin) {
+                await signOut(auth);
+                document.getElementById('errorMessage').textContent = 'Access denied. Admin privileges not found.';
+                return;
+            }
+
+            // ✅ Admin access granted – load the dashboard
+            document.getElementById('loginCard').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            document.getElementById('adminPanel').innerHTML = await getAdminDashboardHTML();
+            loadUsers(); // defined below
+        });
+
+        window.logout = async function() {
+            await signOut(auth);
+        };
+
+        // ----- Admin Dashboard Functions (same as before) -----
+        let allUsers = [];
+        let currentEditUserId = null;
+
+        async function loadUsers() {
+            const usersRef = collection(db, 'users');
+            const snapshot = await getDocs(usersRef);
+            allUsers = [];
+            let totalSTC = 0, totalCoins = 0, pendingCount = 0;
+
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                allUsers.push({ id: doc.id, ...data });
+                totalSTC += data.stc || 0;
+                totalCoins += data.coins || 0;
+                if (data.withdrawalHistory) {
+                    pendingCount += data.withdrawalHistory.filter(w => w.status === 'pending').length;
+                }
+            });
+
+            document.getElementById('totalUsers').textContent = allUsers.length;
+            document.getElementById('totalSTC').textContent = Math.round(totalSTC).toLocaleString();
+            document.getElementById('totalCoins').textContent = Math.round(totalCoins).toLocaleString();
+            document.getElementById('pendingWithdrawals').textContent = pendingCount;
+
+            renderUsersTable(allUsers);
+        }
+
+        window.renderUsersTable = function(users) {
+            const tbody = document.getElementById('usersTableBody');
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 40px;">No users found</td></tr>';
+                return;
+            }
+
+            let html = '';
+            users.sort((a, b) => (b.stc || 0) - (a.stc || 0)).forEach(user => {
+                html += `
+                    <tr>
+                        <td style="font-family: monospace; color: #94a3b8;">${user.id?.substring(0, 6)}...</td>
+                        <td><strong>${user.name || 'No name'}</strong></td>
+                        <td>${user.email || 'No email'}</td>
+                        <td style="color: #6366f1; font-weight: bold;">${user.stc || 0}</td>
+                        <td style="color: #f59e0b;">${user.coins || 0}</td>
+                        <td style="color: #10b981;">$${(user.usdt || 0).toFixed(2)}</td>
+                        <td>${user.referrals || 0}</td>
+                        <td style="color: #94a3b8;">${user.joinDate || 'Unknown'}</td>
+                        <td>${user.isAdmin ? '<span class="badge">Admin</span>' : ''}</td>
+                        <td>
+                            <button class="btn" onclick="window.editUser('${user.id}', '${user.name || ''}', ${user.stc || 0}, ${user.coins || 0}, ${user.usdt || 0})">
+                                ✏️ Edit
+                            </button>
+                            <!-- "Make Admin" button removed for security -->
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        };
+
+        window.filterUsers = function() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            if (!term) return renderUsersTable(allUsers);
+            const filtered = allUsers.filter(u => 
+                (u.email && u.email.toLowerCase().includes(term)) ||
+                (u.name && u.name.toLowerCase().includes(term)) ||
+                (u.id && u.id.toLowerCase().includes(term))
+            );
+            renderUsersTable(filtered);
+        };
+
+        window.editUser = function(userId, name, stc, coins, usdt) {
+            currentEditUserId = userId;
+            document.getElementById('editUserInfo').innerHTML = `<strong>Editing:</strong> ${name} (${userId.substring(0, 8)}...)`;
+            document.getElementById('editSTC').value = stc;
+            document.getElementById('editCoins').value = coins;
+            document.getElementById('editUSDT').value = usdt;
+            document.getElementById('editModal').classList.add('active');
+        };
+
+        window.saveUserEdits = async function() {
+            if (!currentEditUserId) return;
+            const userRef = doc(db, 'users', currentEditUserId);
+            await updateDoc(userRef, {
+                stc: Number(document.getElementById('editSTC').value) || 0,
+                coins: Number(document.getElementById('editCoins').value) || 0,
+                usdt: Number(document.getElementById('editUSDT').value) || 0
+            });
+            closeModal();
+            loadUsers();
+        };
+
+        window.closeModal = function() {
+            document.getElementById('editModal').classList.remove('active');
+            currentEditUserId = null;
+        };
+
+        async function getAdminDashboardHTML() {
+            // Return the full admin panel HTML (stats, table, modals)
+            return `
+                <div class="container">
+                    <header>
+                        <h1>🔥 STC Admin Panel</h1>
+                        <button class="btn" onclick="logout()">Logout</button>
+                    </header>
+                    <div class="stats">
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalUsers">0</div>
+                            <div class="stat-label">Total Users</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalSTC">0</div>
+                            <div class="stat-label">Total STC</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalCoins">0</div>
+                            <div class="stat-label">Total Coins</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="pendingWithdrawals">0</div>
+                            <div class="stat-label">Pending Withdrawals</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search by email, name, or UID..." onkeyup="filterUsers()">
+                    </div>
+                    <div class="card">
+                        <h2 style="margin-bottom: 20px;">👥 All Users</h2>
+                        <div style="overflow-x: auto;">
+                            <table id="usersTable">
+                                <thead>
+                                    <tr>
+                                        <th>UID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>STC</th>
+                                        <th>Coins</th>
+                                        <th>USDT</th>
+                                        <th>Referrals</th>
+                                        <th>Joined</th>
+                                        <th>Admin</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal" id="editModal">
+                    <div class="modal-content">
+                        <h2 style="margin-bottom: 20px;">✏️ Edit Balance</h2>
+                        <div style="margin-bottom: 20px; color: #94a3b8;" id="editUserInfo"></div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; color: #94a3b8;">STC Tokens</label>
+                            <input type="number" id="editSTC" style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: white;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; color: #94a3b8;">Coins</label>
+                            <input type="number" id="editCoins" style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: white;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; color: #94a3b8;">USDT</label>
+                            <input type="number" id="editUSDT" step="0.01" style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: white;">
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 25px;">
+                            <button class="btn btn-success" style="flex: 1;" onclick="saveUserEdits()">Save Changes</button>
+                            <button class="btn btn-danger" style="flex: 1;" onclick="closeModal()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Expose functions globally
+        window.logout = logout;
+        window.filterUsers = filterUsers;
+        window.editUser = editUser;
+        window.saveUserEdits = saveUserEdits;
+        window.closeModal = closeModal;
+    </script>
+</body>
+</html>
